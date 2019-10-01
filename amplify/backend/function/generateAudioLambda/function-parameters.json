@@ -1,0 +1,10 @@
+{
+    "permissions": {
+        "api": {
+            "DocumentAPI": [
+                "read",
+                "update"
+            ]
+        }
+    }
+}

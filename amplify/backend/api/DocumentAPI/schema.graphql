@@ -1,0 +1,44 @@
+type Query {
+  generateAudio(text: String!, voice: String!, paragraf: Int!): String
+    @function(name: "generateAudioLambda-${env}")
+  deleteAudioFile(key: String!): String
+    @function(name: "deleteAudioFileLambda-${env}")
+}
+
+type DocumentItem @model {
+  id: ID!
+  name: String
+  document: Document
+  audioFiles: [AudioFile]
+}
+
+type Document {
+  nodes: [Node]
+  object: String
+  data: DocumentData
+}
+
+type DocumentData {
+  src: String
+}
+
+type Mark {
+  object: String
+  type: String
+  data: DocumentData
+}
+
+type Node {
+  object: String
+  type: String
+  text: String
+  marks: [Mark]
+  nodes: [Node]
+  data: DocumentData
+}
+
+type AudioFile {
+  key: String
+  src: String
+  paragraf: Int
+}
