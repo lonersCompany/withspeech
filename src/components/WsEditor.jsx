@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Editor } from "slate-react";
 import { Value } from "slate";
-import { saveDocument } from "../actions/fetchFunctions";
-import { removeEmptyStrings } from "../actions/manipulationFunctions";
 
 let autoSaveSetTimeOut;
 
@@ -78,12 +76,12 @@ const handleRenderMark = (props, editor, next) => {
 };
 
 const renderBlock = (props, editor, next) => {
-  const { attributes, node, isFocused } = props;
+  const { attributes, node } = props;
 
   switch (node.type) {
     case "image": {
       const src = node.data.get("src");
-      return <img {...attributes} src={src} />;
+      return <img {...attributes} src={src} alt={"alt"} />;
     }
 
     default: {

@@ -2,43 +2,43 @@ import React, { useState, useEffect } from "react";
 import { API, graphqlOperation } from "aws-amplify";
 import { listDocumentItems } from "../graphql/queries";
 import WsEntry from "./WsEntry";
-import { MediaPackage } from "aws-sdk";
 import { deleteWsFile } from "../actions/fetchFunctions";
 
 function WsDashboard() {
-  const [documents, setDocuments] = useState([]);
+  const [files, setFiles] = useState([]);
 
-  const handleListDocuments = async () => {
+  const handleListWsFiles = async () => {
     // Use aplify api graphql method to request graphql queries
     // that we improt by name "listNotes"
     const { data } = await API.graphql(graphqlOperation(listDocumentItems));
+    const { items } = data.listDocumentItems;
     // changle state variable
-    setDocuments(data.listDocumentItems.items);
+    setFiles(items);
   };
 
-  const getDeleteDocument = (index, id) => {
-    let newDocuments = [...documents];
-    newDocuments.splice(index, 1);
-    setDocuments(newDocuments);
+  const handleDeleteWSFile = (index, id) => {
+    let newFiles = [...files];
+    newFiles.splice(index, 1);
+    setFiles(newFiles);
 
     deleteWsFile(id);
   };
 
   useEffect(() => {
     // On load of page run handleListNotes function
-    handleListDocuments();
+    handleListWsFiles();
   }, []);
 
   return (
     <div className="flex justify-center">
       <div className="w-full max-w-lg my-20">
-        {documents.map((doc, index) => (
+        {files.map((doc, index) => (
           <WsEntry
             key={doc.id}
             index={index}
             id={doc.id}
             name={doc.name}
-            getDeleteDocument={() => getDeleteDocument(index, doc.id)}
+            handleDeleteWSFile={() => handleDeleteWSFile(index, doc.id)}
           />
         ))}
       </div>
@@ -47,13 +47,3 @@ function WsDashboard() {
 }
 
 export default WsDashboard;
-
-// const handleDeleteDocument = async id => {
-//   console.log(id);
-//   const payload = { id };
-//   const { data } = await API.graphql(
-//     graphqlOperation(deleteDocumentItem, { input: payload })
-//   );
-//   handleListDocuments();
-//   console.log(data);
-// };

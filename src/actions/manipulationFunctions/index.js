@@ -5,8 +5,9 @@ export const getRitchBlocks = slateData => {
     //const count = text.length;
     //const src = undefined;
     const paragraf = index;
+    const voice = "Salli";
 
-    return { text, voice: "Ivy", paragraf };
+    return { text, voice, paragraf };
   });
 
   return blocks;

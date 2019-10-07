@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 
 import {
   readWsFile,
-  handleDeleteAudioFile,
-  callGenerativeLambda,
+  triggerDeleteAudioBlock,
+  triggerGenAudioBlock,
   saveAudioObjects,
-  saveWsFile
+  uploadWsFile
 } from "../actions/fetchFunctions";
 import {
   removeEmptyStrings,
@@ -15,83 +15,93 @@ import {
 import WsEditor from "./WsEditor";
 import WsPlayer from "./WsPlayer";
 
-const saveFileObjects = (document, id) => {
+const saveWsFile = (document, id) => {
+  // Set document name
+  const name = document.nodes[0].nodes[0].text;
+
+  // Remove empty string bug
   const documentModified = {
     nodes: removeEmptyStrings(document)
   };
-  const documentName = document.nodes[0].nodes[0].text;
-  const payload = {
-    id: id,
-    document: documentModified,
-    name: documentName,
-    audioFiles: null
-  };
-  saveWsFile(payload);
-};
 
-const deleteAudioFiles = objects =>
-  objects.map(object => handleDeleteAudioFile(object.key));
+  // Remove audioFile,
+  // TODO:
+  // QUESTION: how to delete audio files,
+  // when document is updated.
+  const audioFiles = null;
+
+  // CALL CRUD FUNCTION uploadWsFile
+  uploadWsFile({
+    id,
+    name,
+    audioFiles,
+    document: documentModified
+  });
+};
 
 const requestAudioObjects = textObject => {
   const ritchBlocks = getRitchBlocks(textObject);
+  console.log(ritchBlocks);
   const audioObjPromises = ritchBlocks.map(block =>
-    callGenerativeLambda(block)
+    triggerGenAudioBlock(block)
   );
   return audioObjPromises;
 };
 
-function WsDocument({ match }) {
+function WsFile({ match }) {
   const [id] = useState(match.params.id);
   const [textObject, setTextObject] = useState(undefined);
   const [audioObjects, setAudioObjects] = useState(undefined);
-
-  // Get state from audio
   const [isLoading, setLoading] = useState(false);
 
   // SLATE GET VALUE
-  const fetchFileObjects = async id => {
-    const responseWsFile = readWsFile(id);
+  const renderWSFile = async id => {
+    const responseWsFile = await readWsFile(id);
 
-    const { responseDocumentObject, responseAudioObject } = responseWsFile;
+    const { document, audioFiles } = responseWsFile;
 
-    if (responseDocumentObject) {
-      setTextObject(responseDocumentObject);
+    if (document) {
+      setTextObject(document);
     }
 
-    if (responseAudioObject) {
-      setAudioObjects(responseAudioObject);
+    if (audioFiles) {
+      setAudioObjects(audioFiles);
     }
   };
 
   const handleEdtiorChange = document => {
     setTextObject(document);
-    saveFileObjects(document, id);
+    setAudioObjects(undefined);
 
+    saveWsFile(document, id);
+
+    // Delete audioFile becouse they are no longer sync
+    // QUESTION: Delete audio files in edtior Change event?
     if (audioObjects) {
-      setAudioObjects(undefined);
-      deleteAudioFiles(audioObjects);
+      audioObjects.forEach(object => triggerDeleteAudioBlock(object.key));
     }
+    //
   };
 
   // GENERATE AUDIO
-  const handleSynchronizeAudio = async () => {
+  const handlesyncAudio = async () => {
     setLoading(true);
     const promiseAudioObjs = requestAudioObjects(textObject);
-    const responseAudioObjs = await Promise.all(promiseAudioObjs);
+    const audioFiles = await Promise.all(promiseAudioObjs);
 
-    if (responseAudioObjs) {
+    if (audioFiles) {
       // update react state
-      setAudioObjects(responseAudioObjs);
+      setAudioObjects(audioFiles);
       setLoading(false);
 
       // save keys to databse file object
-      await saveAudioObjects({ id, responseAudioObjs });
+      await saveAudioObjects({ id, audioFiles });
     }
   };
 
   useEffect(() => {
     // On load of page run handleListNotes function
-    fetchFileObjects(id);
+    renderWSFile(id);
   }, []);
 
   return (
@@ -115,7 +125,7 @@ function WsDocument({ match }) {
           <button
             className="font-semibold text-xl tracking-tight"
             id="play"
-            onClick={handleSynchronizeAudio}
+            onClick={handlesyncAudio}
           >
             {isLoading ? "[ Loading ]" : "[ Generate ]"}
           </button>
@@ -125,4 +135,4 @@ function WsDocument({ match }) {
   );
 }
 
-export default WsDocument;
+export default WsFile;

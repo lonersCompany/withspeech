@@ -18,6 +18,15 @@ type Document {
   data: DocumentData
 }
 
+type Node {
+  object: String
+  type: String
+  text: String
+  marks: [Mark]
+  nodes: [Node]
+  data: DocumentData
+}
+
 type DocumentData {
   src: String
 }
@@ -25,15 +34,6 @@ type DocumentData {
 type Mark {
   object: String
   type: String
-  data: DocumentData
-}
-
-type Node {
-  object: String
-  type: String
-  text: String
-  marks: [Mark]
-  nodes: [Node]
   data: DocumentData
 }
 

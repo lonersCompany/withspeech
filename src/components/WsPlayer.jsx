@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from "react";
 
-function loadedCallback() {
-  console.log("WoHooo I am loaded");
-}
-
 const Player = ({ audioObjects }) => {
   const [audioEl] = useState(new Audio());
   const [isActive, setActive] = useState(false);
-  const [isContinue, setContinue] = useState(false);
   const [objectIndex, setObjectIndex] = useState(0);
 
   const changeBlockIndex = () => {
