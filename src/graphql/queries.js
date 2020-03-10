@@ -1,64 +1,66 @@
-// eslint-disable
+/* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const generateAudio = `query GenerateAudio(
-  $text: String!
-  $voice: String!
-  $paragraf: Int!
-) {
-  generateAudio(
-    text: $text
-    voice: $voice
-    paragraf: $paragraf
-  )
-}
+export const generateAudio = /* GraphQL */ `
+  query GenerateAudio(
+    $text: String!
+    $voice: String!
+    $ssml: Boolean!
+    $key: String!
+  ) {
+    generateAudio(text: $text, voice: $voice, ssml: $ssml, key: $key)
+  }
 `;
-
-export const deleteAudioFile = `query DeleteAudioFile($key: String!) {
-  deleteAudioFile(key: $key)
-}
+export const generateSubtitles = /* GraphQL */ `
+  query GenerateSubtitles(
+    $text: String!
+    $voice: String!
+    $ssml: Boolean!
+    $key: String!
+  ) {
+    generateSubtitles(text: $text, voice: $voice, ssml: $ssml, key: $key)
+  }
 `;
-
-export const getDocumentItem = `query GetDocumentItem($id: ID!) {
-  getDocumentItem(id: $id) {
-    id
-    name
-    document {
-      nodes {
-        object
+export const deleteAudioFile = /* GraphQL */ `
+  query DeleteAudioFile($key: String!) {
+    deleteAudioFile(key: $key)
+  }
+`;
+export const getDocumentItem = /* GraphQL */ `
+  query GetDocumentItem($id: ID!) {
+    getDocumentItem(id: $id) {
+      id
+      name
+      content {
+        id
         type
-        data {
-          src
-        }
-        nodes {
-          object
-          type
+        url
+        children {
           text
-          marks {
-            object
-            type
-          }
+          start
+          end
         }
       }
     }
-    audioFiles {
-      key
-      src
-      paragraf
-    }
   }
-}
 `;
-export const listDocumentItems = `query ListDocumentItems(
-  $filter: ModelDocumentItemFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listDocumentItems(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
-      id
-      name
+export const listDocumentItems = /* GraphQL */ `
+  query ListDocumentItems(
+    $filter: ModelDocumentItemFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listDocumentItems(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        content {
+          id
+          type
+          url
+        }
+      }
+      nextToken
     }
   }
-}
 `;

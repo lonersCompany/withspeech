@@ -1,122 +1,146 @@
-import React, { useState } from "react";
-import { Editor } from "slate-react";
-import { Value } from "slate";
+// Import React dependencies.
+import React, { useMemo, useState } from "react";
 
-let autoSaveSetTimeOut;
+// Import Image dependencies
+import imageExtensions from "image-extensions";
+import isUrl from "is-url";
 
-function insertImage(editor, src, target) {
-  if (target) {
-    editor.select(target);
+// Import the Slate editor factory.
+import { Transforms, createEditor } from "slate";
+
+// Import the Slate components and React plugin.
+import {
+  Slate,
+  Editable,
+  useEditor,
+  useSelected,
+  useFocused,
+  withReact
+} from "slate-react";
+
+import { withHistory } from "slate-history";
+
+const InsertImageButton = () => {
+  const editor = useEditor();
+  return (
+    <button
+      onMouseDown={event => {
+        event.preventDefault();
+        const url = window.prompt("Enter the URL of the image:");
+        if (!url) return;
+        insertImage(editor, url);
+      }}
+    >
+      image
+    </button>
+  );
+};
+
+const isImageUrl = url => {
+  if (!url) return false;
+  if (!isUrl(url)) return false;
+  const ext = new URL(url).pathname.split(".").pop();
+  return imageExtensions.includes(ext);
+};
+
+const ImageElement = ({ attributes, children, element }) => {
+  const selected = useSelected();
+  const focused = useFocused();
+  return (
+    <div {...attributes}>
+      <div contentEditable={false}>
+        <img
+          src={element.url}
+          className={`
+          block w-full ${selected && focused ? "h" : "none"};
+          `}
+        />
+      </div>
+      {children}
+    </div>
+  );
+};
+
+const insertImage = (editor, url) => {
+  const text = { text: "Image Caption" };
+  const image = { type: "image", url, children: [text] };
+  Transforms.insertNodes(editor, image);
+};
+
+const Element = props => {
+  const { attributes, children, element } = props;
+
+  switch (element.type) {
+    case "image":
+      return <ImageElement {...props} />;
+    default:
+      return <p {...attributes}>{children}</p>;
   }
+};
 
-  editor.insertBlock({
-    type: "image",
-    data: { src }
-  });
-}
+const withImages = editor => {
+  const { insertData, isVoid } = editor;
 
-function MarkHotkey(options) {
-  // Grab our options from the ones passed in.
-  const { type, key, funType } = options;
+  editor.isVoid = element => {
+    return element.type === "image" ? true : isVoid(element);
+  };
 
-  return {
-    onKeyDown(event, editor, next) {
-      // If it doesn't match our `key`, let other plugins handle it.
-      if (!event.ctrlKey || event.key !== key) return next();
+  editor.insertData = data => {
+    const text = data.getData("text/plain");
+    const { files } = data;
 
-      // Prevent the default characters from being inserted.
-      event.preventDefault();
+    if (files && files.length > 0) {
+      for (const file of files) {
+        const reader = new FileReader();
+        const [mime] = file.type.split("/");
 
-      // Toggle the mark `type`.
+        if (mime === "image") {
+          reader.addEventListener("load", () => {
+            const url = reader.result;
+            insertImage(editor, url);
+          });
 
-      switch (funType) {
-        case "toggleMark":
-          return editor.toggleMark(type);
-        case "toggleBlock":
-          return editor.command(
-            insertImage,
-            "https://placekitten.com/g/200/300"
-          );
-        default:
-          return;
+          reader.readAsDataURL(file);
+        }
       }
+    } else if (isImageUrl(text)) {
+      insertImage(editor, text);
+    } else {
+      insertData(data);
     }
   };
-}
 
-// Call Marktogler MarkHotkey()
-const plugins = [
-  MarkHotkey({ key: "b", type: "bold", funType: "toggleMark" }),
-  MarkHotkey({ key: "`", type: "code", funType: "toggleMark" }),
-  MarkHotkey({ key: "i", type: "italic", funType: "toggleMark" }),
-  MarkHotkey({ key: "~", type: "strikethrough", funType: "toggleMark" }),
-  MarkHotkey({ key: "u", type: "underline", funType: "toggleMark" }),
-  MarkHotkey({ key: "h", type: "headline", funType: "toggleMark" }),
-  MarkHotkey({ key: "m", type: "media", funType: "toggleBlock" })
-];
-
-// Check Marks and render
-const handleRenderMark = (props, editor, next) => {
-  switch (props.mark.type) {
-    case "headline":
-      return <h1>{props.children}</h1>;
-    case "bold":
-      return <strong>{props.children}</strong>;
-    case "code":
-      return <code>{props.children}</code>;
-    case "italic":
-      return <em>{props.children}</em>;
-    case "strikethrough":
-      return <del>{props.children}</del>;
-    case "underline":
-      return <u>{props.children}</u>;
-    default:
-      return next();
-  }
+  return editor;
 };
 
-const renderBlock = (props, editor, next) => {
-  const { attributes, node } = props;
-
-  switch (node.type) {
-    case "image": {
-      const src = node.data.get("src");
-      return <img {...attributes} src={src} alt={"alt"} />;
-    }
-
-    default: {
-      return next();
-    }
-  }
-};
-
-function WsEditor({ document, handleEdtiorChange }) {
-  const [currentValue, setCurrentValue] = useState(
-    Value.fromJSON({ document })
+const WsEditor = ({ textValue, handleEditiorChange }) => {
+  const editor = useMemo(
+    () => withImages(withHistory(withReact(createEditor()))),
+    []
   );
 
-  const handleChangeDocument = ({ value }) => {
-    if (value.document !== currentValue.document) {
-      clearTimeout(autoSaveSetTimeOut);
-      autoSaveSetTimeOut = setTimeout(function() {
-        const { document } = value.toJSON();
-        handleEdtiorChange(document);
-      }, 500);
-    }
-    setCurrentValue(value);
+  const handleTextChange = value => {
+    handleEditiorChange(value);
+    // const content = JSON.stringify(value);
+    // window.localStorage.setItem("content", content);
   };
 
   return (
-    <Editor
-      placeholder="Enter a title..."
-      value={currentValue}
-      plugins={plugins}
-      onChange={handleChangeDocument}
-      renderMark={handleRenderMark}
-      renderBlock={renderBlock}
-      id={"editor"}
-    />
+    <Slate
+      editor={editor}
+      value={textValue}
+      onChange={value => handleTextChange(value)}
+      className={"shadow"}
+    >
+      <div>
+        <InsertImageButton />
+      </div>
+      <Editable
+        renderElement={props => <Element {...props} />}
+        placeholder="Enter some text..."
+      />
+    </Slate>
   );
-}
+};
 
 export default WsEditor;

@@ -8,3 +8,30 @@ h1 {
   @apply text-3xl;
   @apply mb-10;
 }
+
+.speaking .speakable {
+  opacity: 0.2;
+}
+
+.speaking img.speakable:hover {
+  opacity: 1;
+}
+
+.speakable.active {
+  opacity: 1;
+}
+
+.speakable.pause {
+  color: rgb(179, 255, 163);
+}
+
+img.speakable.active {
+  box-shadow: rgb(38, 0, 255) 0px 0px 2px 1px;
+  color: rgba(50, 50, 50, 1);
+  animation: progress 3s;
+}
+
+.speakable:hover {
+  cursor: pointer;
+  box-shadow: #68d391 0px 0px 2px 1px;
+}

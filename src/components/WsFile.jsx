@@ -2,134 +2,192 @@ import React, { useState, useEffect } from "react";
 
 import {
   readWsFile,
-  triggerDeleteAudioBlock,
   triggerGenAudioBlock,
-  saveAudioObjects,
+  triggerGenSubtitleBlock,
   uploadWsFile
 } from "../actions/fetchFunctions";
-import {
-  removeEmptyStrings,
-  getRitchBlocks
-} from "../actions/manipulationFunctions";
 
+import { Node } from "slate";
+
+import uuidv1 from "uuid/v1";
+
+import WsPreview from "./WsPreview";
 import WsEditor from "./WsEditor";
-import WsPlayer from "./WsPlayer";
 
-const saveWsFile = (document, id) => {
-  // Set document name
-  const name = document.nodes[0].nodes[0].text;
-
-  // Remove empty string bug
-  const documentModified = {
-    nodes: removeEmptyStrings(document)
-  };
-
-  // Remove audioFile,
-  // TODO:
-  // QUESTION: how to delete audio files,
-  // when document is updated.
-  const audioFiles = null;
-
-  // CALL CRUD FUNCTION uploadWsFile
-  uploadWsFile({
-    id,
-    name,
-    audioFiles,
-    document: documentModified
-  });
+const renameObjFiled = (obj, old_key, new_key) => {
+  if (old_key !== new_key) {
+    Object.defineProperty(
+      obj,
+      new_key,
+      Object.getOwnPropertyDescriptor(obj, old_key)
+    );
+    delete obj[old_key];
+  }
+  return obj;
 };
 
-const requestAudioObjects = textObject => {
-  const ritchBlocks = getRitchBlocks(textObject);
-  console.log(ritchBlocks);
-  const audioObjPromises = ritchBlocks.map(block =>
-    triggerGenAudioBlock(block)
-  );
-  return audioObjPromises;
+//import smd from "speechmarkdown-js";
+const smd = require("speechmarkdown-js");
+
+const serialize = nodes => {
+  return nodes
+    .map(n => {
+      if (n.type === "image") {
+        const imageSSML = `i<mark name="${n.url}" />mage`;
+        return imageSSML;
+      }
+
+      return Node.string(n);
+    })
+    .join("\n");
+};
+
+// const parseToSSML = markdown => {
+//   //const markdown = `Sample [3s] speech [250ms] markdown`;
+//   const options = {
+//     platform: "amazon-alexa"
+//   };
+
+//   const speech = new smd.SpeechMarkdown();
+//   const ssml = speech.toSSML(markdown, options);
+
+//   return ssml;
+// };
+
+const generateAudioBlock = async ssmlValue => {
+  const pollyBlock = {
+    text: ssmlValue,
+    key: uuidv1(),
+    voice: "Salli",
+    ssml: true
+  };
+
+  // Request speakable blocks
+  const LambdaReturn = await triggerGenSubtitleBlock(pollyBlock);
+
+  const children = LambdaReturn.map(obj => {
+    const renamedObj = renameObjFiled(obj, "value", "text");
+
+    return renamedObj;
+  });
+
+  // Request Auido key
+  const audioKey = await triggerGenAudioBlock(pollyBlock);
+
+  const url =
+    "https://text-with-speech.s3.eu-central-1.amazonaws.com/" + audioKey;
+
+  const type = "paragraph";
+
+  const id = audioKey;
+
+  return { children, url, id, type };
 };
 
 function WsFile({ match }) {
   const [id] = useState(match.params.id);
-  const [textObject, setTextObject] = useState(undefined);
-  const [audioObjects, setAudioObjects] = useState(undefined);
+
+  const [document, setDocument] = useState({});
+
+  const [speakableDocs, setSpeakableDocs] = useState([
+    "<speak>Add your text</speak>"
+  ]);
+  const [textValue, setTextValue] = useState([
+    {
+      type: "paragraph",
+      children: [{ text: "Add your text" }]
+    }
+  ]);
   const [isLoading, setLoading] = useState(false);
+  const [isEditor, setEditor] = useState(false);
+  const [isAudioSync, setAudioSync] = useState(false);
 
-  // SLATE GET VALUE
-  const renderWSFile = async id => {
-    const responseWsFile = await readWsFile(id);
-
-    const { document, audioFiles } = responseWsFile;
-
-    if (document) {
-      setTextObject(document);
-    }
-
-    if (audioFiles) {
-      setAudioObjects(audioFiles);
-    }
-  };
-
-  const handleEdtiorChange = document => {
-    setTextObject(document);
-    setAudioObjects(undefined);
-
-    saveWsFile(document, id);
-
-    // Delete audioFile becouse they are no longer sync
-    // QUESTION: Delete audio files in edtior Change event?
-    if (audioObjects) {
-      audioObjects.forEach(object => triggerDeleteAudioBlock(object.key));
-    }
-    //
+  const handleEditiorChange = value => {
+    setTextValue(value);
+    setAudioSync(false);
   };
 
   // GENERATE AUDIO
-  const handlesyncAudio = async () => {
+  const handleSyncAudio = async () => {
     setLoading(true);
-    const promiseAudioObjs = requestAudioObjects(textObject);
-    const audioFiles = await Promise.all(promiseAudioObjs);
 
-    if (audioFiles) {
-      // update react state
-      setAudioObjects(audioFiles);
+    const content = textValue.map(block => {
+      if (block.type === "paragraph") {
+        const searileValue = `<speak>${block.children[0].text}</speak>`;
+        const generatedBlock = generateAudioBlock(searileValue);
+        return generatedBlock;
+      }
+
+      if (block.type === "image") {
+        block.id = uuidv1();
+        return block;
+      }
+    });
+
+    Promise.all(content).then(content => {
+      console.log(content); // [3, 1337, "foo"]
+
+      const document = {
+        id,
+        name: id,
+        content
+      };
+
+      setDocument(document);
+      uploadWsFile(document);
       setLoading(false);
+      setAudioSync(true);
+    });
+  };
 
-      // save keys to databse file object
-      await saveAudioObjects({ id, audioFiles });
+  const toggleEditorVue = () => {
+    if (isEditor && !isAudioSync) {
+      handleSyncAudio();
+    }
+    isEditor ? setEditor(false) : setEditor(true);
+  };
+
+  const renderWSFile = async () => {
+    try {
+      const fileData = await readWsFile(id);
+
+      // LOAD TEXT WITH SPEECH DOCUMENT
+      setDocument(fileData);
+
+      const { content } = fileData;
+
+      if (content) setTextValue(content);
+      if (content) setAudioSync(true);
+    } catch (err) {
+      console.error(err);
     }
   };
 
   useEffect(() => {
-    // On load of page run handleListNotes function
-    renderWSFile(id);
+    renderWSFile();
   }, []);
 
   return (
-    <div>
-      <div className="flex justify-center">
-        <div className="w-full max-w-lg my-40">
-          {textObject ? (
-            <WsEditor
-              document={textObject}
-              handleEdtiorChange={handleEdtiorChange}
-            />
-          ) : (
-            <h2>...</h2>
-          )}
-        </div>
+    <div className={isEditor ? "bg-white" : "bg-gray-200"}>
+      <div className="max-w-xl text-xl m-auto py-20 min-h-screen">
+        {isEditor ? (
+          <WsEditor
+            textValue={textValue}
+            handleEditiorChange={handleEditiorChange}
+          />
+        ) : isLoading ? (
+          "( Loading )"
+        ) : (
+          <WsPreview document={document} />
+        )}
       </div>
       <div className="fixed bottom-0 bg-gray-200-t p-6">
-        {audioObjects ? (
-          <WsPlayer audioObjects={audioObjects} />
-        ) : (
-          <button
-            className="font-semibold text-xl tracking-tight"
-            id="play"
-            onClick={handlesyncAudio}
-          >
-            {isLoading ? "[ Loading ]" : "[ Generate ]"}
-          </button>
-        )}
+        <button
+          className="bg-white hover:bg-gray-200 py-2 px-4 rounded-full border border-black"
+          onClick={toggleEditorVue}
+        >
+          {isEditor ? "Listen" : isLoading ? "Loading" : "Edit"} (ctrl + E)
+        </button>
       </div>
     </div>
   );

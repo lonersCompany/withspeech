@@ -1,6 +1,18 @@
 type Query {
-  generateAudio(text: String!, voice: String!, paragraf: Int!): String
-    @function(name: "generateAudioLambda-${env}")
+  generateAudio(
+    text: String!
+    voice: String!
+    ssml: Boolean!
+    key: String!
+  ): String @function(name: "generateAudioLambda-${env}")
+
+  generateSubtitles(
+    text: String!
+    voice: String!
+    ssml: Boolean!
+    key: String!
+  ): String @function(name: "generateSubtitles-${env}")
+
   deleteAudioFile(key: String!): String
     @function(name: "deleteAudioFileLambda-${env}")
 }
@@ -8,37 +20,32 @@ type Query {
 type DocumentItem @model {
   id: ID!
   name: String
-  document: Document
-  audioFiles: [AudioFile]
+  content: [SpeakableItem]
 }
 
-type Document {
-  nodes: [Node]
-  object: String
-  data: DocumentData
-}
-
-type Node {
-  object: String
+type SpeakableItem {
+  id: String
   type: String
+  url: String
+  children: [SpeakableBlock]
+}
+
+type SpeakableBlock {
   text: String
-  marks: [Mark]
-  nodes: [Node]
-  data: DocumentData
+  start: Int
+  end: Int
 }
 
-type DocumentData {
-  src: String
-}
+# type Document {
+#   nodes: [Node]
+#   object: String
+# }
 
-type Mark {
-  object: String
-  type: String
-  data: DocumentData
-}
-
-type AudioFile {
-  key: String
-  src: String
-  paragraf: Int
-}
+# type Node {
+#   object: String
+#   type: String
+#   text: String
+#   key: String
+#   voice: String
+#   nodes: [Node]
+# }

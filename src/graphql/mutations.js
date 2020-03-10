@@ -1,75 +1,66 @@
-// eslint-disable
+/* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createDocumentItem = `mutation CreateDocumentItem($input: CreateDocumentItemInput!) {
-  createDocumentItem(input: $input) {
-    id
-    name
-    document {
-      nodes {
-        object
+export const createDocumentItem = /* GraphQL */ `
+  mutation CreateDocumentItem(
+    $input: CreateDocumentItemInput!
+    $condition: ModelDocumentItemConditionInput
+  ) {
+    createDocumentItem(input: $input, condition: $condition) {
+      id
+      name
+      content {
+        id
         type
-        data {
-          src
-        }
-        nodes {
-          object
-          type
+        url
+        children {
           text
-          marks {
-            object
-            type
-          }
+          start
+          end
         }
       }
     }
   }
-}
 `;
-export const updateDocumentItem = `mutation UpdateDocumentItem($input: UpdateDocumentItemInput!) {
-  updateDocumentItem(input: $input) {
-    id
-    name
-    document {
-      nodes {
-        object
+export const updateDocumentItem = /* GraphQL */ `
+  mutation UpdateDocumentItem(
+    $input: UpdateDocumentItemInput!
+    $condition: ModelDocumentItemConditionInput
+  ) {
+    updateDocumentItem(input: $input, condition: $condition) {
+      id
+      name
+      content {
+        id
         type
-        data {
-          src
-        }
-        nodes {
-          object
-          type
+        url
+        children {
           text
-          marks {
-            object
-            type
-          }
+          start
+          end
         }
       }
     }
   }
-}
 `;
-export const updateDocumentAudioLinks = `mutation UpdateDocumentItem($input: UpdateDocumentItemInput!) {
-  updateDocumentItem(input: $input) {
-    id
-    audioFiles {
-      key
-      src
-      paragraf
+export const deleteDocumentItem = /* GraphQL */ `
+  mutation DeleteDocumentItem(
+    $input: DeleteDocumentItemInput!
+    $condition: ModelDocumentItemConditionInput
+  ) {
+    deleteDocumentItem(input: $input, condition: $condition) {
+      id
+      name
+      content {
+        id
+        type
+        url
+        children {
+          text
+          start
+          end
+        }
+      }
     }
   }
-}
-`;
-export const deleteDocumentItem = `mutation DeleteDocumentItem($input: DeleteDocumentItemInput!) {
-  deleteDocumentItem(input: $input) {
-    id
-    audioFiles {
-      key
-      src
-      paragraf
-    }
-  }
-}
 `;

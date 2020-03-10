@@ -9,13 +9,7 @@ export const placeHolderValue = {
         nodes: [
           {
             object: "text",
-            text: "Document name",
-            marks: [
-              {
-                object: "mark",
-                type: "headline"
-              }
-            ]
+            text: "Document name"
           }
         ]
       },

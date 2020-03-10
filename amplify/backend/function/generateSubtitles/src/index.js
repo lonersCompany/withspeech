@@ -2,8 +2,6 @@
 You can access the following resource attributes as environment variables from your Lambda function
 var environment = process.env.ENV
 var region = process.env.REGION
-var apiDocumentAPIGraphQLAPIIdOutput = process.env.API_DOCUMENTAPI_GRAPHQLAPIIDOUTPUT
-var apiDocumentAPIGraphQLAPIEndpointOutput = process.env.API_DOCUMENTAPI_GRAPHQLAPIENDPOINTOUTPUT
 
 Amplify Params - DO NOT EDIT */
 const AWS = require("aws-sdk");
@@ -26,32 +24,48 @@ exports.handler = async event => {
 
   try {
     const pollyAudioParams = {
-      OutputFormat: "mp3",
+      OutputFormat: "json",
       Text: text,
       TextType: ssml ? "ssml" : "text",
-      VoiceId: voice
+      VoiceId: voice,
+      SpeechMarkTypes: ["sentence"]
     };
 
-    const { AudioStream } = await polly
+    const pollyResponse = await polly
       .synthesizeSpeech(pollyAudioParams)
       .promise();
 
-    const s3params = {
-      Key: key,
-      ContentType: "audio/mpeg",
-      Body: AudioStream,
-      ACL: "public-read"
-    };
+    const { ContentType, AudioStream } = pollyResponse;
+    // Create JSON FORM JS oBJECT
 
-    const dataS3 = await s3.putObject(s3params).promise();
+    const AudioStreamObj = AudioStream.toString()
+      .split(/\r?\n/)
+      .filter(string => string !== "")
+      .map(string => JSON.parse(string));
 
-    responseBody.audio = {
+    const retrunObj = AudioStreamObj.map((obj, index, array) => {
+      const startTime = obj.time;
+      let endTme = 999999;
+      if (array[index + 1]) {
+        endTme = array[index + 1].time;
+      }
+
+      return {
+        value: obj.value,
+        start: startTime,
+        end: endTme
+      };
+    });
+
+    //const AudioStreamObj = JSON.stringify(AudioStream)
+
+    responseBody = {
       key: key,
-      text: pollyAudioParams.text
+      stream: retrunObj
     };
     statusCode = 201;
   } catch (err) {
-    responseBody.audio = `Unable to put user data`;
+    responseBody = `Unable to put user data`;
     statusCode = 403;
   }
 

@@ -2,22 +2,47 @@ import { API, graphqlOperation } from "aws-amplify";
 import {
   getDocumentItem,
   generateAudio,
-  deleteAudioFile
+  deleteAudioFile,
+  generateSubtitles
 } from "../../graphql/queries";
 import {
   createDocumentItem,
   updateDocumentItem,
-  updateDocumentAudioLinks,
   deleteDocumentItem
 } from "../../graphql/mutations";
 
-export const createWsFile = async input => {
+function generateUUID() {
+  // Public Domain/MIT
+  var d = new Date().getTime(); //Timestamp
+  var d2 = (performance && performance.now && performance.now() * 1000) || 0; //Time in microseconds since page-load or 0 if unsupported
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
+    var r = Math.random() * 16; //random number between 0 and 16
+    if (d > 0) {
+      //Use timestamp until depleted
+      r = (d + r) % 16 | 0;
+      d = Math.floor(d / 16);
+    } else {
+      //Use microseconds since page-load if supported
+      r = (d2 + r) % 16 | 0;
+      d2 = Math.floor(d2 / 16);
+    }
+    return (c === "x" ? r : (r & 0x3) | 0x8).toString(16);
+  });
+}
+
+export const createWsFile = async () => {
+  const input = {
+    id: generateUUID()
+  };
+
   try {
     const { data } = await API.graphql(
       graphqlOperation(createDocumentItem, { input })
     );
 
     const response = data.createDocumentItem;
+
+    console.log(data);
     return response;
   } catch (err) {
     console.error(err);
@@ -29,16 +54,7 @@ export const readWsFile = async id => {
     const { data } = await API.graphql(
       graphqlOperation(getDocumentItem, { id })
     );
-    console.log(data);
-
-    const response = data.getDocumentItem;
-    const { document } = response;
-    const { audioFiles } = response;
-
-    return {
-      document,
-      audioFiles
-    };
+    return data.getDocumentItem;
   } catch (err) {
     console.log(err);
   }
@@ -66,7 +82,6 @@ export const deleteWsFile = async id => {
   const { audioFiles } = data.deleteDocumentItem;
   if (audioFiles) {
     // TODO: Check ID
-    console.log(audioFiles);
     await Promise.all(
       audioFiles.map(file =>
         API.graphql(graphqlOperation(deleteAudioFile, { key: file.key }))
@@ -80,23 +95,37 @@ export const triggerDeleteAudioBlock = async key => {
 };
 
 export const triggerGenAudioBlock = async block => {
-  const buffer = await API.graphql(graphqlOperation(generateAudio, block));
-  const response = JSON.parse(buffer.data.generateAudio);
-
-  return { key: response.body.audio.key };
-};
-
-export const saveAudioObjects = async payload => {
-  console.log("updateDocumentAudioLinks");
   try {
-    const { data } = await API.graphql(
-      graphqlOperation(updateDocumentAudioLinks, { input: payload })
-    );
-    console.log(data);
-    return data;
+    const buffer = await API.graphql(graphqlOperation(generateAudio, block));
+    const response = JSON.parse(buffer.data.generateAudio);
+
+    return response.body.audio.key;
   } catch (err) {
     console.log(err);
-    return err;
+  }
+};
+
+// function isInt(value) {
+//   return (
+//     !isNaN(value) &&
+//     (function(x) {
+//       return (x | 0) === x;
+//     })(parseFloat(value))
+//   );
+// }
+
+export const triggerGenSubtitleBlock = async block => {
+  try {
+    const responseJson = await API.graphql(
+      graphqlOperation(generateSubtitles, block)
+    );
+    // Create JS object from JSON
+    const { body } = JSON.parse(responseJson.data.generateSubtitles);
+    const returnedStream = body.stream;
+
+    return returnedStream;
+  } catch (err) {
+    console.log(err);
   }
 };
 
@@ -105,7 +134,6 @@ export const saveWsFile = async input => {
     const { data } = await API.graphql(
       graphqlOperation(updateDocumentItem, { input })
     );
-    console.log(data.updateDocumentItem);
     return data.updateDocumentItem;
   } catch (err) {
     console.log(err);

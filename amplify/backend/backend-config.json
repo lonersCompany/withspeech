@@ -44,6 +44,11 @@
 					]
 				}
 			]
+		},
+		"generateSubtitles": {
+			"service": "Lambda",
+			"providerPlugin": "awscloudformation",
+			"build": true
 		}
 	},
 	"hosting": {

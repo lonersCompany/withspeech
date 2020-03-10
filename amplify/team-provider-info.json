@@ -8,7 +8,8 @@
             "DeploymentBucketName": "withspeech-dev-20190715165656-deployment",
             "UnauthRoleName": "withspeech-dev-20190715165656-unauthRole",
             "StackName": "withspeech-dev-20190715165656",
-            "StackId": "arn:aws:cloudformation:eu-central-1:611174504358:stack/withspeech-dev-20190715165656/ca553d50-a710-11e9-8ccd-02c3d40e0dd8"
+            "StackId": "arn:aws:cloudformation:eu-central-1:611174504358:stack/withspeech-dev-20190715165656/ca553d50-a710-11e9-8ccd-02c3d40e0dd8",
+            "AmplifyAppId": "d20kkh9n3xklkh"
         },
         "categories": {
             "auth": {

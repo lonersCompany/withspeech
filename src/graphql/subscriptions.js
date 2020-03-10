@@ -1,72 +1,57 @@
-// eslint-disable
+/* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const onCreateDocumentItem = `subscription OnCreateDocumentItem {
-  onCreateDocumentItem {
-    id
-    name
-    document {
-      nodes {
-        object
+export const onCreateDocumentItem = /* GraphQL */ `
+  subscription OnCreateDocumentItem {
+    onCreateDocumentItem {
+      id
+      name
+      content {
+        id
         type
-        text
+        url
+        children {
+          text
+          start
+          end
+        }
       }
-      object
-      data {
-        data
-      }
-    }
-    audioFiles {
-      key
-      src
-      paragraf
     }
   }
-}
 `;
-export const onUpdateDocumentItem = `subscription OnUpdateDocumentItem {
-  onUpdateDocumentItem {
-    id
-    name
-    document {
-      nodes {
-        object
+export const onUpdateDocumentItem = /* GraphQL */ `
+  subscription OnUpdateDocumentItem {
+    onUpdateDocumentItem {
+      id
+      name
+      content {
+        id
         type
-        text
+        url
+        children {
+          text
+          start
+          end
+        }
       }
-      object
-      data {
-        data
-      }
-    }
-    audioFiles {
-      key
-      src
-      paragraf
     }
   }
-}
 `;
-export const onDeleteDocumentItem = `subscription OnDeleteDocumentItem {
-  onDeleteDocumentItem {
-    id
-    name
-    document {
-      nodes {
-        object
+export const onDeleteDocumentItem = /* GraphQL */ `
+  subscription OnDeleteDocumentItem {
+    onDeleteDocumentItem {
+      id
+      name
+      content {
+        id
         type
-        text
+        url
+        children {
+          text
+          start
+          end
+        }
       }
-      object
-      data {
-        data
-      }
-    }
-    audioFiles {
-      key
-      src
-      paragraf
     }
   }
-}
 `;

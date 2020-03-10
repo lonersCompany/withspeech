@@ -1,13 +1,29 @@
+export const getHtmlBlocks = slateData => {
+  console.log(slateData);
+  const blocks = slateData.nodes.map((block, index) => {
+    const blockEl = document.createElement("div");
+    block.nodes.forEach(lineNode => {
+      const spanEl = document.createElement("span");
+      spanEl.innerText = lineNode.text;
+
+      blockEl.appendChild(spanEl);
+    });
+    return blockEl;
+  });
+
+  return blocks;
+};
+
 export const getRitchBlocks = slateData => {
   const blocks = slateData.nodes.map((block, index) => {
     const textArrays = block.nodes.map(line => line.text);
     const text = textArrays.join(" ");
     //const count = text.length;
     //const src = undefined;
-    const paragraf = index;
+    const key = "test-ksnbs7262HS-" + index;
     const voice = "Salli";
 
-    return { text, voice, paragraf };
+    return { text, voice, key };
   });
 
   return blocks;
@@ -62,3 +78,17 @@ export const getAudioLinks = audioFiles =>
   audioFiles.map(file => {
     return { src: file.src };
   });
+
+export const cutToSentences = string => {
+  const sentencesArray = string.match(/[^\.!\?]+[\.!\?]|([^\.!\?]+$)+/g);
+
+  const spanElements = sentencesArray.map(sentence => {
+    const newEl = document.createElement("span");
+    newEl.classList.add("s");
+    newEl.setAttribute("data-state", "pasive");
+    newEl.innerText = sentence;
+    return newEl;
+  });
+
+  return spanElements;
+};
