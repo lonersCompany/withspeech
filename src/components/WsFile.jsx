@@ -133,8 +133,10 @@ function WsFile({ match }) {
         content
       };
 
-      setDocument(document);
+      console.log(content);
       uploadWsFile(document);
+      setDocument(document);
+
       setLoading(false);
       setAudioSync(true);
     });
