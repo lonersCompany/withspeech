@@ -9,8 +9,10 @@ const Element = ({ element, speak }) => {
   switch (element.type) {
     case "image":
       return <ImageElement element={element} speak={speak} />;
-    default:
+    case "paragraph":
       return <TextElement element={element} speak={speak} />;
+    default:
+      return <div>Loading</div>;
   }
 };
 
@@ -26,7 +28,6 @@ function Content({ content }) {
     // Set Block state
     switch (blockState) {
       case "active":
-        newAudioObjects[index].audioObject.pause();
         newAudioObjects[index].blockState = "pasive";
         setSpeaking(false);
         break;
@@ -36,7 +37,9 @@ function Content({ content }) {
           return obj;
         });
         newAudioObjects[index].blockState = "active";
-        newAudioObjects[index].audioObject.currentTime = sTime;
+        if (newAudioObjects[index].audioObject)
+          newAudioObjects[index].audioObject.currentTime = sTime;
+
         setSpeaking(true);
     }
 
@@ -47,9 +50,12 @@ function Content({ content }) {
     const initAudioObjects = content.map((item, index) => {
       const copy = Object.assign({}, item);
 
-      const { url } = content[index];
-      const newAudio = new Audio(url);
-      copy.audioObject = newAudio;
+      // TODO IF AUDIO URL
+      if (copy.type === "paragraph") {
+        const newAudio = new Audio(item.url);
+        copy.audioObject = newAudio;
+      }
+
       copy.blockState = "pasive";
       copy.index = index;
       return copy;
@@ -68,8 +74,7 @@ function Content({ content }) {
   );
 }
 
-const WsPreview = ({ document }) => {
-  const { content } = document;
+const WsPreview = ({ content }) => {
   return (
     <div>{content ? <Content content={content} /> : "Generate content"}</div>
   );

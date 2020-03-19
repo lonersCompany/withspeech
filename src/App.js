@@ -1,19 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import WsFile from "./components/WsFile";
-import Nav from "./components/nav";
 import WsDashboard from "./components/WsDashboard";
 import { withAuthenticator } from "aws-amplify-react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 function App() {
   return (
-    <Router>
-      <div className="App">
-        <Nav />
+    <div className="App bg-gray-900 text-white w-full max-w-screen-xl mx-auto">
+      <Router>
         <Route path="/" exact component={WsDashboard} />
         <Route path="/doc/:id" component={WsFile} />
-      </div>
-    </Router>
+      </Router>
+    </div>
   );
 }
 

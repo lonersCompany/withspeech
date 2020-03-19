@@ -21,7 +21,7 @@ const PlayButton = ({ speak, blockIndex }) => {
 };
 
 const TextElement = ({ element, speak }) => {
-  const [mediaPermition, setMediaPermition] = useState(false);
+  const [mediaPermition, setMediaPermition] = useState(true);
   const [sentences, setSentences] = useState(
     element.children ? element.children : [{ value: "Error" }]
   );
@@ -31,36 +31,32 @@ const TextElement = ({ element, speak }) => {
 
     switch (element.blockState) {
       case "pasive":
-        element.audioObject.removeEventListener("timeupdate", () => {
-          console.log("remove timeupdate");
-        });
+        // element.audioObject.removeEventListener("timeupdate", () => {
+        //   console.log("remove timeupdate");
+        // });
 
-        element.audioObject.removeEventListener("ended", () => {
-          console.log("ended");
-        });
+        // element.audioObject.removeEventListener("ended", () => {
+        //   console.log("ended");
+        // });
+
         element.audioObject.pause();
         element.audioObject.currentTime = 0;
 
-        const newSentences = sentences.map(item => {
-          item.className = "pasive";
-          return item;
-        });
-
-        setSentences(newSentences);
         break;
       case "active":
-        const playAudioObject = async audioObject => {
+        const playAudioObject = async () => {
           try {
             const playEvent = await element.audioObject.play();
             setMediaPermition(true);
+            return true;
           } catch (err) {
             setMediaPermition(false);
+            return false;
           }
         };
-        const play = playAudioObject(element.audioObject);
+        const playAwait = playAudioObject();
 
         element.audioObject.addEventListener("timeupdate", function(e) {
-          console.log("timeupdate");
           const currentTime = e.target.currentTime * 1000;
           const newSentences = sentences.map(item => {
             item.className =
@@ -80,6 +76,11 @@ const TextElement = ({ element, speak }) => {
         element.audioObject.addEventListener("ended", () => {
           speak(element.index + 1, 0);
         });
+
+        return () =>
+          element.audioObject.removeEventListener("timeupdate", () => {
+            console.log("HEJ REMOVE!");
+          });
 
         break;
     }
@@ -102,16 +103,7 @@ const TextElement = ({ element, speak }) => {
     );
   });
 
-  return (
-    <p className={element.blockState}>
-      {mediaPermition ? (
-        ""
-      ) : (
-        <PlayButton speak={speak} blockIndex={element.index} />
-      )}{" "}
-      {sentenceItems}
-    </p>
-  );
+  return <p className={element.blockState}>{sentenceItems}</p>;
 };
 
 export default TextElement;

@@ -1,30 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { createWsFile } from "../actions/fetchFunctions";
-import { Redirect } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
 
-const CreateDocument = () => {
-  const [documentUrl, setdocumentUrl] = useState();
+function CreateDocument() {
+  const [path, setPath] = useState();
+  const history = useHistory();
 
-  const handleCreateWsFile = async () => {
-    // TODO: Create new doc function
-
+  const handleClick = async params => {
+    console.log("NEW");
     const { id } = await createWsFile();
-
-    setdocumentUrl(`/doc/${id}`);
+    setPath(`/doc/${id}`);
+    history.push(`/doc/${id}`);
   };
 
-  if (documentUrl) {
-    return <Redirect to={documentUrl} />;
-  }
-
   return (
-    <button
-      onClick={handleCreateWsFile}
-      className="bg-white hover:bg-gray-200 py-2 px-4 rounded-full border border-black"
-    >
-      + New document
-    </button>
+    <div>
+      {path ? <Redirect to={path} /> : null}
+      <button
+        type="button"
+        onClick={handleClick}
+        className="px-6 py-5 font-semibold text-xl text-left block w-full hover:bg-green-300"
+      >
+        + new document
+      </button>
+    </div>
   );
-};
+}
 
 export default CreateDocument;

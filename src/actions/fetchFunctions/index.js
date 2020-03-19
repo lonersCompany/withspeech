@@ -49,7 +49,7 @@ export const createWsFile = async () => {
   }
 };
 
-export const readWsFile = async id => {
+export const downLoadWsFile = async id => {
   try {
     const { data } = await API.graphql(
       graphqlOperation(getDocumentItem, { id })
@@ -114,6 +114,18 @@ export const triggerGenAudioBlock = async block => {
 //   );
 // }
 
+const renameObjFiled = (obj, old_key, new_key) => {
+  if (old_key !== new_key) {
+    Object.defineProperty(
+      obj,
+      new_key,
+      Object.getOwnPropertyDescriptor(obj, old_key)
+    );
+    delete obj[old_key];
+  }
+  return obj;
+};
+
 export const triggerGenSubtitleBlock = async block => {
   try {
     const responseJson = await API.graphql(
@@ -123,7 +135,11 @@ export const triggerGenSubtitleBlock = async block => {
     const { body } = JSON.parse(responseJson.data.generateSubtitles);
     const returnedStream = body.stream;
 
-    return returnedStream;
+    const children = returnedStream.map(obj =>
+      renameObjFiled(obj, "value", "text")
+    );
+
+    return children;
   } catch (err) {
     console.log(err);
   }
