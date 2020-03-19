@@ -76,18 +76,20 @@ function WsFile({ match }) {
     setLoading(true);
 
     const content = textValue.map(block => {
+      let returnValue;
       if (block.type === "image") {
         const copy = Object.assign({}, block);
         copy.id = uuidv1();
-        console.log(copy);
-        return copy;
+        returnValue = copy;
       }
 
       if (block.type === "paragraph") {
         const searileValue = `<speak>${block.children[0].text}</speak>`;
         const generatedBlock = generateAudioBlock(searileValue);
-        return generatedBlock;
+        returnValue = generatedBlock;
       }
+
+      return returnValue;
     });
 
     Promise.all(content).then(content => {
@@ -104,24 +106,25 @@ function WsFile({ match }) {
     });
   };
 
-  const renderWSFile = async () => {
-    try {
-      const { name, content } = await downLoadWsFile(id);
-
-      // LOAD TEXT WITH SPEECH DOCUMENT
-      if (name) setName(name);
-      if (content === null) setEditor(true);
-      if (content) setContent(content);
-      if (content) setTextValue(content);
-      if (content) setAudioSync(true);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   useEffect(() => {
+    console.log("render");
+    const renderWSFile = async () => {
+      try {
+        const { name, content } = await downLoadWsFile(id);
+
+        // LOAD TEXT WITH SPEECH DOCUMENT
+        if (name) setName(name);
+        if (content === null) setEditor(true);
+        if (content) setContent(content);
+        if (content) setTextValue(content);
+        if (content) setAudioSync(true);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
     renderWSFile();
-  }, []);
+  }, [id]);
 
   return (
     <div className="lg:flex">

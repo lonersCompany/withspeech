@@ -1,5 +1,5 @@
 // Import React dependencies.
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 
 // Import Image dependencies
 import imageExtensions from "image-extensions";

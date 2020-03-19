@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import WsFile from "./components/WsFile";
 import WsDashboard from "./components/WsDashboard";
 import { withAuthenticator } from "aws-amplify-react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
 function App() {
   return (

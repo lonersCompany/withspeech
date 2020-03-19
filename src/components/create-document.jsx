@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { createWsFile } from "../actions/fetchFunctions";
 import { useHistory, Redirect } from "react-router-dom";
 
