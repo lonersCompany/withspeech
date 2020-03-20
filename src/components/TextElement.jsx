@@ -1,12 +1,11 @@
-import React, { useState } from "react";
-import { useCountRenders } from "./useCountRenders";
+import React, { useState, useEffect } from "react";
 
-function SentenceItem({ text, start, className, blockIndex, speak }) {
+function SentenceItem({ text, start, sentenceActive, speak }) {
   return (
     <>
       <span
-        onClick={() => speak(blockIndex, start, className)}
-        className={"speakable " + className}
+        onClick={() => speak(start, sentenceActive, true)}
+        className={`speakable ${sentenceActive ? "active" : "pasive"}`}
       >
         {text}
       </span>{" "}
@@ -14,16 +13,24 @@ function SentenceItem({ text, start, className, blockIndex, speak }) {
   );
 }
 
-const TextElement = ({ element, speak }) => {
-  useCountRenders();
+const TextElement = ({
+  id,
+  index,
+  isActive,
+  url,
+  children,
+  setActiveElement
+}) => {
   const [mediaPermition, setMediaPermition] = useState(true);
+  const [audio] = useState(new Audio(url));
+  const [sentenceIndex, setSentenceIndex] = useState(null);
   const [sentences, setSentences] = useState(
-    element.children ? element.children : [{ value: "Error" }]
+    children ? children : [{ value: "Error" }]
   );
 
-  const playAudioObject = async audioObject => {
+  const playAudioObject = async audio => {
     try {
-      await audioObject.play();
+      await audio.play();
       setMediaPermition(true);
       return true;
     } catch (err) {
@@ -32,56 +39,69 @@ const TextElement = ({ element, speak }) => {
     }
   };
 
-  // const speakTextElement = ({ blockState, audioObject, index }) => {
-  //   switch (blockState) {
-  //     case "pasive":
-  //       audioObject.pause();
-  //       audioObject.currentTime = 0;
-  //       break;
-  //     case "active":
-  //       console.log("Play");
-  //       playAudioObject(audioObject);
-  //       audioObject.addEventListener("timeupdate", function(e) {
-  //         const currentTime = e.target.currentTime * 1000;
-  //         const newSentences = sentences.map(item => {
-  //           item.className =
-  //             blockState === "active" &&
-  //             currentTime >= item.start &&
-  //             currentTime < item.end
-  //               ? "active"
-  //               : "pasive";
+  const speakTextBlock = (start, sentenceActive, resetElements) => {
+    switch (sentenceActive) {
+      case true:
+        audio.removeEventListener("timeupdate", () => {
+          console.log("timeupdate");
+        });
 
-  //           return item;
-  //         });
+        audio.pause();
 
-  //         setSentences(newSentences);
-  //       });
+        if (sentenceIndex != null) {
+          let newSentences = [...sentences];
+          newSentences[sentenceIndex].sentenceActive = false;
+          setSentences(newSentences);
+        }
 
-  //       // add ended event listener
-  //       audioObject.addEventListener("ended", () => {
-  //         speak(index + 1, 0);
-  //       });
-  //       break;
-  //   }
-  // };
+        if (resetElements) setActiveElement(null);
+        break;
+      default:
+        audio.currentTime = start * 0.001;
+        audio.addEventListener(
+          "timeupdate",
+          function(e) {
+            const currentTime = e.target.currentTime * 1000;
+            const newSentences = sentences.map((item, index) => {
+              const itemTiming =
+                !audio.paused &&
+                currentTime >= item.start &&
+                currentTime < item.end;
+              if (itemTiming) setSentenceIndex(index);
+              item.sentenceActive = itemTiming;
+              return item;
+            });
 
-  // useEffect(() => {
-  //   speakTextElement(element);
-  // }, [element, element.blockState]);
+            setSentences(newSentences);
+          },
+          false
+        );
 
-  const sentenceItems = sentences.map(block => {
+        audio.addEventListener("ended", () => {
+          setActiveElement(index + 1);
+        });
+
+        const isPlayAlowed = playAudioObject(audio);
+        if (isPlayAlowed) setActiveElement(index);
+    }
+  };
+
+  useEffect(() => {
+    if (!isActive && !audio.paused) speakTextBlock(0, true);
+    if (isActive && audio.paused) speakTextBlock(0, false);
+  }, [isActive]);
+
+  const sentenceItems = sentences.map(inline => {
     // Correct! Key should be specified inside the array.
-    const sentenceId = `${element.index}-${block.start}`;
-
+    const sentenceId = `${id}-${inline.start}`;
     return (
       <SentenceItem
         key={sentenceId}
         id={sentenceId}
-        blockIndex={element.index}
-        text={block.text}
-        start={block.start}
-        speak={speak}
-        className={block.className}
+        sentenceActive={inline.sentenceActive}
+        text={inline.text}
+        start={inline.start}
+        speak={speakTextBlock}
       />
     );
   });
@@ -91,11 +111,13 @@ const TextElement = ({ element, speak }) => {
       {mediaPermition ? (
         ""
       ) : (
-        <p class="bg-red-500 text-sm">
+        <p class="bg-red-500 text-sm ">
           Allow autoplay in browser setting, or click into text again
         </p>
       )}
-      <p className={element.blockState}>{sentenceItems}</p>
+      <p className={`mb-10 ${isActive ? "active" : "pasive"}`}>
+        {sentenceItems}
+      </p>
     </>
   );
 };

@@ -1,26 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 
-const ImageElement = ({ element, speak }) => {
-  const { index } = element;
-
-  const imageClick = params => {
-    speak(index, null);
+const ImageElement = ({ element, isActive, setActiveElement, index }) => {
+  const speakImageBlock = () => {
+    console.log("set time out!");
+    const timer = setTimeout(() => setActiveElement(index + 1), 1000);
+    return () => clearTimeout(timer);
   };
 
-  // useEffect(() => {
-  //   // On load of page run handleListNotes function
-
-  //   switch (element.blockState) {
-  //     case "active":
-  //       console.log("set time out!");
-  //       const timer = setTimeout(() => speak(index + 1, 0), 2000);
-  //       return () => clearTimeout(timer);
-  //       break;
-  //   }
-  // }, [element.blockState]);
+  useEffect(() => {
+    // On load of page run handleListNotes function
+    if (isActive) speakImageBlock();
+  }, [isActive]);
 
   return (
-    <div contentEditable={false} onClick={imageClick}>
+    <div contentEditable={false} onClick={speakImageBlock}>
       <img
         alt=""
         src={element.url}

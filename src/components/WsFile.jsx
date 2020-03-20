@@ -75,17 +75,20 @@ function WsFile({ match }) {
   const handleSyncAudio = async () => {
     setLoading(true);
 
-    const content = textValue.map(block => {
+    // TODO probably will be costed
+    const content = textValue.map((block, index) => {
       let returnValue;
       if (block.type === "image") {
         const copy = Object.assign({}, block);
         copy.id = uuidv1();
+        copy.index = index;
         returnValue = copy;
       }
 
       if (block.type === "paragraph") {
         const searileValue = `<speak>${block.children[0].text}</speak>`;
         const generatedBlock = generateAudioBlock(searileValue);
+        generatedBlock.index = index;
         returnValue = generatedBlock;
       }
 
@@ -107,7 +110,6 @@ function WsFile({ match }) {
   };
 
   useEffect(() => {
-    console.log("render");
     const renderWSFile = async () => {
       try {
         const { name, content } = await downLoadWsFile(id);
