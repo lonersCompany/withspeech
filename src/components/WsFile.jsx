@@ -117,6 +117,8 @@ function WsFile({ match }) {
         // LOAD TEXT WITH SPEECH DOCUMENT
         if (name) setName(name);
         if (content === null) setEditor(true);
+        const str = JSON.stringify(content, null, 4); // (Optional) beautiful indented output.
+        console.log(str); // Logs output to dev tools consol
         if (content) setContent(content);
         if (content) setTextValue(content);
         if (content) setAudioSync(true);

@@ -15,8 +15,7 @@ function WsDashboard() {
     // that we improt by name "listNotes"
     const { data } = await API.graphql(graphqlOperation(listDocumentItems));
     const { items } = data.listDocumentItems;
-    // changle state variable
-    console.log(items);
+
     setFiles(items);
   };
 
