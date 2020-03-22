@@ -19,9 +19,10 @@ function CreateDocument() {
       <button
         type="button"
         onClick={handleClick}
-        className="px-6 py-5 font-semibold text-xl text-left block w-full hover:bg-green-300"
+        className="px-6 py-5 text-left block w-full hover:bg-green-400"
       >
-        + new document
+        <div className="font-semibold text-xl">New document</div>
+        <div className="text-blue-700"> ctrl+N</div>
       </button>
     </div>
   );

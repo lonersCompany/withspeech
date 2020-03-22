@@ -115,9 +115,7 @@ const TextElement = ({
           Allow autoplay in browser setting, or click into text again
         </p>
       )}
-      <p className={`mb-10 ${isActive ? "active" : "pasive"}`}>
-        {sentenceItems}
-      </p>
+      <p className={isActive ? "active" : "pasive"}>{sentenceItems}</p>
     </>
   );
 };

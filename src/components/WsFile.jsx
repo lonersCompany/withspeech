@@ -56,6 +56,7 @@ function WsFile({ match }) {
   ]);
   const [isLoading, setLoading] = useState(false);
   const [isEditor, setEditor] = useState(false);
+  const [isPresentation, setPresentation] = useState(false);
   const [isAudioSync, setAudioSync] = useState(false);
 
   const toggleEditorVue = () => {
@@ -134,7 +135,7 @@ function WsFile({ match }) {
     <div className="lg:flex">
       <div className="bg-gray-800 hidden fixed inset-0 pt-16 h-full z-90 w-full border-b -mb-16 lg:-mb-0 lg:static lg:h-auto lg:overflow-y-visible lg:border-b-0 lg:pt-0 lg:w-1/4 lg:block lg:border-0 xl:w-1/5">
         <Nav>
-          <Link to="/">
+          <Link to="/app">
             <button className="px-6 py-5 w-full text-left font-semibold text-xl tracking-tight hover:bg-green-300">
               <span role="img" description="wave hand">
                 👋
@@ -144,10 +145,28 @@ function WsFile({ match }) {
           </Link>
           <CreateDocument />
           <button
-            className="px-6 py-5 font-semibold text-xl text-left block w-full hover:bg-green-300"
+            className="flex block px-6 py-5 block w-full hover:bg-green-400"
             onClick={toggleEditorVue}
           >
-            {isEditor ? "Listen" : isLoading ? "Loading" : "Edit"} (ctrl + E)
+            <div className="text-left flex-grow">
+              <div className="font-semibold text-xl">Edit</div>
+              <div className="text-blue-700"> ctrl+E</div>
+            </div>
+
+            <div className={`tgl-btn ml-5 ${isEditor ? "active" : ""}`}></div>
+          </button>
+          <button
+            className="flex block px-6 py-5 block w-full hover:bg-green-400"
+            onClick={toggleEditorVue}
+          >
+            <div className="text-left flex-grow">
+              <div className="font-semibold text-xl">Presentation</div>
+              <div className="text-blue-700"> ctrl+P</div>
+            </div>
+
+            <div
+              className={`tgl-btn ml-5 ${isPresentation ? "active" : ""}`}
+            ></div>
           </button>
         </Nav>
       </div>
