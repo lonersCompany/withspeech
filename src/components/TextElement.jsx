@@ -40,6 +40,7 @@ const TextElement = ({
   };
 
   const speakTextBlock = (start, sentenceActive, resetElements) => {
+    console.log("object");
     switch (sentenceActive) {
       case true:
         audio.removeEventListener("timeupdate", () => {

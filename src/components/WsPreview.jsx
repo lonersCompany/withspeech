@@ -35,8 +35,24 @@ const Element = ({ element, setActiveElement, index, isActive }) => {
 function Content({ content }) {
   const [activeElement, setActiveElement] = useState(null);
 
+  const startReading = params => {
+    if (activeElement === null) {
+      setActiveElement(0);
+    } else {
+      setActiveElement(null);
+    }
+  };
+
   return (
     <div className={activeElement === null ? "not-speaking" : "speaking"}>
+      <div>
+        <button
+          onClick={startReading}
+          className="bg-blue-700 hover:bg-blue-600 px-4 rounded-lg mb-10 "
+        >
+          Click into text to {activeElement === null ? "start" : "pause"}
+        </button>
+      </div>
       {content.map((element, index) => (
         <Element
           isActive={activeElement === index}
