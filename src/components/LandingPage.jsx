@@ -11,10 +11,10 @@ const LandingPage = () => {
         <div>
           <Link to="/">
             <button className="">
+              Wave Page{" "}
               <span role="img" description="wave hand">
                 👋
-              </span>{" "}
-              Wave Page
+              </span>
             </button>
           </Link>
         </div>
