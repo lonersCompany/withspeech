@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Entry = ({ id, name, index, handleDeleteWSFile }) => {
+const WsEntry = ({ id, name, index, handleDeleteWSFile }) => {
   return (
     <div className="flex border-b ">
       <Link
@@ -27,4 +27,4 @@ const Entry = ({ id, name, index, handleDeleteWSFile }) => {
     </div>
   );
 };
-export default Entry;
+export default WsEntry;

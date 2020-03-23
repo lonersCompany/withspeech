@@ -13,15 +13,17 @@ const ImageElement = ({ element, isActive, setActiveElement, index }) => {
   }, [isActive]);
 
   return (
-    <p className={isActive ? "active" : "pasive"}>
-      <div contentEditable={false} onClick={speakImageBlock}>
-        <img
-          alt=""
-          src={element.url}
-          className={`block w-full ` + element.blockState}
-        />
-      </div>
-    </p>
+    <div
+      className={`mb-10 ${isActive ? "active" : "pasive"}`}
+      contentEditable={false}
+      onClick={speakImageBlock}
+    >
+      <img
+        alt=""
+        src={element.url}
+        className={`block w-full ` + element.blockState}
+      />
+    </div>
   );
 };
 

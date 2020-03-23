@@ -6,6 +6,7 @@ import { deleteWsFile } from "../actions/fetchFunctions";
 import { Link } from "react-router-dom";
 import Nav from "./nav";
 import CreateDocument from "./create-document";
+import { withAuthenticator } from "aws-amplify-react";
 
 function WsDashboard() {
   const [files, setFiles] = useState([]);
@@ -16,7 +17,7 @@ function WsDashboard() {
     const { data } = await API.graphql(graphqlOperation(listDocumentItems));
     const { items } = data.listDocumentItems;
 
-    setFiles(items);
+    if (items.length > 0) setFiles(items);
   };
 
   const handleDeleteWSFile = (index, id) => {
@@ -33,7 +34,7 @@ function WsDashboard() {
   }, []);
 
   return (
-    <div className="lg:flex">
+    <div className="lg:flex text-white ">
       <div className="bg-gray-800 hidden fixed inset-0 pt-16 h-full z-90 w-full border-b -mb-16 lg:-mb-0 lg:static lg:h-auto lg:overflow-y-visible lg:border-b-0 lg:pt-0 lg:w-1/4 lg:block lg:border-0 xl:w-1/5">
         <Nav>
           <Link to="/app">
@@ -48,7 +49,12 @@ function WsDashboard() {
         </Nav>
       </div>
 
-      <div className="min-h-screen w-full lg:static lg:max-h-full lg:overflow-visible lg:w-3/4 xl:w-4/5">
+      <div className="bg-gray-900 min-h-screen w-full lg:static lg:max-h-full lg:overflow-visible lg:w-3/4 xl:w-4/5">
+        {files ? (
+          <div className="py-5 px-6 border-b text-2xl">Documnets:</div>
+        ) : (
+          ""
+        )}
         {files.map((doc, index) => (
           <WsEntry
             key={doc.id}
@@ -63,4 +69,4 @@ function WsDashboard() {
   );
 }
 
-export default WsDashboard;
+export default withAuthenticator(WsDashboard);

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Nav from "./nav";
+import { withAuthenticator } from "aws-amplify-react";
 
 import {
   downLoadWsFile,
@@ -68,6 +69,7 @@ function WsFile({ match }) {
 
   const handleEditiorChange = value => {
     console.log(value);
+    setName(value[0].children[0].text);
     setTextValue(value);
     setAudioSync(false);
   };
@@ -77,19 +79,17 @@ function WsFile({ match }) {
     setLoading(true);
 
     // TODO probably will be costed
-    const content = textValue.map((block, index) => {
+    const content = textValue.map(block => {
       let returnValue;
       if (block.type === "image") {
         const copy = Object.assign({}, block);
         copy.id = uuidv1();
-        copy.index = index;
         returnValue = copy;
       }
 
       if (block.type === "paragraph") {
         const searileValue = `<speak>${block.children[0].text}</speak>`;
         const generatedBlock = generateAudioBlock(searileValue);
-        generatedBlock.index = index;
         returnValue = generatedBlock;
       }
 
@@ -101,7 +101,7 @@ function WsFile({ match }) {
 
       uploadWsFile({
         id,
-        name: id,
+        name,
         content
       });
 
@@ -117,6 +117,7 @@ function WsFile({ match }) {
 
         // LOAD TEXT WITH SPEECH DOCUMENT
         if (name) setName(name);
+        if (!name) setName("Untitle document");
         if (content === null) setEditor(true);
         const str = JSON.stringify(content, null, 4); // (Optional) beautiful indented output.
         console.log(str); // Logs output to dev tools consol
@@ -133,7 +134,7 @@ function WsFile({ match }) {
 
   return (
     <div className="lg:flex">
-      <div className="bg-gray-800 hidden fixed inset-0 pt-16 h-full z-90 w-full border-b -mb-16 lg:-mb-0 lg:static lg:h-auto lg:overflow-y-visible lg:border-b-0 lg:pt-0 lg:w-1/4 lg:block lg:border-0 xl:w-1/5">
+      <div className="bg-gray-800 text-white hidden fixed inset-0 pt-16 h-full z-90 w-full border-b -mb-16 lg:-mb-0 lg:static lg:h-auto lg:overflow-y-visible lg:border-b-0 lg:pt-0 lg:w-1/4 lg:block lg:border-0 xl:w-1/5">
         <Nav>
           <Link to="/app">
             <button className="px-6 py-5 w-full text-left font-semibold text-xl tracking-tight hover:bg-green-300">
@@ -170,7 +171,7 @@ function WsFile({ match }) {
           </button>
         </Nav>
       </div>
-      <div className="min-h-screen w-full lg:static lg:max-h-full lg:overflow-visible lg:w-3/4 xl:w-4/5">
+      <div className="bg-gray-900 text-white min-h-screen w-full lg:static lg:max-h-full lg:overflow-visible lg:w-3/4 xl:w-4/5">
         <div className="max-w-xl text-xl m-auto py-20 min-h-screen">
           {isEditor ? (
             <WsEditor
@@ -186,4 +187,4 @@ function WsFile({ match }) {
   );
 }
 
-export default WsFile;
+export default withAuthenticator(WsFile);

@@ -10,7 +10,7 @@ const LandingPage = () => {
       <nav className="flex  p-5 px-10">
         <div>
           <Link to="/">
-            <button className="">
+            <button className="text-left font-semibold text-xl">
               Wave Page{" "}
               <span role="img" description="wave hand">
                 👋
@@ -18,8 +18,10 @@ const LandingPage = () => {
             </button>
           </Link>
         </div>
-        <div className="flex-grow text-right">
-          <button>Log in</button>
+        <div className="flex-grow text-right text-xl">
+          <Link to="/app">
+            <button>Log in</button>
+          </Link>
         </div>
       </nav>
 
