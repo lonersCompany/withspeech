@@ -6,6 +6,7 @@
   "dependencies": {
     "@babel/compat-data": "^7.9.0",
     "@babel/helper-call-delegate": "^7.8.7",
+    "@babel/plugin-proposal-numeric-separator": "^7.8.3",
     "aws-amplify": "^1.1.30",
     "aws-amplify-react": "^2.3.10",
     "image-extensions": "^1.1.0",
