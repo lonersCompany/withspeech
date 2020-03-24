@@ -7,7 +7,7 @@ const LandingPage = () => {
   const appDefinition =
     "Create text with audio AI natural voice. Edit content in text and audio layer will automatically synchronize.";
   return (
-    <div className="bg-gray-900 text-white w-full max-w-screen-xl mx-auto ">
+    <div className="text-white w-full max-w-screen-xl mx-auto ">
       <nav className="flex  p-5 px-10">
         <div>
           <Link to="/">

@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 
 function App() {
   return (
-    <div className="App">
+    <div className="App bg-gray-900">
       <Router>
         <Route path="/" exact component={LandingPage} />
         <Route path="/app/" component={WsDashboard} />
