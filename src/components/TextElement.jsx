@@ -1,9 +1,24 @@
-import React, { useState, useEffect } from "react";
-
+import React, { useState, useEffect, useRef } from "react";
+const scrollToRef = ref => {
+  //window.scrollTo(0, ref.current.offsetTop - 100);
+  const position = "center";
+  ref.current.scrollIntoView({
+    behavior: "smooth",
+    block: position
+  });
+};
 function SentenceItem({ text, start, sentenceActive, speak }) {
+  const myRef = useRef(null);
+  //const executeScroll = () => scrollToRef(myRef);
+
+  useEffect(() => {
+    if (sentenceActive) scrollToRef(myRef);
+  }, [sentenceActive]);
+
   return (
     <>
       <span
+        ref={myRef}
         onClick={() => speak(start, sentenceActive, true)}
         className={`speakable ${sentenceActive ? "active" : "pasive"}`}
       >
@@ -24,9 +39,7 @@ const TextElement = ({
   const [mediaPermition, setMediaPermition] = useState(true);
   const [audio] = useState(new Audio(url));
   const [sentenceIndex, setSentenceIndex] = useState(null);
-  const [sentences, setSentences] = useState(
-    children ? children : [{ value: "Error" }]
-  );
+  const [sentences, setSentences] = useState(children);
 
   const playAudioObject = async audio => {
     try {

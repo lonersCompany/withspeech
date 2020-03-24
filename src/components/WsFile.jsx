@@ -172,7 +172,7 @@ function WsFile({ match }) {
         </Nav>
       </div>
       <div className="bg-gray-900 text-white min-h-screen w-full lg:static lg:max-h-full lg:overflow-visible lg:w-3/4 xl:w-4/5">
-        <div className="max-w-xl text-xl m-auto py-20 min-h-screen">
+        <div className="max-w-xl text-2xl m-auto py-20 min-h-screen">
           {isEditor ? (
             <WsEditor
               textValue={textValue}

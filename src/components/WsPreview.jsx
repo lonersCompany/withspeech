@@ -48,7 +48,7 @@ function Content({ content }) {
       <div>
         <button
           onClick={startReading}
-          className="bg-blue-700 hover:bg-blue-600 px-4 rounded-lg mb-10 "
+          className="bg-blue-500 hover:bg-blue-400 px-4 rounded-lg mb-10"
         >
           Click into text to {activeElement === null ? "start" : "pause"}
         </button>
