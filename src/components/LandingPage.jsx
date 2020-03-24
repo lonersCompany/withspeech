@@ -52,7 +52,7 @@ const LandingPage = () => {
           <div className="">
             <iframe
               width="560"
-              height="315"
+              height="280"
               src="https://www.youtube.com/embed/_vqe59dIFDY"
               frameborder="0"
               allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
