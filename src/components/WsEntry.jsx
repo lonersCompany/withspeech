@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const WsEntry = ({ id, name, index, handleDeleteWSFile }) => {
+  const setname = name ? name : "Untitle";
   return (
     <div className="flex border-b ">
       <Link
@@ -12,7 +13,7 @@ const WsEntry = ({ id, name, index, handleDeleteWSFile }) => {
           <span role="img" aria-label="document">
             📄
           </span>{" "}
-          {name}
+          {setname}
         </h2>
       </Link>
 

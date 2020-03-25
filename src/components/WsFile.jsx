@@ -69,6 +69,7 @@ function WsFile({ match }) {
 
   const handleEditiorChange = value => {
     console.log(value);
+    console.log(value[0].children[0].text);
     setName(value[0].children[0].text);
     setTextValue(value);
     setAudioSync(false);
@@ -117,10 +118,10 @@ function WsFile({ match }) {
 
         // LOAD TEXT WITH SPEECH DOCUMENT
         if (name) setName(name);
-        if (!name) setName("Untitle document");
+
         if (content === null) setEditor(true);
         const str = JSON.stringify(content, null, 4); // (Optional) beautiful indented output.
-        console.log(str); // Logs output to dev tools consol
+        //console.log(str); // Logs output to dev tools consol
         if (content) setContent(content);
         if (content) setTextValue(content);
         if (content) setAudioSync(true);
