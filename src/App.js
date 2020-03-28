@@ -4,7 +4,7 @@ import WsDashboard from "./components/WsDashboard";
 import LandingPage from "./components/LandingPage";
 import LoginPage from "./components/LoginPage";
 import SingUpPage from "./components/SingUpPage";
-import PrivaciPolicy from "./components/PrivaciPolicy";
+import PrivacyPolicy from "./components/PrivacyPolicy";
 
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import { Authenticator, SignIn } from "aws-amplify-react";
@@ -45,7 +45,7 @@ function App() {
         <Route path="/" exact component={LandingPage} />
         <Route path="/login" component={LoginPage} />
         <Route path="/singin" component={SingUpPage} />
-        <Route path="/privaci_polici" component={PrivaciPolicy} />
+        <Route path="/privacy_policy" component={PrivacyPolicy} />
         <PrivateRoute path="/dashboard/" component={WsDashboard} />
         <PrivateRoute path="/doc/:id" component={WsFile} />
       </Router>

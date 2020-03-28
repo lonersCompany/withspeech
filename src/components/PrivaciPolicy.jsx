@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const PrivaciPolisy = () => {
+const PrivacyPolicy = () => {
   return (
     <div className="m-auto max-w-3xl px-5 py-10">
       <p>
@@ -141,4 +141,4 @@ const PrivaciPolisy = () => {
     </div>
   );
 };
-export default PrivaciPolisy;
+export default PrivacyPolicy;
