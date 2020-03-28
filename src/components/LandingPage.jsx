@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import MobileMockup from "./MobileMockup";
 const LandingPage = () => {
-  const embed = `<iframe width="560" height="315" src="https://www.youtube.com/embed/_vqe59dIFDY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
   const appTitle = "Listen audio with text and images. ";
   const appDefinition =
     "Create text with audio AI natural voice. Edit content in text and audio layer will automatically synchronize.";
@@ -20,14 +19,17 @@ const LandingPage = () => {
           </Link>
         </div>
         <div className="flex-grow text-right text-xl">
-          <Link to="/app">
-            <button>Log in</button>
+          <Link to="/login" className="px-5 py-3">
+            Log in
+          </Link>
+          <Link to="/singin" className="bg-blue-900 px-5 py-3">
+            Get started<span class="">&nbsp;— it's free</span>
           </Link>
         </div>
       </nav>
       <section className="pb-20">
         <div className="px-10 pt-20">
-          <h1 class="text-6xl">{appTitle} </h1>
+          <h1 className="text-6xl">{appTitle} </h1>
         </div>
       </section>
 
@@ -54,9 +56,9 @@ const LandingPage = () => {
               width="560"
               height="280"
               src="https://www.youtube.com/embed/_vqe59dIFDY"
-              frameborder="0"
+              frameBorder="0"
               allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
+              allowFullScreen
             ></iframe>
           </div>
         </div>

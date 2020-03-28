@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Nav from "./nav";
-import { withAuthenticator } from "aws-amplify-react";
+//import { withAuthenticator } from "aws-amplify-react";
 
 import {
   downLoadWsFile,
@@ -188,4 +188,4 @@ function WsFile({ match }) {
   );
 }
 
-export default withAuthenticator(WsFile);
+export default WsFile;

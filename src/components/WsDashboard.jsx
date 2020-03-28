@@ -6,7 +6,7 @@ import { deleteWsFile } from "../actions/fetchFunctions";
 import { Link } from "react-router-dom";
 import Nav from "./nav";
 import CreateDocument from "./create-document";
-import { withAuthenticator } from "aws-amplify-react";
+//import { withAuthenticator } from "aws-amplify-react";
 
 function WsDashboard() {
   const [files, setFiles] = useState([]);
@@ -69,4 +69,4 @@ function WsDashboard() {
   );
 }
 
-export default withAuthenticator(WsDashboard);
+export default WsDashboard;

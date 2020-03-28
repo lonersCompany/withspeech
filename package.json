@@ -29,7 +29,7 @@
   "scripts": {
     "analyze": "source-map-explorer build/static/js/main.*",
     "prestart": "tailwind build ./src/index.tailwind.css -o ./src/index.css",
-    "start": "code . | react-scripts start",
+    "start": "react-scripts start | code .",
     "prebuild": "tailwind build ./src/index.tailwind.css -o ./src/index.css",
     "build": "react-scripts build",
     "test": "react-scripts test",
