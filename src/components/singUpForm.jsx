@@ -1,5 +1,28 @@
 import React, { useState } from "react";
 import { Auth } from "aws-amplify";
+import GoogleIco from "./googleIco";
+
+import { withGoogle } from "aws-amplify-react";
+
+const federated = {
+  google_client_id:
+    "841332993007-qfk4q5ofe29pu6jafoaqe0d5og38uhfb.apps.googleusercontent.com" // Enter your google_client_id here
+};
+const GoogleSingIn = params => {
+  return (
+    <button
+      onClick={() => Auth.federatedSignIn({ provider: "Google" })}
+      className="w-full mb-5 py-5 text-center border border-gray-300"
+    >
+      <span>
+        <GoogleIco />
+      </span>{" "}
+      Sing in with Google
+    </button>
+  );
+};
+
+const Federated = withGoogle(GoogleSingIn);
 
 const SingUpForm = params => {
   const [username, setUsername] = useState();
@@ -38,28 +61,36 @@ const SingUpForm = params => {
   // };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        className="mb-5 bg-gray-800 border border-gray-300 rounded-lg py-5 px-4 block w-full appearance-none leading-normal"
-        type="text"
-        name="username"
-        placeholder="E-mail"
-        onChange={e => {
-          console.log(e.target.value);
-          setUsername(e.target.value);
-          setEmail(e.target.value);
-        }}
-      />
+    <div>
+      <h1>With account you can save your audio articles</h1>
+      {/* <Federated
+        federated={federated}
+        onStateChange={() => console.log("what?")}
+      /> */}
+      <div className="mb-5 text-center">Or use your E-mail</div>
+      <form onSubmit={handleSubmit}>
+        <input
+          className="mb-5 bg-gray-800 border border-gray-300 rounded-lg py-5 px-4 block w-full appearance-none leading-normal"
+          type="text"
+          name="username"
+          placeholder="E-mail"
+          onChange={e => {
+            console.log(e.target.value);
+            setUsername(e.target.value);
+            setEmail(e.target.value);
+          }}
+        />
 
-      <input
-        className="mb-5 bg-gray-800 border border-gray-300 rounded-lg py-5 px-4 block w-full appearance-none leading-normal"
-        type="text"
-        placeholder="password"
-        name="password"
-        onChange={e => setPassword(e.target.value)}
-      />
-      <button className="w-full bg-blue-500 py-5">Sing Up</button>
-    </form>
+        <input
+          className="mb-5 bg-gray-800 border border-gray-300 rounded-lg py-5 px-4 block w-full appearance-none leading-normal"
+          type="text"
+          placeholder="password"
+          name="password"
+          onChange={e => setPassword(e.target.value)}
+        />
+        <button className="w-full bg-blue-500 py-5">Sing Up</button>
+      </form>
+    </div>
   );
 };
 export default SingUpForm;

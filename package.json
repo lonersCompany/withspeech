@@ -16,7 +16,7 @@
     "react-dom": "^16.13.1",
     "react-motion": "^0.5.2",
     "react-router": "^5.1.2",
-    "react-router-dom": "^5.0.1",
+    "react-router-dom": "^5.1.2",
     "react-scripts": "^3.4.1",
     "slate": "^0.57.1",
     "slate-history": "^0.57.1",

@@ -37,7 +37,7 @@ function WsDashboard() {
     <div className="lg:flex text-white ">
       <div className="bg-gray-800 hidden fixed inset-0 pt-16 h-full z-90 w-full border-b -mb-16 lg:-mb-0 lg:static lg:h-auto lg:overflow-y-visible lg:border-b-0 lg:pt-0 lg:w-1/4 lg:block lg:border-0 xl:w-1/5">
         <Nav>
-          <Link to="/app">
+          <Link to="/dashboard">
             <button className="px-6 py-5 w-full text-left font-semibold text-xl tracking-tight hover:bg-green-300">
               <span role="img" description="wave hand">
                 👋
