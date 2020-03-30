@@ -39,7 +39,7 @@ const LandingPage = () => {
             <div>
               <p className="text-3xl font-light">{appDefinition}</p>
               <div>
-                <Link to="/">
+                <Link to="/singin">
                   <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                     Try for free{" "}
                     <span role="img" description="wave hand">
