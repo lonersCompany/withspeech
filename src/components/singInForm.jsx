@@ -1,32 +1,27 @@
 import React, { useState } from "react";
 import { Auth } from "aws-amplify";
 
-import GoogleIco from "./googleIco";
+//import GoogleIco from "./googleIco";
 
 import { useHistory } from "react-router-dom";
 
-import { withGoogle } from "aws-amplify-react";
+//import { withGoogle } from "aws-amplify-react";
 
-const federated = {
-  google_client_id:
-    "841332993007-qfk4q5ofe29pu6jafoaqe0d5og38uhfb.apps.googleusercontent.com" // Enter your google_client_id here
-};
-const GoogleSingIn = props => {
-  return (
-    <button
-      onClick={props.googleSignIn}
-      className="w-full mb-5 py-5 text-center border border-gray-300"
-    >
-      <span>
-        <GoogleIco />
-      </span>{" "}
-      Sing in with Google
-    </button>
-  );
-};
+// const GoogleSingIn = props => {
+//   return (
+//     <button
+//       onClick={props.googleSignIn}
+//       className="w-full mb-5 py-5 text-center border border-gray-300"
+//     >
+//       <span>
+//         <GoogleIco />
+//       </span>{" "}
+//       Sing in with Google
+//     </button>
+//   );
+// };
 
 // const Federated = withGoogle(GoogleSingIn);
-// -1OvjuLGJKoIpoGa2IFLU-9n
 
 const SingInForm = params => {
   const [username, setUsername] = useState();
@@ -47,6 +42,8 @@ const SingInForm = params => {
     responseAuth
       .then(msg => {
         console.log(msg);
+        setSignIn(true);
+        history.push("/dashboard");
       })
       .catch(err => console.log(err));
 
@@ -54,8 +51,6 @@ const SingInForm = params => {
     //   .then(() => console.log("confirmed sign in"))
     //   .catch(err => console.log(err));
     // console.log("obhandleSubmitject");
-    setSignIn(true);
-    history.push("/dashboard");
   };
 
   return (

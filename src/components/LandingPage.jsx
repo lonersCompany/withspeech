@@ -13,7 +13,7 @@ const LandingPage = () => {
             <button className="text-left font-semibold text-xl">
               Wave Page{" "}
               <span role="img" description="wave hand">
-                👋
+                🙋🏽
               </span>
             </button>
           </Link>
@@ -23,7 +23,7 @@ const LandingPage = () => {
             Log in
           </Link>
           <Link to="/singin" className="bg-blue-900 px-5 py-3">
-            Get started<span class="">&nbsp;— it's free</span>
+            Get started<span className="">&nbsp;— it's free</span>
           </Link>
         </div>
       </nav>

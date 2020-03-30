@@ -1,36 +1,37 @@
 import React, { useState } from "react";
 import { Auth } from "aws-amplify";
-import GoogleIco from "./googleIco";
+//import GoogleIco from "./googleIco";
 
-import { withGoogle } from "aws-amplify-react";
+//import { withGoogle } from "aws-amplify-react";
 
-const federated = {
-  google_client_id:
-    "841332993007-qfk4q5ofe29pu6jafoaqe0d5og38uhfb.apps.googleusercontent.com" // Enter your google_client_id here
-};
-const GoogleSingIn = params => {
-  return (
-    <button
-      onClick={() => Auth.federatedSignIn({ provider: "Google" })}
-      className="w-full mb-5 py-5 text-center border border-gray-300"
-    >
-      <span>
-        <GoogleIco />
-      </span>{" "}
-      Sing in with Google
-    </button>
-  );
-};
+import { useHistory } from "react-router-dom";
 
-const Federated = withGoogle(GoogleSingIn);
+// const GoogleSingIn = params => {
+//   return (
+//     <button
+//       onClick={() => Auth.federatedSignIn({ provider: "Google" })}
+//       className="w-full mb-5 py-5 text-center border border-gray-300"
+//     >
+//       <span>
+//         <GoogleIco />
+//       </span>{" "}
+//       Sing in with Google
+//     </button>
+//   );
+// };
+
+//const Federated = withGoogle(GoogleSingIn);
 
 const SingUpForm = params => {
   const [username, setUsername] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [phone_number, setPhone_number] = useState();
-  const [signUp, setSignUp] = useState(true);
+  const [signUp, setSignUp] = useState(false);
+  const [errMessage, setErrMessage] = useState(false);
   const [confirmationCode, setConfirmationCode] = useState("");
+
+  let history = useHistory();
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -47,10 +48,12 @@ const SingUpForm = params => {
     responseAuth
       .then(msg => {
         console.log(msg);
+        history.push("/dashboard");
       })
-      .catch(err => console.log(err));
-
-    setSignUp(true);
+      .catch(err => {
+        setErrMessage(err.message);
+        console.log(err);
+      });
   };
 
   // const handleConfirm = () => {
@@ -67,7 +70,7 @@ const SingUpForm = params => {
         federated={federated}
         onStateChange={() => console.log("what?")}
       /> */}
-      <div className="mb-5 text-center">Or use your E-mail</div>
+      <div className="mb-5 text-center">Use your E-mail to sign in</div>
       <form onSubmit={handleSubmit}>
         <input
           className="mb-5 bg-gray-800 border border-gray-300 rounded-lg py-5 px-4 block w-full appearance-none leading-normal"
@@ -83,13 +86,31 @@ const SingUpForm = params => {
 
         <input
           className="mb-5 bg-gray-800 border border-gray-300 rounded-lg py-5 px-4 block w-full appearance-none leading-normal"
-          type="text"
+          type="password"
           placeholder="password"
           name="password"
           onChange={e => setPassword(e.target.value)}
         />
-        <button className="w-full bg-blue-500 py-5">Sing Up</button>
+        {errMessage ? (
+          <div className="bg-red-500 mb-5 bg-gray-800 rounded-lg py-5 px-4 block w-full">
+            {errMessage}
+            <span role="img" description="sad emoji">
+              😑
+            </span>{" "}
+          </div>
+        ) : (
+          ""
+        )}
+        <button className="w-full bg-blue-500 py-5 mb-5">Sing Up</button>
       </form>
+
+      {signUp ? (
+        <div className="mb-5 text-center mb-10">
+          Check your E-mail, we send you verification :){" "}
+        </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 };

@@ -40,7 +40,7 @@ function WsDashboard() {
           <Link to="/dashboard">
             <button className="px-6 py-5 w-full text-left font-semibold text-xl tracking-tight hover:bg-green-300">
               <span role="img" description="wave hand">
-                👋
+                🙋🏽
               </span>{" "}
               Wave Page
             </button>
