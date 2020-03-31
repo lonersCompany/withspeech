@@ -103,7 +103,6 @@ function WsFile({ match }) {
       }
     });
 
-    setContent(contentPromisses);
     const content = await Promise.all(contentPromisses);
     if (content) {
       setContent(content);

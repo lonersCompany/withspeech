@@ -62,17 +62,19 @@ function Content({ content, presentationVue }) {
     const titleSlide = content[0];
     const imageSlides = content.filter(element => element.type === "image");
 
-    const slides = [titleSlide, ...imageSlides];
+    const slides = [titleSlide, ...imageSlides].map(obj => ({
+      ...obj,
+      blocks: []
+    }));
 
     let slideIndex = 0;
-
-    content.map((element, index) => {
-      if (element.type === "image") {
+    let i;
+    for (i = 0; i < content.length; i++) {
+      if (content[i].type === "image") {
         slideIndex = slideIndex + 1;
       }
-      if (!slides[slideIndex].blocks) slides[slideIndex].blocks = [];
-      slides[slideIndex].blocks.push(index);
-    });
+      slides[slideIndex].blocks.push(i);
+    }
 
     console.log(slides);
 
@@ -124,7 +126,7 @@ function Content({ content, presentationVue }) {
           </div>
           {slides.map(element => (
             <Slide
-              key={"slide-" + element.id}
+              key={element.id}
               element={element}
               active={element.blocks.includes(activeElement)}
             />
@@ -140,7 +142,7 @@ function Content({ content, presentationVue }) {
 const WsPreview = ({ content, presentationVue }) => {
   return (
     <div>
-      {content.length != 0 ? (
+      {content && content.length != 0 ? (
         <Content content={content} presentationVue={presentationVue} />
       ) : (
         "Generate content"
