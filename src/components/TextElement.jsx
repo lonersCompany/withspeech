@@ -1,18 +1,19 @@
 import React, { useState, useEffect, useRef } from "react";
-const scrollToRef = ref => {
-  //window.scrollTo(0, ref.current.offsetTop - 100);
-  const position = "center";
+
+const scrollToRef = (ref, presentationVue) => {
+  const position = presentationVue ? "end" : "center";
   ref.current.scrollIntoView({
     behavior: "smooth",
     block: position
   });
 };
-function SentenceItem({ text, start, sentenceActive, speak }) {
+
+function SentenceItem({ text, start, sentenceActive, speak, presentationVue }) {
   const myRef = useRef(null);
   //const executeScroll = () => scrollToRef(myRef);
 
   useEffect(() => {
-    if (sentenceActive) scrollToRef(myRef);
+    if (sentenceActive) scrollToRef(myRef, presentationVue);
   }, [sentenceActive]);
 
   return (
@@ -29,13 +30,13 @@ function SentenceItem({ text, start, sentenceActive, speak }) {
 }
 
 const TextElement = ({
-  id,
+  element,
   index,
   isActive,
-  url,
-  children,
-  setActiveElement
+  setActiveElement,
+  presentationVue
 }) => {
+  const { id, children, url } = element;
   const [mediaPermition, setMediaPermition] = useState(true);
   const [audio] = useState(new Audio(url));
   const [sentenceIndex, setSentenceIndex] = useState(null);
@@ -52,9 +53,8 @@ const TextElement = ({
     }
   };
 
-  const speakTextBlock = (start, sentenceActive, resetElements) => {
-    console.log("object");
-    switch (sentenceActive) {
+  const speakTextBlock = (start, pause, resetElements, presentationVue) => {
+    switch (pause) {
       case true:
         audio.removeEventListener("timeupdate", () => {
           console.log("timeupdate");
@@ -116,6 +116,7 @@ const TextElement = ({
         text={inline.text}
         start={inline.start}
         speak={speakTextBlock}
+        presentationVue={presentationVue}
       />
     );
   });

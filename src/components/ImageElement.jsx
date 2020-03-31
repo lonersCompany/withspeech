@@ -1,28 +1,36 @@
 import React, { useEffect, useRef } from "react";
 
-const scrollToRef = ref => {
-  console.log(ref);
-  //window.scrollTo(0, ref.current.offsetTop - 100);
-  const position = "center";
+const scrollToRef = (ref, presentationVue) => {
+  const position = presentationVue ? "end" : "center";
   ref.current.scrollIntoView({
     behavior: "smooth",
     block: position
   });
 };
 
-const ImageElement = ({ element, isActive, setActiveElement, index }) => {
+const ImageElement = ({
+  element,
+  isActive,
+  setActiveElement,
+  index,
+  presentationVue
+}) => {
   const myRef = useRef(null);
 
   const speakImageBlock = () => {
     console.log("set time out!");
-    const timer = setTimeout(() => setActiveElement(index + 1), 3000);
+    setActiveElement(index);
+    const timer = setTimeout(
+      () => setActiveElement(index + 1),
+      presentationVue ? 1000 : 3000
+    );
     return () => clearTimeout(timer);
   };
 
   useEffect(() => {
     // On load of page run handleListNotes function
     if (isActive) speakImageBlock();
-    if (isActive) scrollToRef(myRef);
+    if (isActive) scrollToRef(myRef, presentationVue);
   }, [isActive]);
 
   return (
@@ -35,7 +43,7 @@ const ImageElement = ({ element, isActive, setActiveElement, index }) => {
       <img
         alt=""
         src={element.url}
-        className={`block w-full ` + element.blockState}
+        className={`${presentationVue ? "w-40" : " w-full"} `}
       />
     </div>
   );

@@ -13193,8 +13193,16 @@ h1 {
   margin-bottom: 4rem;
 }
 
+.h-70 {
+  height: 70vh;
+}
+
+.mt-70 {
+  margin-top: 70vh;
+}
+
 p {
-  margin-bottom: 1.25rem;
+  padding-bottom: 1.25rem;
 }
 
 .tgl-btn {

@@ -35,6 +35,7 @@ export const getDocumentItem = /* GraphQL */ `
         id
         type
         url
+        slideNumber
         children {
           text
           start
@@ -58,6 +59,7 @@ export const listDocumentItems = /* GraphQL */ `
           id
           type
           url
+          slideNumber
         }
       }
       nextToken

@@ -10,6 +10,7 @@ export const onCreateDocumentItem = /* GraphQL */ `
         id
         type
         url
+        slideNumber
         children {
           text
           start
@@ -28,6 +29,7 @@ export const onUpdateDocumentItem = /* GraphQL */ `
         id
         type
         url
+        slideNumber
         children {
           text
           start
@@ -46,6 +48,7 @@ export const onDeleteDocumentItem = /* GraphQL */ `
         id
         type
         url
+        slideNumber
         children {
           text
           start

@@ -16,7 +16,7 @@ import WsPreview from "./WsPreview";
 import WsEditor from "./WsEditor";
 import CreateDocument from "./create-document";
 
-const generateAudioBlock = async ssmlValue => {
+const generateAudioBlock = async (ssmlValue, slideNumber) => {
   const pollyBlock = {
     text: ssmlValue,
     key: uuidv1(),
@@ -39,7 +39,7 @@ const generateAudioBlock = async ssmlValue => {
 
     const id = audioKey;
 
-    return { children, url, id, type };
+    return { children, url, id, type, slideNumber };
   } catch (err) {
     console.log(err);
   }
@@ -57,7 +57,7 @@ function WsFile({ match }) {
   ]);
   const [isLoading, setLoading] = useState(false);
   const [isEditor, setEditor] = useState(false);
-  const [isPresentation, setPresentation] = useState(false);
+  const [isPresentation, setPresentation] = useState(true);
   const [isAudioSync, setAudioSync] = useState(false);
 
   const toggleEditorVue = () => {
@@ -65,6 +65,10 @@ function WsFile({ match }) {
       handleSyncAudio();
     }
     isEditor ? setEditor(false) : setEditor(true);
+  };
+
+  const togglePresentationVue = () => {
+    isPresentation ? setPresentation(false) : setPresentation(true);
   };
 
   const handleEditiorChange = value => {
@@ -80,35 +84,37 @@ function WsFile({ match }) {
     setLoading(true);
 
     // TODO probably will be costed
-    const content = textValue.map(block => {
-      let returnValue;
+
+    let slideNumber = 0;
+    const contentPromisses = textValue.map(block => {
       if (block.type === "image") {
-        const copy = Object.assign({}, block);
-        copy.id = uuidv1();
-        returnValue = copy;
+        slideNumber = slideNumber + 1;
+
+        const newBlock = Object.assign({}, block);
+        newBlock.id = uuidv1();
+        newBlock.slideNumber = slideNumber;
+        return newBlock;
       }
 
       if (block.type === "paragraph") {
         const searileValue = `<speak>${block.children[0].text}</speak>`;
-        const generatedBlock = generateAudioBlock(searileValue);
-        returnValue = generatedBlock;
+        const newBlock = generateAudioBlock(searileValue, slideNumber);
+        return newBlock;
       }
-
-      return returnValue;
     });
 
-    Promise.all(content).then(content => {
+    setContent(contentPromisses);
+    const content = await Promise.all(contentPromisses);
+    if (content) {
       setContent(content);
-
+      setLoading(false);
+      setAudioSync(true);
       uploadWsFile({
         id,
         name,
         content
       });
-
-      setLoading(false);
-      setAudioSync(true);
-    });
+    }
   };
 
   useEffect(() => {
@@ -159,7 +165,7 @@ function WsFile({ match }) {
           </button>
           <button
             className="flex block px-6 py-5 block w-full hover:bg-green-400"
-            onClick={toggleEditorVue}
+            onClick={togglePresentationVue}
           >
             <div className="text-left flex-grow">
               <div className="font-semibold text-xl">Presentation</div>
@@ -180,7 +186,7 @@ function WsFile({ match }) {
               handleEditiorChange={handleEditiorChange}
             />
           ) : (
-            <WsPreview content={content} />
+            <WsPreview content={content} presentationVue={isPresentation} />
           )}
         </div>
       </div>

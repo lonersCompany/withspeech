@@ -27,6 +27,7 @@ type SpeakableItem {
   id: String
   type: String
   url: String
+  slideNumber: Int
   children: [SpeakableBlock]
 }
 

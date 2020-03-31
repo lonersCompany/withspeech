@@ -13,8 +13,12 @@ h1 {
   @apply mb-16;
 }
 
-p {
-  @apply mb-5;
+.h-70 {
+  height: 70vh;
+}
+
+.mt-70 {
+  margin-top: 70vh;
 }
 
 .tgl-btn {
