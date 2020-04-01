@@ -60,7 +60,6 @@ const SingInForm = params => {
         federated={federated}
         onStateChange={() => console.log("what?")}
       /> */}
-      <div className="mb-5 text-center">Or</div>
       <form onSubmit={handleSubmit}>
         <input
           type="text"

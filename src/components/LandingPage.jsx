@@ -13,7 +13,7 @@ const LandingPage = () => {
             <button className="text-left font-semibold text-xl">
               Wave Page{" "}
               <span role="img" description="wave hand">
-                🙋🏽
+                👋🏼
               </span>
             </button>
           </Link>
@@ -27,34 +27,30 @@ const LandingPage = () => {
           </Link>
         </div>
       </nav>
-      <section className="pb-20">
-        <div className="px-10 pt-20">
-          <h1 className="text-6xl">{appTitle} </h1>
-        </div>
+      <section className="py-20 px-10">
+        <h1 className="text-6xl mb-0">{appTitle} </h1>
       </section>
 
       <section className="pb-20">
         <div className="lg:flex">
-          <div className="lg:w-2/5 p-10">
+          <div className="lg:w-2/5 p-10 text-3xl ">
+            <p className="font-light">{appDefinition}</p>
             <div>
-              <p className="text-3xl font-light">{appDefinition}</p>
-              <div>
-                <Link to="/singin">
-                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                    Try for free{" "}
-                    <span role="img" description="wave hand">
-                      👋
-                    </span>
-                  </button>
-                </Link>
-              </div>
+              <Link to="/singin">
+                <button className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4">
+                  Try beta version{" "}
+                  <span role="img" description="wave hand">
+                    🖖🏼
+                  </span>
+                </button>
+              </Link>
             </div>
           </div>
 
-          <div className="">
+          <div className="lg:w-3/5 p-10">
             <iframe
-              width="560"
-              height="280"
+              width="100%"
+              height="340"
               src="https://www.youtube.com/embed/_vqe59dIFDY"
               frameBorder="0"
               allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"

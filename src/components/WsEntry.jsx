@@ -4,12 +4,12 @@ import { Link } from "react-router-dom";
 const WsEntry = ({ id, name, index, handleDeleteWSFile }) => {
   const setname = name ? name : "Untitle";
   return (
-    <div className="flex border-b ">
+    <div className="flex border-b border-gray-500 ">
       <Link
         to={`doc/${id}`}
-        className="flex-1 w-full py-5 px-6 hover:bg-green-500"
+        className="flex-1 w-full py-10 px-6 hover:bg-green-500"
       >
-        <h2>
+        <h2 className="text-2xl">
           <span role="img" aria-label="document">
             📄
           </span>{" "}

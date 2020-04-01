@@ -1,11 +1,24 @@
 import React, { useState, useEffect, useRef } from "react";
 
 const scrollToRef = (ref, presentationVue) => {
+  var body = document.body,
+    html = document.documentElement;
+
+  var height = Math.max(
+    body.scrollHeight,
+    body.offsetHeight,
+    html.clientHeight,
+    html.scrollHeight,
+    html.offsetHeight
+  );
+
   const position = presentationVue ? "end" : "center";
+
   ref.current.scrollIntoView({
     behavior: "smooth",
     block: position
   });
+  //console.log(window.document.body);
 };
 
 function SentenceItem({ text, start, sentenceActive, speak, presentationVue }) {
@@ -15,6 +28,8 @@ function SentenceItem({ text, start, sentenceActive, speak, presentationVue }) {
   useEffect(() => {
     if (sentenceActive) scrollToRef(myRef, presentationVue);
   }, [sentenceActive]);
+
+  //const sentenceView = presentationVue ? "block pb-10" : "inline";
 
   return (
     <>

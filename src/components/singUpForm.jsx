@@ -101,7 +101,7 @@ const SingUpForm = params => {
         ) : (
           ""
         )}
-        <button className="w-full bg-blue-500 py-5 mb-5">Sing Up</button>
+        <button className="w-full bg-blue-500 py-5 mb-5">Create account</button>
       </form>
 
       {signUp ? (

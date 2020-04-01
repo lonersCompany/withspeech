@@ -12,7 +12,7 @@ const SingUpPage = params => {
             <button className="text-left font-semibold text-xl">
               Wave Page{" "}
               <span role="img" description="wave hand">
-                🙋🏽
+                👋🏼
               </span>
             </button>
           </Link>

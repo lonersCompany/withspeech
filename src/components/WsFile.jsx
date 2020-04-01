@@ -57,7 +57,7 @@ function WsFile({ match }) {
   ]);
   const [isLoading, setLoading] = useState(false);
   const [isEditor, setEditor] = useState(false);
-  const [isPresentation, setPresentation] = useState(true);
+  const [isPresentation, setPresentation] = useState(false);
   const [isAudioSync, setAudioSync] = useState(false);
 
   const toggleEditorVue = () => {
@@ -105,6 +105,7 @@ function WsFile({ match }) {
 
     const content = await Promise.all(contentPromisses);
     if (content) {
+      console.log(content);
       setContent(content);
       setLoading(false);
       setAudioSync(true);
@@ -144,10 +145,10 @@ function WsFile({ match }) {
         <Nav>
           <Link to="/dashboard">
             <button className="px-6 py-5 w-full text-left font-semibold text-xl tracking-tight hover:bg-green-300">
-              <span role="img" description="wave hand">
-                🙋🏽
-              </span>{" "}
               Wave Page
+              <span role="img" description="wave hand">
+                👋🏼
+              </span>{" "}
             </button>
           </Link>
           <CreateDocument />

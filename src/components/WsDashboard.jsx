@@ -39,31 +39,33 @@ function WsDashboard() {
         <Nav>
           <Link to="/dashboard">
             <button className="px-6 py-5 w-full text-left font-semibold text-xl tracking-tight hover:bg-green-300">
-              <span role="img" description="wave hand">
-                🙋🏽
-              </span>{" "}
               Wave Page
+              <span role="img" description="wave hand">
+                👋🏼
+              </span>{" "}
             </button>
           </Link>
           <CreateDocument />
         </Nav>
       </div>
 
-      <div className="bg-gray-900 min-h-screen w-full lg:static lg:max-h-full lg:overflow-visible lg:w-3/4 xl:w-4/5">
-        {files ? (
-          <div className="py-5 px-6 border-b text-2xl">Documnets:</div>
-        ) : (
-          ""
-        )}
-        {files.map((doc, index) => (
-          <WsEntry
-            key={doc.id}
-            index={index}
-            id={doc.id}
-            name={doc.name}
-            handleDeleteWSFile={() => handleDeleteWSFile(index, doc.id)}
-          />
-        ))}
+      <div className="pt-20 bg-gray-900 min-h-screen w-full lg:static lg:max-h-full lg:overflow-visible lg:w-3/4 xl:w-4/5">
+        <div className="">
+          {files ? (
+            <div className=" py-5 px-6 border-b text-3xl">Documnets:</div>
+          ) : (
+            ""
+          )}
+          {files.map((doc, index) => (
+            <WsEntry
+              key={doc.id}
+              index={index}
+              id={doc.id}
+              name={doc.name}
+              handleDeleteWSFile={() => handleDeleteWSFile(index, doc.id)}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );

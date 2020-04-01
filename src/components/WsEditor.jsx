@@ -115,12 +115,26 @@ const withImages = editor => {
 };
 
 const WsEditor = ({ textValue, handleEditiorChange }) => {
+  console.log(textValue);
+
+  const textSave = textValue.map(obj => {
+    console.log(obj.children.length != 0);
+    const newObj = Object.assign({}, obj);
+    newObj.children =
+      newObj.children.length != 0 ? newObj.children : [{ text: "-" }];
+    return newObj;
+  });
+
+  console.log(textSave);
+
+  const value = textSave.slice(0, 100);
   const editor = useMemo(
     () => withImages(withHistory(withReact(createEditor()))),
     []
   );
 
   const handleTextChange = value => {
+    value.map(obj => console.log(obj));
     handleEditiorChange(value);
     // const content = JSON.stringify(value);
     // window.localStorage.setItem("content", content);
@@ -129,7 +143,7 @@ const WsEditor = ({ textValue, handleEditiorChange }) => {
   return (
     <Slate
       editor={editor}
-      value={textValue}
+      value={value}
       onChange={value => handleTextChange(value)}
       className={"shadow"}
     >
