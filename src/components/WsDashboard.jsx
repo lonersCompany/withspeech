@@ -52,7 +52,9 @@ function WsDashboard() {
       <div className="pt-20 bg-gray-900 min-h-screen w-full lg:static lg:max-h-full lg:overflow-visible lg:w-3/4 xl:w-4/5">
         <div className="">
           {files ? (
-            <div className=" py-5 px-6 border-b text-3xl">Documnets:</div>
+            <div className=" py-5 px-6 border-b-4 border-gray-800 text-3xl">
+              Documnets:
+            </div>
           ) : (
             ""
           )}
