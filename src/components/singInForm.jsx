@@ -23,11 +23,9 @@ import { useHistory } from "react-router-dom";
 
 // const Federated = withGoogle(GoogleSingIn);
 
-const SingInForm = params => {
+const SingInForm = () => {
   const [username, setUsername] = useState();
-  const [email, setemail] = useState();
   const [password, setPassword] = useState();
-  const [signIn, setSignIn] = useState(false);
 
   let history = useHistory();
 
@@ -42,7 +40,6 @@ const SingInForm = params => {
     responseAuth
       .then(msg => {
         console.log(msg);
-        setSignIn(true);
         history.push("/dashboard");
       })
       .catch(err => console.log(err));

@@ -1,8 +1,5 @@
 import React, { useState } from "react";
 import { Auth } from "aws-amplify";
-//import GoogleIco from "./googleIco";
-
-//import { withGoogle } from "aws-amplify-react";
 
 import { useHistory } from "react-router-dom";
 

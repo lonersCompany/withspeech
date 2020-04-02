@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import Nav from "./nav";
+import Sidebar from "./Sidebar";
 //import { withAuthenticator } from "aws-amplify-react";
 
 import {
@@ -141,43 +140,33 @@ function WsFile({ match }) {
 
   return (
     <div className="lg:flex">
-      <div className="bg-gray-800 text-white hidden fixed inset-0 pt-16 h-full z-90 w-full border-b -mb-16 lg:-mb-0 lg:static lg:h-auto lg:overflow-y-visible lg:border-b-0 lg:pt-0 lg:w-1/4 lg:block lg:border-0 xl:w-1/5">
-        <Nav>
-          <Link to="/dashboard">
-            <button className="px-6 py-5 w-full text-left font-semibold text-xl tracking-tight hover:bg-green-300">
-              Wave Page
-              <span role="img" description="wave hand">
-                👋🏼
-              </span>{" "}
-            </button>
-          </Link>
-          <CreateDocument />
-          <button
-            className="flex block px-6 py-5 block w-full hover:bg-green-400"
-            onClick={toggleEditorVue}
-          >
-            <div className="text-left flex-grow">
-              <div className="font-semibold text-xl">Edit</div>
-              <div className="text-blue-700"> ctrl+E</div>
-            </div>
+      <Sidebar>
+        <CreateDocument />
+        <button
+          className="flex block px-6 py-5 block w-full hover:bg-green-400"
+          onClick={toggleEditorVue}
+        >
+          <div className="text-left flex-grow">
+            <div className="font-semibold text-xl">Edit</div>
+            <div className="text-blue-700"> ctrl+E</div>
+          </div>
 
-            <div className={`tgl-btn ml-5 ${isEditor ? "active" : ""}`}></div>
-          </button>
-          <button
-            className="flex block px-6 py-5 block w-full hover:bg-green-400"
-            onClick={togglePresentationVue}
-          >
-            <div className="text-left flex-grow">
-              <div className="font-semibold text-xl">Presentation</div>
-              <div className="text-blue-700"> ctrl+P</div>
-            </div>
+          <div className={`tgl-btn ml-5 ${isEditor ? "active" : ""}`}></div>
+        </button>
+        <button
+          className="flex block px-6 py-5 block w-full hover:bg-green-400"
+          onClick={togglePresentationVue}
+        >
+          <div className="text-left flex-grow">
+            <div className="font-semibold text-xl">Presentation</div>
+            <div className="text-blue-700"> ctrl+P</div>
+          </div>
 
-            <div
-              className={`tgl-btn ml-5 ${isPresentation ? "active" : ""}`}
-            ></div>
-          </button>
-        </Nav>
-      </div>
+          <div
+            className={`tgl-btn ml-5 ${isPresentation ? "active" : ""}`}
+          ></div>
+        </button>
+      </Sidebar>
       <div className="bg-gray-900 text-white min-h-screen w-full lg:static lg:max-h-full lg:overflow-visible lg:w-3/4 xl:w-4/5">
         <div className="max-w-xl text-2xl m-auto py-20 min-h-screen">
           {isEditor ? (

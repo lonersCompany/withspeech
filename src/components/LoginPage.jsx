@@ -3,8 +3,7 @@ import { Link } from "react-router-dom";
 
 import SingInForm from "./singInForm";
 
-const LoginPage = params => {
-  const [isSingIn, setSingIn] = useState(true);
+const LoginPage = () => {
   return (
     <div>
       <nav className="flex p-5 px-10">
