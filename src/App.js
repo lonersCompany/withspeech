@@ -50,9 +50,9 @@ function App() {
       <Router>
         <Route path="/" exact component={LandingPage} />
         <Route path="/login" component={LoginPage} />
-        <Route path="/singin" component={SingUpPage} />
+        <Route path="/signup" component={SingUpPage} />
         <Route path="/privacy_policy" component={PrivacyPolicy} />
-        <Route path="/dashboard/" component={WsDashboard} />
+        <Route path="/dashboard" component={WsDashboard} />
         <Route path="/doc/:id" component={WsFile} />
       </Router>
     </div>

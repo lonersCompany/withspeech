@@ -1,40 +1,19 @@
 import React, { useState } from "react";
 import { Auth } from "aws-amplify";
-
+import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
-
-// const GoogleSingIn = params => {
-//   return (
-//     <button
-//       onClick={() => Auth.federatedSignIn({ provider: "Google" })}
-//       className="w-full mb-5 py-5 text-center border border-gray-300"
-//     >
-//       <span>
-//         <GoogleIco />
-//       </span>{" "}
-//       Sing in with Google
-//     </button>
-//   );
-// };
-
-//const Federated = withGoogle(GoogleSingIn);
 
 const SingUpForm = params => {
   const [username, setUsername] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-  const [phone_number, setPhone_number] = useState();
-  const [signUp, setSignUp] = useState(false);
   const [errMessage, setErrMessage] = useState(false);
-  const [confirmationCode, setConfirmationCode] = useState("");
+  const [emailPosted, setEmailPosted] = useState(false);
 
   let history = useHistory();
 
   const handleSubmit = e => {
     e.preventDefault();
-
-    console.log(username);
-    console.log(email);
 
     const responseAuth = Auth.signUp({
       username,
@@ -45,7 +24,8 @@ const SingUpForm = params => {
     responseAuth
       .then(msg => {
         console.log(msg);
-        history.push("/dashboard");
+        //history.push("/login:true");
+        setEmailPosted(true);
       })
       .catch(err => {
         setErrMessage(err.message);
@@ -67,46 +47,68 @@ const SingUpForm = params => {
         federated={federated}
         onStateChange={() => console.log("what?")}
       /> */}
-      <div className="mb-5 text-center">Use your E-mail to sign in</div>
-      <form onSubmit={handleSubmit}>
-        <input
-          className="mb-5 bg-gray-800 border border-gray-300 rounded-lg py-5 px-4 block w-full appearance-none leading-normal"
-          type="text"
-          name="username"
-          placeholder="E-mail"
-          onChange={e => {
-            console.log(e.target.value);
-            setUsername(e.target.value);
-            setEmail(e.target.value);
-          }}
-        />
 
-        <input
-          className="mb-5 bg-gray-800 border border-gray-300 rounded-lg py-5 px-4 block w-full appearance-none leading-normal"
-          type="password"
-          placeholder="password"
-          name="password"
-          onChange={e => setPassword(e.target.value)}
-        />
-        {errMessage ? (
-          <div className="bg-red-500 mb-5 bg-gray-800 rounded-lg py-5 px-4 block w-full">
-            {errMessage}
-            <span role="img" description="sad emoji">
-              😑
-            </span>{" "}
-          </div>
-        ) : (
-          ""
-        )}
-        <button className="w-full bg-blue-500 py-5 mb-5">Create account</button>
-      </form>
-
-      {signUp ? (
+      {emailPosted ? (
         <div className="mb-5 text-center mb-10">
-          Check your E-mail, we send you verification :){" "}
+          <div className="text-xl">
+            <p className="mb-5">
+              <span role="img" description="Envelope">
+                ✉️
+              </span>
+            </p>
+            <p className="font-light mb-5">
+              Check your E-mail, we send you verification :)
+            </p>
+            <div>
+              <Link to="/login">
+                <button className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4">
+                  Log In{" "}
+                  <span role="img" description="wave hand">
+                    🖖🏼
+                  </span>
+                </button>
+              </Link>
+            </div>
+          </div>
         </div>
       ) : (
-        ""
+        <>
+          <div className="mb-5 text-center">Use your E-mail to sign up</div>
+          <form onSubmit={handleSubmit}>
+            <input
+              className="mb-5 bg-gray-800 border border-gray-300 rounded-lg py-5 px-4 block w-full appearance-none leading-normal"
+              type="text"
+              name="username"
+              placeholder="E-mail"
+              onChange={e => {
+                console.log(e.target.value);
+                setUsername(e.target.value);
+                setEmail(e.target.value);
+              }}
+            />
+
+            <input
+              className="mb-5 bg-gray-800 border border-gray-300 rounded-lg py-5 px-4 block w-full appearance-none leading-normal"
+              type="password"
+              placeholder="password"
+              name="password"
+              onChange={e => setPassword(e.target.value)}
+            />
+            {errMessage ? (
+              <div className="bg-red-500 mb-5 bg-gray-800 rounded-lg py-5 px-4 block w-full">
+                {errMessage}
+                <span role="img" description="sad emoji">
+                  😑
+                </span>{" "}
+              </div>
+            ) : (
+              ""
+            )}
+            <button className="w-full bg-blue-500 py-5 mb-5">
+              Create account
+            </button>
+          </form>
+        </>
       )}
     </div>
   );

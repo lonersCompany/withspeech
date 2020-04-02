@@ -22,7 +22,7 @@ const LandingPage = () => {
           <Link to="/login" className="px-5 py-3">
             Log in
           </Link>
-          <Link to="/singin" className="bg-blue-900 px-5 py-3">
+          <Link to="/signup" className="bg-blue-900 px-5 py-3">
             Get started<span className="">&nbsp;— it's free</span>
           </Link>
         </div>
@@ -36,7 +36,7 @@ const LandingPage = () => {
           <div className="lg:w-2/5 p-10 text-3xl ">
             <p className="font-light">{appDefinition}</p>
             <div>
-              <Link to="/singin">
+              <Link to="/signup">
                 <button className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4">
                   Try beta version{" "}
                   <span role="img" description="wave hand">
