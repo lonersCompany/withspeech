@@ -51,7 +51,7 @@ const LandingPage = () => {
             <iframe
               width="100%"
               height="340"
-              src="https://www.youtube.com/embed/_vqe59dIFDY"
+              src="https://www.youtube.com/embed/uNFq0L-xU7k"
               frameBorder="0"
               allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
