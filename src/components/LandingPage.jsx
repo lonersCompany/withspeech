@@ -33,8 +33,8 @@ const LandingPage = () => {
 
       <section className="pb-20">
         <div className="lg:flex">
-          <div className="lg:w-2/5 p-10 text-3xl ">
-            <p className="font-light">{appDefinition}</p>
+          <div className="lg:w-2/5 p-10 text-3xl">
+            <p className="font-light mb-5">{appDefinition}</p>
             <div>
               <Link to="/signup">
                 <button className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4">
