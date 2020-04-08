@@ -53,7 +53,7 @@ const Element = ({
   }
 };
 
-function Content({ content, presentationVue }) {
+function Content({ content, presentationVue, isReading }) {
   const [activeElement, setActiveElement] = useState(null);
   const [slides, setSlides] = useState([]);
 
@@ -76,18 +76,13 @@ function Content({ content, presentationVue }) {
       slides[slideIndex].blocks.push(i);
     }
 
-    console.log(slides);
-
     setSlides(slides);
   }, [content]);
 
-  const startReading = () => {
-    if (activeElement === null) {
-      setActiveElement(0);
-    } else {
-      setActiveElement(null);
-    }
-  };
+  useEffect(() => {
+    console.log(isReading);
+    setActiveElement(isReading);
+  }, [isReading]);
 
   return (
     <>
@@ -96,14 +91,6 @@ function Content({ content, presentationVue }) {
           presentationVue ? "mt-70" : ""
         }`}
       >
-        <div>
-          <button
-            onClick={startReading}
-            className="bg-blue-500 hover:bg-blue-400 px-4 rounded-lg mb-10"
-          >
-            Click into text to {activeElement === null ? "start" : "pause"}
-          </button>
-        </div>
         {content.map((element, index) => (
           <Element
             isActive={activeElement === index}
@@ -139,11 +126,15 @@ function Content({ content, presentationVue }) {
   );
 }
 
-const WsPreview = ({ content, presentationVue }) => {
+const WsPreview = ({ content, presentationVue, isReading }) => {
   return (
     <div>
       {content && content.length != 0 ? (
-        <Content content={content} presentationVue={presentationVue} />
+        <Content
+          content={content}
+          presentationVue={presentationVue}
+          isReading={isReading}
+        />
       ) : (
         "Generate content"
       )}

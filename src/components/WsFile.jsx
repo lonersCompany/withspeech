@@ -15,7 +15,8 @@ import WsPreview from "./WsPreview";
 import WsEditor from "./WsEditor";
 import CreateDocument from "./create-document";
 
-const generateAudioBlock = async (ssmlValue, slideNumber) => {
+const generateAudioBlock = async ssmlValue => {
+  console.log(ssmlValue);
   const pollyBlock = {
     text: ssmlValue,
     key: uuidv1(),
@@ -38,10 +39,17 @@ const generateAudioBlock = async (ssmlValue, slideNumber) => {
 
     const id = audioKey;
 
-    return { children, url, id, type, slideNumber };
+    return { children, url, id, type };
   } catch (err) {
     console.log(err);
   }
+};
+
+// Conver Editor to content Value
+const getParagrafTextValue = sentences => {
+  const paragrafTextValue = sentences.map(sentence => sentence.text).toString();
+
+  return `<speak>${paragrafTextValue}</speak>`;
 };
 
 function WsFile({ match }) {
@@ -58,6 +66,7 @@ function WsFile({ match }) {
   const [isEditor, setEditor] = useState(false);
   const [isPresentation, setPresentation] = useState(false);
   const [isAudioSync, setAudioSync] = useState(false);
+  const [isReading, setReading] = useState(null);
 
   const toggleEditorVue = () => {
     if (isEditor && !isAudioSync) {
@@ -66,13 +75,20 @@ function WsFile({ match }) {
     isEditor ? setEditor(false) : setEditor(true);
   };
 
+  const toggleReading = () => {
+    const toggleReading = isReading === null ? 0 : null;
+    setReading(toggleReading);
+
+    if (isEditor) setEditor(false);
+    if (!isAudioSync) handleSyncAudio();
+  };
+
   const togglePresentationVue = () => {
     isPresentation ? setPresentation(false) : setPresentation(true);
   };
 
   const handleEditiorChange = value => {
-    console.log(value);
-    console.log(value[0].children[0].text);
+    //console.log(value);
     setName(value[0].children[0].text);
     setTextValue(value);
     setAudioSync(false);
@@ -95,9 +111,11 @@ function WsFile({ match }) {
         return newBlock;
       }
 
+      // BUM BUM!
       if (block.type === "paragraph") {
-        const searileValue = `<speak>${block.children[0].text}</speak>`;
-        const newBlock = generateAudioBlock(searileValue, slideNumber);
+        const paragrafTextValue = getParagrafTextValue(block.children);
+        console.log(paragrafTextValue);
+        const newBlock = generateAudioBlock(paragrafTextValue);
         return newBlock;
       }
     });
@@ -127,6 +145,7 @@ function WsFile({ match }) {
         if (content === null) setEditor(true);
         const str = JSON.stringify(content, null, 4); // (Optional) beautiful indented output.
         //console.log(str); // Logs output to dev tools consol
+        console.log(content);
         if (content) setContent(content);
         if (content) setTextValue(content);
         if (content) setAudioSync(true);
@@ -168,14 +187,26 @@ function WsFile({ match }) {
         </button>
       </Sidebar>
       <div className="bg-gray-900 text-white min-h-screen w-full lg:static lg:max-h-full lg:overflow-visible lg:w-3/4 xl:w-4/5">
-        <div className="max-w-xl text-2xl m-auto py-20 min-h-screen">
+        <div className="max-w-xl text-2xl m-auto py-20 min-h-screen article">
+          <div>
+            <button
+              onClick={toggleReading}
+              className="bg-blue-500 hover:bg-blue-400 px-4 rounded-lg mb-10"
+            >
+              Click into text to {isReading === null ? "Start" : "Stop"}
+            </button>
+          </div>
           {isEditor ? (
             <WsEditor
               textValue={textValue}
               handleEditiorChange={handleEditiorChange}
             />
           ) : (
-            <WsPreview content={content} presentationVue={isPresentation} />
+            <WsPreview
+              content={content}
+              presentationVue={isPresentation}
+              isReading={isReading}
+            />
           )}
         </div>
       </div>

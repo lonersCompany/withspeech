@@ -135,9 +135,16 @@ export const triggerGenSubtitleBlock = async block => {
     const { body } = JSON.parse(responseJson.data.generateSubtitles);
     const returnedStream = body.stream;
 
-    const children = returnedStream.map(obj =>
+    const renameValueToText = returnedStream.map(obj =>
       renameObjFiled(obj, "value", "text")
     );
+
+    const addSpaceToEnd = renameValueToText.map(obj => ({
+      ...obj,
+      text: obj.text + " "
+    }));
+
+    const children = addSpaceToEnd;
 
     return children;
   } catch (err) {

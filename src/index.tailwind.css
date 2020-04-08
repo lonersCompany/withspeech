@@ -8,6 +8,9 @@ html {
   scroll-behavior: smooth;
 }
 
+.article p {
+  @apply mb-5;
+}
 h1 {
   @apply text-3xl;
   @apply mb-16;

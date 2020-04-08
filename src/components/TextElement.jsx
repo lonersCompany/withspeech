@@ -39,7 +39,7 @@ function SentenceItem({ text, start, sentenceActive, speak, presentationVue }) {
         className={`speakable ${sentenceActive ? "active" : "pasive"}`}
       >
         {text}
-      </span>{" "}
+      </span>
     </>
   );
 }
@@ -68,7 +68,7 @@ const TextElement = ({
     }
   };
 
-  const speakTextBlock = (start, pause, resetElements, presentationVue) => {
+  const speakTextBlock = (start, pause, resetElements) => {
     switch (pause) {
       case true:
         audio.removeEventListener("timeupdate", () => {

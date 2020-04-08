@@ -1,5 +1,5 @@
 // Import React dependencies.
-import React, { useMemo } from "react";
+import React, { useMemo, useEffect } from "react";
 
 // Import Image dependencies
 import imageExtensions from "image-extensions";
@@ -115,29 +115,29 @@ const withImages = editor => {
 };
 
 const WsEditor = ({ textValue, handleEditiorChange }) => {
-  console.log(textValue);
+  // const textSave = textValue.map(obj => {
+  //   const newObj = Object.assign({}, obj);
+  //   newObj.children =
+  //     newObj.children.length != 0 ? newObj.children : [{ text: "-" }];
+  //   return newObj;
+  // });
 
-  const textSave = textValue.map(obj => {
-    console.log(obj.children.length != 0);
-    const newObj = Object.assign({}, obj);
-    newObj.children =
-      newObj.children.length != 0 ? newObj.children : [{ text: "-" }];
-    return newObj;
-  });
+  // console.log(textSave);
 
-  console.log(textSave);
+  const value = textValue;
 
-  const value = textSave.slice(0, 100);
+  // useEffect(() => {
+  //   console.log(textValue);
+  // }, [textValue]);
+
   const editor = useMemo(
     () => withImages(withHistory(withReact(createEditor()))),
     []
   );
 
   const handleTextChange = value => {
-    value.map(obj => console.log(obj));
+    console.log(value[0].children);
     handleEditiorChange(value);
-    // const content = JSON.stringify(value);
-    // window.localStorage.setItem("content", content);
   };
 
   return (

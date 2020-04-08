@@ -13188,6 +13188,10 @@ html {
   scroll-behavior: smooth;
 }
 
+.article p {
+  margin-bottom: 1.25rem;
+}
+
 h1 {
   font-size: 1.875rem;
   margin-bottom: 4rem;
