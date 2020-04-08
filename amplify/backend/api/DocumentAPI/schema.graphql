@@ -21,13 +21,13 @@ type DocumentItem @model {
   id: ID!
   name: String
   content: [SpeakableItem]
+  voice: String
 }
 
 type SpeakableItem {
   id: String
   type: String
   url: String
-  slideNumber: Int
   children: [SpeakableBlock]
 }
 

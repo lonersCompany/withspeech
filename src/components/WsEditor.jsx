@@ -136,7 +136,6 @@ const WsEditor = ({ textValue, handleEditiorChange }) => {
   );
 
   const handleTextChange = value => {
-    console.log(value[0].children);
     handleEditiorChange(value);
   };
 

@@ -35,13 +35,13 @@ export const getDocumentItem = /* GraphQL */ `
         id
         type
         url
-        slideNumber
         children {
           text
           start
           end
         }
       }
+      voice
     }
   }
 `;
@@ -59,8 +59,8 @@ export const listDocumentItems = /* GraphQL */ `
           id
           type
           url
-          slideNumber
         }
+        voice
       }
       nextToken
     }

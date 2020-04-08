@@ -13,13 +13,13 @@ export const createDocumentItem = /* GraphQL */ `
         id
         type
         url
-        slideNumber
         children {
           text
           start
           end
         }
       }
+      voice
     }
   }
 `;
@@ -35,13 +35,13 @@ export const updateDocumentItem = /* GraphQL */ `
         id
         type
         url
-        slideNumber
         children {
           text
           start
           end
         }
       }
+      voice
     }
   }
 `;
@@ -57,13 +57,13 @@ export const deleteDocumentItem = /* GraphQL */ `
         id
         type
         url
-        slideNumber
         children {
           text
           start
           end
         }
       }
+      voice
     }
   }
 `;

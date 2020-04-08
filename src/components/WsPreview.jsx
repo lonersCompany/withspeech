@@ -80,7 +80,6 @@ function Content({ content, presentationVue, isReading }) {
   }, [content]);
 
   useEffect(() => {
-    console.log(isReading);
     setActiveElement(isReading);
   }, [isReading]);
 

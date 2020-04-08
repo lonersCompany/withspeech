@@ -22,7 +22,7 @@ function CreateDocument() {
         className="px-6 py-5 text-left block w-full hover:bg-green-400"
       >
         <div className="font-semibold text-xl">New document</div>
-        <div className="text-blue-700"> ctrl+N</div>
+        {/* <div className="text-blue-700"> ctrl+N</div> */}
       </button>
     </div>
   );

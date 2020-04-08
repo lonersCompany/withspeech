@@ -15,12 +15,12 @@ import WsPreview from "./WsPreview";
 import WsEditor from "./WsEditor";
 import CreateDocument from "./create-document";
 
-const generateAudioBlock = async ssmlValue => {
+const generateAudioBlock = async (ssmlValue, voice) => {
   console.log(ssmlValue);
   const pollyBlock = {
     text: ssmlValue,
     key: uuidv1(),
-    voice: "Salli",
+    voice: voice,
     ssml: true
   };
   try {
@@ -47,7 +47,10 @@ const generateAudioBlock = async ssmlValue => {
 
 // Conver Editor to content Value
 const getParagrafTextValue = sentences => {
-  const paragrafTextValue = sentences.map(sentence => sentence.text).toString();
+  console.log(sentences);
+  const paragrafTextValue = sentences.map(sentence => sentence.text).join("");
+
+  console.log(paragrafTextValue);
 
   return `<speak>${paragrafTextValue}</speak>`;
 };
@@ -67,10 +70,12 @@ function WsFile({ match }) {
   const [isPresentation, setPresentation] = useState(false);
   const [isAudioSync, setAudioSync] = useState(false);
   const [isReading, setReading] = useState(null);
+  const [voice, setVoice] = useState("Salli");
 
   const toggleEditorVue = () => {
     if (isEditor && !isAudioSync) {
-      handleSyncAudio();
+      setContent([]);
+      handleAudioSync({ voice });
     }
     isEditor ? setEditor(false) : setEditor(true);
   };
@@ -80,7 +85,10 @@ function WsFile({ match }) {
     setReading(toggleReading);
 
     if (isEditor) setEditor(false);
-    if (!isAudioSync) handleSyncAudio();
+    if (!isAudioSync) {
+      setContent([]);
+      handleAudioSync({ voice });
+    }
   };
 
   const togglePresentationVue = () => {
@@ -95,27 +103,22 @@ function WsFile({ match }) {
   };
 
   // GENERATE AUDIO
-  const handleSyncAudio = async () => {
+  const handleAudioSync = async ({ voice }) => {
     setLoading(true);
 
     // TODO probably will be costed
-
-    let slideNumber = 0;
     const contentPromisses = textValue.map(block => {
       if (block.type === "image") {
-        slideNumber = slideNumber + 1;
-
         const newBlock = Object.assign({}, block);
         newBlock.id = uuidv1();
-        newBlock.slideNumber = slideNumber;
         return newBlock;
       }
 
       // BUM BUM!
       if (block.type === "paragraph") {
         const paragrafTextValue = getParagrafTextValue(block.children);
-        console.log(paragrafTextValue);
-        const newBlock = generateAudioBlock(paragrafTextValue);
+
+        const newBlock = generateAudioBlock(paragrafTextValue, voice);
         return newBlock;
       }
     });
@@ -129,7 +132,8 @@ function WsFile({ match }) {
       uploadWsFile({
         id,
         name,
-        content
+        content,
+        voice
       });
     }
   };
@@ -137,10 +141,12 @@ function WsFile({ match }) {
   useEffect(() => {
     const renderWSFile = async () => {
       try {
-        const { name, content } = await downLoadWsFile(id);
+        const { name, content, voice } = await downLoadWsFile(id);
 
         // LOAD TEXT WITH SPEECH DOCUMENT
         if (name) setName(name);
+        console.log(voice);
+        if (voice) setVoice(voice);
 
         if (content === null) setEditor(true);
         const str = JSON.stringify(content, null, 4); // (Optional) beautiful indented output.
@@ -157,6 +163,15 @@ function WsFile({ match }) {
     renderWSFile();
   }, [id]);
 
+  const handleVoiceChange = ({ target }) => {
+    const voice = target.value;
+    setVoice(voice);
+    if (!isEditor) {
+      setContent([]);
+      handleAudioSync({ voice });
+    }
+  };
+
   return (
     <div className="lg:flex">
       <Sidebar>
@@ -167,7 +182,7 @@ function WsFile({ match }) {
         >
           <div className="text-left flex-grow">
             <div className="font-semibold text-xl">Edit</div>
-            <div className="text-blue-700"> ctrl+E</div>
+            {/* <div className="text-blue-700"> ctrl+E</div> */}
           </div>
 
           <div className={`tgl-btn ml-5 ${isEditor ? "active" : ""}`}></div>
@@ -178,13 +193,43 @@ function WsFile({ match }) {
         >
           <div className="text-left flex-grow">
             <div className="font-semibold text-xl">Presentation</div>
-            <div className="text-blue-700"> ctrl+P</div>
+            {/* <div className="text-blue-700"> ctrl+P</div> */}
           </div>
 
           <div
             className={`tgl-btn ml-5 ${isPresentation ? "active" : ""}`}
           ></div>
         </button>
+
+        <div className="relative font-semibold text-xl p-1">
+          <form>
+            <select
+              value={voice}
+              defaultValue={voice}
+              onChange={handleVoiceChange}
+              className="block appearance-none w-full bg-gray-900 px-6 py-5 pr-8 rounded leading-tight focus:outline-none focus:shadow-outline"
+            >
+              <option value="Salli">Salli, Female</option>
+              <option value="Joanna">Joanna, Female</option>
+              <option value="Ivy">Ivy, Female</option>
+              <option value="Kendra">Kendra, Female</option>
+              <option value="Kimberly">Kimberly, Female</option>
+
+              <option value="Matthew">Matthew, Male</option>
+              <option value="Justin">Justin, Male</option>
+              <option value="Joey">Joey, Male</option>
+            </select>
+          </form>
+          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+            <svg
+              className="fill-current h-6 w-6"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+            >
+              <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+            </svg>
+          </div>
+        </div>
       </Sidebar>
       <div className="bg-gray-900 text-white min-h-screen w-full lg:static lg:max-h-full lg:overflow-visible lg:w-3/4 xl:w-4/5">
         <div className="max-w-xl text-2xl m-auto py-20 min-h-screen article">
