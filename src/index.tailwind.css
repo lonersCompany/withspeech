@@ -129,3 +129,12 @@ div.speakable.active {
     opacity: 0.5;
   }
 }
+
+.bg-wave {
+  width: 100vw;
+  height: 100vh;
+}
+
+.ytp-show-cards-title {
+  display: none !important;
+}

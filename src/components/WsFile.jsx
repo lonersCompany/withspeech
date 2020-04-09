@@ -209,15 +209,15 @@ function WsFile({ match }) {
               onChange={handleVoiceChange}
               className="block appearance-none w-full bg-gray-900 px-6 py-5 pr-8 rounded leading-tight focus:outline-none focus:shadow-outline"
             >
-              <option value="Salli">Salli, Female</option>
-              <option value="Joanna">Joanna, Female</option>
-              <option value="Ivy">Ivy, Female</option>
-              <option value="Kendra">Kendra, Female</option>
-              <option value="Kimberly">Kimberly, Female</option>
+              <option value="Salli">Salli</option>
+              <option value="Joanna">Joanna</option>
+              <option value="Ivy">Ivy</option>
+              <option value="Kendra">Kendra</option>
+              <option value="Kimberly">Kimberly</option>
 
-              <option value="Matthew">Matthew, Male</option>
-              <option value="Justin">Justin, Male</option>
-              <option value="Joey">Joey, Male</option>
+              <option value="Matthew">Matthew</option>
+              <option value="Justin">Justin</option>
+              <option value="Joey">Joey</option>
             </select>
           </form>
           <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
@@ -233,12 +233,12 @@ function WsFile({ match }) {
       </Sidebar>
       <div className="bg-gray-900 text-white min-h-screen w-full lg:static lg:max-h-full lg:overflow-visible lg:w-3/4 xl:w-4/5">
         <div className="max-w-xl text-2xl m-auto py-20 min-h-screen article">
-          <div>
+          <div className={isReading === null ? "" : "opacity-25"}>
             <button
               onClick={toggleReading}
               className="bg-blue-500 hover:bg-blue-400 px-4 rounded-lg mb-10"
             >
-              Click into text to {isReading === null ? "Start" : "Stop"}
+              Click into text to {isReading === null ? "start" : "stop"}
             </button>
           </div>
           {isEditor ? (

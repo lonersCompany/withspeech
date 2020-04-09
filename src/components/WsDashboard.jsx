@@ -50,7 +50,7 @@ function WsDashboard() {
         <div className="">
           {files ? (
             <div className=" py-5 px-6 border-b-4 border-gray-800 text-3xl">
-              Documnets:
+              Documents:
             </div>
           ) : (
             ""

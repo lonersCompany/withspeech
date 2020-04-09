@@ -13327,6 +13327,15 @@ div.speakable.active {
   }
 }
 
+.bg-wave {
+  width: 100vw;
+  height: 100vh;
+}
+
+.ytp-show-cards-title {
+  display: none !important;
+}
+
 @media (min-width: 640px) {
   .sm\:sr-only {
     position: absolute;
