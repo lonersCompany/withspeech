@@ -1,0 +1,48 @@
+type Query @aws_cognito_user_pools {
+  generateAudioFile(
+    text: String!
+    voice: String!
+    ssml: Boolean!
+    key: String!
+  ): String @function(name: "generateAudioFile-${env}")
+
+  generateTimming(
+    text: String!
+    voice: String!
+    ssml: Boolean!
+    key: String!
+  ): String @function(name: "generateTimming-${env}")
+
+  deleteAudioFile(key: String!): String
+    @function(name: "deleteAudioFile-${env}")
+}
+
+type DocumentItem
+  @model
+  @aws_iam
+  @aws_cognito_user_pools
+  @auth(
+    rules: [
+      { allow: owner, operations: [create, read, update, delete] }
+      { allow: public, provider: iam, operations: [read] }
+      { allow: groups, groups: ["everyone"], operations: [read] }
+    ]
+  ) {
+  id: ID!
+  name: String
+  content: [SpeakableItem]
+  voice: String
+}
+
+type SpeakableItem {
+  id: String
+  type: String
+  url: String
+  children: [SpeakableBlock]
+}
+
+type SpeakableBlock @aws_iam {
+  text: String
+  start: Int
+  end: Int
+}

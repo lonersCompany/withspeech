@@ -8,41 +8,6 @@ import PrivacyPolicy from "./components/PrivacyPolicy";
 import { Auth } from "aws-amplify";
 
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
-//import { Authenticator, SignIn } from "aws-amplify-react";
-
-const ionViewCanEnter = async () => {
-  try {
-    await Auth.currentAuthenticatedUser();
-    return true;
-  } catch (e) {
-    return false;
-  }
-};
-
-const PrivateRoute = ({ component: Component, ...rest }) => {
-  const [auth, setAuth] = useState(true);
-
-  useEffect(() => {
-    console.log("now");
-    (async () => {
-      const checkLog = await ionViewCanEnter();
-      setAuth(checkLog);
-    })();
-  }, []);
-
-  return (
-    // Requirement 3.
-    // It checks if the user is authenticated, if they are,
-    // it renders the "component" prop. If not, it redirects
-    // the user to /login.
-    <Route
-      {...rest}
-      render={props =>
-        auth ? <Component {...props} /> : <Redirect to="/login" />
-      }
-    />
-  );
-};
 
 function App() {
   return (

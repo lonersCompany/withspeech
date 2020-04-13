@@ -37,7 +37,7 @@ const LandingPage = () => {
           <div className="lg:w-2/5 p-10 text-2xl">
             <p className="font-light mb-5">{appDefinition}</p>
             <div>
-              <Link to="/signup">
+              <Link to="/dashboard">
                 <button className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4">
                   Try beta version{" "}
                   <span role="img" description="wave hand">

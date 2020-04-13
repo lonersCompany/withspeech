@@ -1,0 +1,14 @@
+{
+    "trigger": true,
+    "modules": [
+        "add-to-group"
+    ],
+    "parentResource": "withspeechc3c98973",
+    "functionName": "withspeechc3c98973PostConfirmation",
+    "parentStack": "auth",
+    "triggerEnvs": "[]",
+    "triggerTemplate": "PostConfirmation.json.ejs",
+    "roleName": "withspeechc3c98973PostConfirmation",
+    "skipEdit": true,
+    "resourceName": "withspeechc3c98973PostConfirmation"
+}

@@ -20,6 +20,10 @@ export const createDocumentItem = /* GraphQL */ `
         }
       }
       voice
+      _version
+      _deleted
+      _lastChangedAt
+      owner
     }
   }
 `;
@@ -42,6 +46,10 @@ export const updateDocumentItem = /* GraphQL */ `
         }
       }
       voice
+      _version
+      _deleted
+      _lastChangedAt
+      owner
     }
   }
 `;
@@ -64,6 +72,10 @@ export const deleteDocumentItem = /* GraphQL */ `
         }
       }
       voice
+      _version
+      _deleted
+      _lastChangedAt
+      owner
     }
   }
 `;

@@ -2,8 +2,8 @@
 // this is an auto generated file. This will be overwritten
 
 export const onCreateDocumentItem = /* GraphQL */ `
-  subscription OnCreateDocumentItem {
-    onCreateDocumentItem {
+  subscription OnCreateDocumentItem($owner: String!) {
+    onCreateDocumentItem(owner: $owner) {
       id
       name
       content {
@@ -17,12 +17,16 @@ export const onCreateDocumentItem = /* GraphQL */ `
         }
       }
       voice
+      _version
+      _deleted
+      _lastChangedAt
+      owner
     }
   }
 `;
 export const onUpdateDocumentItem = /* GraphQL */ `
-  subscription OnUpdateDocumentItem {
-    onUpdateDocumentItem {
+  subscription OnUpdateDocumentItem($owner: String!) {
+    onUpdateDocumentItem(owner: $owner) {
       id
       name
       content {
@@ -36,12 +40,16 @@ export const onUpdateDocumentItem = /* GraphQL */ `
         }
       }
       voice
+      _version
+      _deleted
+      _lastChangedAt
+      owner
     }
   }
 `;
 export const onDeleteDocumentItem = /* GraphQL */ `
-  subscription OnDeleteDocumentItem {
-    onDeleteDocumentItem {
+  subscription OnDeleteDocumentItem($owner: String!) {
+    onDeleteDocumentItem(owner: $owner) {
       id
       name
       content {
@@ -55,6 +63,10 @@ export const onDeleteDocumentItem = /* GraphQL */ `
         }
       }
       voice
+      _version
+      _deleted
+      _lastChangedAt
+      owner
     }
   }
 `;

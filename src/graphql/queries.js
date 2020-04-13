@@ -1,24 +1,24 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const generateAudio = /* GraphQL */ `
-  query GenerateAudio(
+export const generateAudioFile = /* GraphQL */ `
+  query GenerateAudioFile(
     $text: String!
     $voice: String!
     $ssml: Boolean!
     $key: String!
   ) {
-    generateAudio(text: $text, voice: $voice, ssml: $ssml, key: $key)
+    generateAudioFile(text: $text, voice: $voice, ssml: $ssml, key: $key)
   }
 `;
-export const generateSubtitles = /* GraphQL */ `
-  query GenerateSubtitles(
+export const generateTimming = /* GraphQL */ `
+  query GenerateTimming(
     $text: String!
     $voice: String!
     $ssml: Boolean!
     $key: String!
   ) {
-    generateSubtitles(text: $text, voice: $voice, ssml: $ssml, key: $key)
+    generateTimming(text: $text, voice: $voice, ssml: $ssml, key: $key)
   }
 `;
 export const deleteAudioFile = /* GraphQL */ `
@@ -42,6 +42,10 @@ export const getDocumentItem = /* GraphQL */ `
         }
       }
       voice
+      _version
+      _deleted
+      _lastChangedAt
+      owner
     }
   }
 `;
@@ -61,8 +65,45 @@ export const listDocumentItems = /* GraphQL */ `
           url
         }
         voice
+        _version
+        _deleted
+        _lastChangedAt
+        owner
       }
       nextToken
+      startedAt
+    }
+  }
+`;
+export const syncDocumentItems = /* GraphQL */ `
+  query SyncDocumentItems(
+    $filter: ModelDocumentItemFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncDocumentItems(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        name
+        content {
+          id
+          type
+          url
+        }
+        voice
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
+      nextToken
+      startedAt
     }
   }
 `;

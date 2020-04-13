@@ -1,38 +1,51 @@
 import { API, graphqlOperation } from "aws-amplify";
 import {
   getDocumentItem,
-  generateAudio,
+  generateAudioFile,
+  generateTimming,
   deleteAudioFile,
-  generateSubtitles
+  listDocumentItems,
 } from "../../graphql/queries";
 import {
   createDocumentItem,
   updateDocumentItem,
-  deleteDocumentItem
+  deleteDocumentItem,
 } from "../../graphql/mutations";
 
-function generateUUID() {
-  // Public Domain/MIT
-  var d = new Date().getTime(); //Timestamp
-  var d2 = (performance && performance.now && performance.now() * 1000) || 0; //Time in microseconds since page-load or 0 if unsupported
-  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
-    var r = Math.random() * 16; //random number between 0 and 16
-    if (d > 0) {
-      //Use timestamp until depleted
-      r = (d + r) % 16 | 0;
-      d = Math.floor(d / 16);
-    } else {
-      //Use microseconds since page-load if supported
-      r = (d2 + r) % 16 | 0;
-      d2 = Math.floor(d2 / 16);
-    }
-    return (c === "x" ? r : (r & 0x3) | 0x8).toString(16);
-  });
-}
+const renameObjFiled = (obj, old_key, new_key) => {
+  if (old_key !== new_key) {
+    Object.defineProperty(
+      obj,
+      new_key,
+      Object.getOwnPropertyDescriptor(obj, old_key)
+    );
+    delete obj[old_key];
+  }
+  return obj;
+};
+
+// function generateUUID() {
+//   // Public Domain/MIT
+//   var d = new Date().getTime(); //Timestamp
+//   var d2 = (performance && performance.now && performance.now() * 1000) || 0; //Time in microseconds since page-load or 0 if unsupported
+//   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+//     var r = Math.random() * 16; //random number between 0 and 16
+//     if (d > 0) {
+//       //Use timestamp until depleted
+//       r = (d + r) % 16 | 0;
+//       d = Math.floor(d / 16);
+//     } else {
+//       //Use microseconds since page-load if supported
+//       r = (d2 + r) % 16 | 0;
+//       d2 = Math.floor(d2 / 16);
+//     }
+//     return (c === "x" ? r : (r & 0x3) | 0x8).toString(16);
+//   });
+// }
 
 export const createWsFile = async () => {
   const input = {
-    id: generateUUID()
+    name: "untitle",
   };
 
   try {
@@ -49,18 +62,20 @@ export const createWsFile = async () => {
   }
 };
 
-export const downLoadWsFile = async id => {
+export const downLoadWsFile = async (id) => {
   try {
-    const { data } = await API.graphql(
-      graphqlOperation(getDocumentItem, { id })
-    );
+    const { data } = await API.graphql({
+      query: getDocumentItem,
+      variables: { id },
+      authMode: "AWS_IAM",
+    });
     return data.getDocumentItem;
   } catch (err) {
     console.log(err);
   }
 };
 
-export const uploadWsFile = async input => {
+export const uploadWsFile = async (input) => {
   try {
     const { data } = await API.graphql(
       graphqlOperation(updateDocumentItem, { input })
@@ -74,7 +89,7 @@ export const uploadWsFile = async input => {
   }
 };
 
-export const deleteWsFile = async id => {
+export const deleteWsFile = async (id) => {
   const payload = { id };
   const { data } = await API.graphql(
     graphqlOperation(deleteDocumentItem, { input: payload })
@@ -83,26 +98,15 @@ export const deleteWsFile = async id => {
   if (audioFiles) {
     // TODO: Check ID
     await Promise.all(
-      audioFiles.map(file =>
+      audioFiles.map((file) =>
         API.graphql(graphqlOperation(deleteAudioFile, { key: file.key }))
       )
     );
   }
 };
 
-export const triggerDeleteAudioBlock = async key => {
+export const triggerDeleteAudioBlock = async (key) => {
   await API.graphql(graphqlOperation(deleteAudioFile, { key }));
-};
-
-export const triggerGenAudioBlock = async block => {
-  try {
-    const buffer = await API.graphql(graphqlOperation(generateAudio, block));
-    const response = JSON.parse(buffer.data.generateAudio);
-
-    return response.body.audio.key;
-  } catch (err) {
-    console.log(err);
-  }
 };
 
 // function isInt(value) {
@@ -114,34 +118,35 @@ export const triggerGenAudioBlock = async block => {
 //   );
 // }
 
-const renameObjFiled = (obj, old_key, new_key) => {
-  if (old_key !== new_key) {
-    Object.defineProperty(
-      obj,
-      new_key,
-      Object.getOwnPropertyDescriptor(obj, old_key)
+export const triggerGenAudioBlock = async (block) => {
+  try {
+    const buffer = await API.graphql(
+      graphqlOperation(generateAudioFile, block)
     );
-    delete obj[old_key];
+    const response = JSON.parse(buffer.data.generateAudioFile);
+
+    return response.body.audio.key;
+  } catch (err) {
+    console.log(err);
   }
-  return obj;
 };
 
-export const triggerGenSubtitleBlock = async block => {
+export const triggerGenSubtitleBlock = async (block) => {
+  console.log(block);
   try {
-    const responseJson = await API.graphql(
-      graphqlOperation(generateSubtitles, block)
-    );
+    const buffer = await API.graphql(graphqlOperation(generateTimming, block));
+    console.log(block);
     // Create JS object from JSON
-    const { body } = JSON.parse(responseJson.data.generateSubtitles);
+    const { body } = JSON.parse(buffer.data.generateTimming);
     const returnedStream = body.stream;
 
-    const renameValueToText = returnedStream.map(obj =>
+    const renameValueToText = returnedStream.map((obj) =>
       renameObjFiled(obj, "value", "text")
     );
 
-    const addSpaceToEnd = renameValueToText.map(obj => ({
+    const addSpaceToEnd = renameValueToText.map((obj) => ({
       ...obj,
-      text: obj.text + " "
+      text: obj.text + " ",
     }));
 
     const children = addSpaceToEnd;
@@ -152,7 +157,47 @@ export const triggerGenSubtitleBlock = async block => {
   }
 };
 
-export const saveWsFile = async input => {
+export const handleListWsFiles = async () => {
+  // Use aplify api graphql method to request graphql queries
+  // that we improt by name "listNotes"
+  try {
+    const { data } = await API.graphql({
+      query: listDocumentItems,
+      variables: {},
+      authMode: "AWS_IAM",
+    });
+    const { items } = data.listDocumentItems;
+    return items;
+  } catch (error) {
+    console.log(`Error executing query: ${error}`);
+  }
+
+  // try {
+  //   const { data } = await API.graphql(
+  //     graphqlOperation({
+  //       query: `query listDocumentItems {
+  //         listDocumentItems {
+  //           items {
+  //             id
+  //             name
+  //           }
+  //         }
+  //       }`,
+  //       variables: {},
+  //       authMode: "AWS_IAM",
+  //     })
+  //   );
+  //   console.log(data);
+  //   const { items } = data.listDocumentItems;
+
+  //   return items;
+  // } catch (err) {
+  //   console.log(err);
+  //   //history.push("/login");
+  // }
+};
+
+export const saveWsFile = async (input) => {
   try {
     const { data } = await API.graphql(
       graphqlOperation(updateDocumentItem, { input })
@@ -162,38 +207,3 @@ export const saveWsFile = async input => {
     console.log(err);
   }
 };
-
-// export const handleAudioGen = async store => {
-//   const { document } = thisValue.toJSON();
-//   const { id } = store.state;
-//   const textBlocks = GetBlockText(id, document);
-
-//   const responseArray = await Promise.all(
-//     textBlocks.map(block => API.graphql(graphqlOperation(generateAudio, block)))
-//   );
-
-//   const dataArray = responseArray.map(response =>
-//     JSON.parse(response.data.generateAudio)
-//   );
-
-//   // Transform key to src
-//   const audioFiles = dataArray.map(data => {
-//     return {
-//       key: data.body.audio.key,
-//       src: `https://text-with-speech.s3.eu-central-1.amazonaws.com/${data.body.audio.key}`,
-//       paragraf: data.body.audio.paragraf
-//     };
-//   });
-//   console.log(audioFiles);
-
-//   const status = audioFiles.length > 0 ? "SUCCESS" : "NULL";
-//   store.setState({ audioFiles, status });
-
-//   // SAVE GENERATED PATHS TO DB
-//   const payload = {
-//     id,
-//     audioFiles
-//   };
-
-//   saveAudio(payload);
-// };

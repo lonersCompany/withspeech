@@ -1,16 +1,54 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import WsPreview from "./WsPreview";
 
-import { previewData } from "../actions/data/data";
+import { downLoadWsFile } from "../actions/fetchFunctions";
 
 const MobileMockup = () => {
-  const [content, setContent] = useState(previewData);
+  const [id] = useState("8d588311-6c89-4f4f-ad9e-6b914681fc08");
+  const [name, setName] = useState();
+  const [content, setContent] = useState([]);
+  const [textValue, setTextValue] = useState([
+    {
+      type: "paragraph",
+      children: [{ text: "Add your text" }],
+    },
+  ]);
+  const [isLoading, setLoading] = useState(false);
+  const [isEditor, setEditor] = useState(false);
+  const [isPresentation, setPresentation] = useState(false);
+  const [isAudioSync, setAudioSync] = useState(false);
   const [isReading, setReading] = useState(null);
+  const [voice, setVoice] = useState("Salli");
 
   const toggleReading = () => {
     const toggleReading = isReading === null ? 0 : null;
     setReading(toggleReading);
   };
+
+  useEffect(() => {
+    const renderWSFile = async () => {
+      try {
+        const { name, content, voice } = await downLoadWsFile(id);
+
+        // LOAD TEXT WITH SPEECH DOCUMENT
+        if (name) setName(name);
+        console.log(voice);
+        if (voice) setVoice(voice);
+
+        if (content === null) setEditor(true);
+        const str = JSON.stringify(content, null, 4); // (Optional) beautiful indented output.
+        //console.log(str); // Logs output to dev tools consol
+        console.log(content);
+        if (content) setContent(content);
+        if (content) setTextValue(content);
+        if (content) setAudioSync(true);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    renderWSFile();
+  }, [id]);
 
   return (
     <div className="m-auto max-w-lg mobile-mockup bg-gray-900 ">

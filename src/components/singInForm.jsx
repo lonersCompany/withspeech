@@ -29,20 +29,22 @@ const SingInForm = () => {
 
   let history = useHistory();
 
-  const handleSubmit = e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const responseAuth = Auth.signIn({
-      username,
-      password
-    });
+    try {
+      await Auth.signIn(username, password);
+      console.log("Logged in");
+    } catch (error) {
+      console.log(`Error logging in: ${error}`);
+    }
 
-    responseAuth
-      .then(msg => {
-        console.log(msg);
-        history.push("/dashboard");
-      })
-      .catch(err => console.log(err));
+    // responseAuth
+    //   .then((msg) => {
+    //     console.log(msg);
+    //     history.push("/dashboard");
+    //   })
+    //   .catch((err) => console.log(err));
 
     // Auth.confirmSignUp(username)
     //   .then(() => console.log("confirmed sign in"))
@@ -61,7 +63,7 @@ const SingInForm = () => {
         <input
           type="text"
           name="username"
-          onChange={e => setUsername(e.target.value)}
+          onChange={(e) => setUsername(e.target.value)}
           className="mb-5 bg-gray-800 border border-gray-300 rounded-lg py-5 px-4 block w-full appearance-none leading-normal"
           type="email"
           placeholder="E-mail"
@@ -70,7 +72,7 @@ const SingInForm = () => {
         <input
           type="text"
           name="username"
-          onChange={e => setPassword(e.target.value)}
+          onChange={(e) => setPassword(e.target.value)}
           className="mb-5 bg-gray-800 border border-gray-300 rounded-lg py-5 px-4 block w-full appearance-none leading-normal"
           type="password"
           placeholder="Password"

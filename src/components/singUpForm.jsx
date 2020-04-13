@@ -3,7 +3,7 @@ import { Auth } from "aws-amplify";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 
-const SingUpForm = params => {
+const SingUpForm = (params) => {
   const [username, setUsername] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
@@ -12,22 +12,21 @@ const SingUpForm = params => {
 
   let history = useHistory();
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     const responseAuth = Auth.signUp({
       username,
       password,
-      attributes: { email }
+      attributes: { email },
     });
 
     responseAuth
-      .then(msg => {
+      .then((msg) => {
         console.log(msg);
-        //history.push("/login:true");
         setEmailPosted(true);
       })
-      .catch(err => {
+      .catch((err) => {
         setErrMessage(err.message);
         console.log(err);
       });
@@ -80,7 +79,7 @@ const SingUpForm = params => {
               type="text"
               name="username"
               placeholder="E-mail"
-              onChange={e => {
+              onChange={(e) => {
                 console.log(e.target.value);
                 setUsername(e.target.value);
                 setEmail(e.target.value);
@@ -92,7 +91,7 @@ const SingUpForm = params => {
               type="password"
               placeholder="password"
               name="password"
-              onChange={e => setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
             />
             {errMessage ? (
               <div className="bg-red-500 mb-5 bg-gray-800 rounded-lg py-5 px-4 block w-full">

@@ -13,8 +13,11 @@
         },
         "categories": {
             "auth": {
-                "withspeech0fcdacdd": {
-                    "hostedUIProviderCreds": "[{\"ProviderName\":\"Google\",\"client_id\":\"841332993007-qfk4q5ofe29pu6jafoaqe0d5og38uhfb.apps.googleusercontent.com\",\"client_secret\":\"-1OvjuLGJKoIpoGa2IFLU-9n\"}]"
+                "withspeechc3c98973": {}
+            },
+            "function": {
+                "withspeechc3c98973PostConfirmation": {
+                    "GROUP": "everyone"
                 }
             }
         }
