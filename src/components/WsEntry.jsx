@@ -15,15 +15,6 @@ const WsEntry = ({ id, name }) => {
           {name}
         </h2>
       </Link>
-
-      {/* <button
-        onClick={() => handleDeleteWSFile(index)}
-        className="bg-gray-700 hover:bg-gray-600 inline-block text-sm px-4 py-2"
-      >
-        <span role="img" aria-label="delete" className="text-2xl">
-          ✖️
-        </span>
-      </button> */}
     </div>
   );
 };

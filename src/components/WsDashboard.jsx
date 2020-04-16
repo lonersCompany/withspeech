@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import WsEntry from "./WsEntry";
 import { deleteWsFile, handleListWsFiles } from "../actions/fetchFunctions";
 import { Auth } from "aws-amplify";
-//import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 function WsDashboard() {
@@ -67,7 +66,7 @@ function WsDashboard() {
           <>
             {files.map((doc, index) => (
               <WsEntry
-                key={doc.id}
+                key={doc.id + index}
                 index={index}
                 id={doc.id}
                 name={doc.name}

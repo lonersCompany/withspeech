@@ -72,7 +72,6 @@ function WsFile({ match }) {
   const [name, setName] = useState(match.params.id);
   const [content, setContent] = useState([]);
   const [textValue, setTextValue] = useState();
-  const [isLoading, setLoading] = useState(false);
   const [isEditor, setEditor] = useState(false);
   const [isPresentation, setPresentation] = useState(false);
   const [isAudioSync, setAudioSync] = useState(false);
@@ -107,8 +106,6 @@ function WsFile({ match }) {
 
   // GENERATE AUDIO
   const handleAudioSync = async ({ voice }) => {
-    setLoading(true);
-
     // TODO probably will be costed
     const contentPromisses = textValue.map((block) => {
       if (block.type === "image") {
@@ -130,7 +127,6 @@ function WsFile({ match }) {
     if (content) {
       console.log(content);
       setContent(content);
-      setLoading(false);
       setAudioSync(true);
       const { _version } = await uploadWsFile({
         id,

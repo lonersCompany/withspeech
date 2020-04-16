@@ -2,7 +2,6 @@ import React from "react";
 import WsFile from "./components/WsFile";
 import WsDashboard from "./components/WsDashboard";
 import LandingPage from "./components/LandingPage";
-import LoginPage from "./components/LoginPage";
 import PrivacyPolicy from "./components/PrivacyPolicy";
 
 import { BrowserRouter as Router, Route } from "react-router-dom";

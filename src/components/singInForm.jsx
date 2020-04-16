@@ -1,33 +1,9 @@
 import React, { useState } from "react";
 import { Auth } from "aws-amplify";
 
-//import GoogleIco from "./googleIco";
-
-import { useHistory } from "react-router-dom";
-
-//import { withGoogle } from "aws-amplify-react";
-
-// const GoogleSingIn = props => {
-//   return (
-//     <button
-//       onClick={props.googleSignIn}
-//       className="w-full mb-5 py-5 text-center border border-gray-300"
-//     >
-//       <span>
-//         <GoogleIco />
-//       </span>{" "}
-//       Sing in with Google
-//     </button>
-//   );
-// };
-
-// const Federated = withGoogle(GoogleSingIn);
-
 const SingInForm = ({ setAuth, setAuthProcess }) => {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
-
-  //let history = useHistory();
 
   const handleSubmit = async (e) => {
     e.preventDefault();

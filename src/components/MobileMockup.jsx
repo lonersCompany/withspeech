@@ -5,20 +5,18 @@ import { downLoadWsFile } from "../actions/fetchFunctions";
 
 const MobileMockup = () => {
   const [id] = useState("aef74e5-6c41-4b51-bb9f-4edcc70ea346");
-  const [name, setName] = useState();
+  const [setName] = useState();
   const [content, setContent] = useState([]);
-  const [textValue, setTextValue] = useState([
+  const [setTextValue] = useState([
     {
       type: "paragraph",
       children: [{ text: "Add your text" }],
     },
   ]);
-  const [isLoading, setLoading] = useState(false);
-  const [isEditor, setEditor] = useState(false);
-  const [isPresentation, setPresentation] = useState(false);
-  const [isAudioSync, setAudioSync] = useState(false);
+  const [setEditor] = useState(false);
+  const [setAudioSync] = useState(false);
   const [isReading, setReading] = useState(null);
-  const [voice, setVoice] = useState("Salli");
+  const [setVoice] = useState("Salli");
 
   const toggleReading = () => {
     const toggleReading = isReading === null ? 0 : null;
@@ -32,13 +30,9 @@ const MobileMockup = () => {
 
         // LOAD TEXT WITH SPEECH DOCUMENT
         if (name) setName(name);
-        console.log(voice);
         if (voice) setVoice(voice);
 
         if (content === null) setEditor(true);
-        const str = JSON.stringify(content, null, 4); // (Optional) beautiful indented output.
-        //console.log(str); // Logs output to dev tools consol
-        console.log(content);
         if (content) setContent(content);
         if (content) setTextValue(content);
         if (content) setAudioSync(true);
