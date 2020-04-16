@@ -98,8 +98,7 @@ function WsFile({ match }) {
   };
 
   const handleEditiorChange = (value) => {
-    console.log(value);
-    //setName(value[0].children[0].text);
+    if (value) setName(value[0].children[0].text);
     setTextValue(value);
     setAudioSync(false);
   };
@@ -145,10 +144,8 @@ function WsFile({ match }) {
       try {
         const response = await downLoadWsFile(match.params.id);
 
-        const { name, content, voice, _version } = response;
+        const { content, voice, _version } = response;
 
-        // LOAD TEXT WITH SPEECH DOCUMENT
-        if (name) setName(name);
         if (voice) setVoice(voice);
         if (_version) setVersion(_version);
 

@@ -5,16 +5,8 @@ import { downLoadWsFile } from "../actions/fetchFunctions";
 
 const MobileMockup = () => {
   const [id] = useState("aef74e5-6c41-4b51-bb9f-4edcc70ea346");
-  const [setName] = useState();
+
   const [content, setContent] = useState([]);
-  const [setTextValue] = useState([
-    {
-      type: "paragraph",
-      children: [{ text: "Add your text" }],
-    },
-  ]);
-  const [setEditor] = useState(false);
-  const [setAudioSync] = useState(false);
   const [isReading, setReading] = useState(null);
   const [setVoice] = useState("Salli");
 
@@ -26,16 +18,11 @@ const MobileMockup = () => {
   useEffect(() => {
     const renderWSFile = async () => {
       try {
-        const { name, content, voice } = await downLoadWsFile(id);
+        const { content, voice } = await downLoadWsFile(id);
 
         // LOAD TEXT WITH SPEECH DOCUMENT
-        if (name) setName(name);
         if (voice) setVoice(voice);
-
-        if (content === null) setEditor(true);
         if (content) setContent(content);
-        if (content) setTextValue(content);
-        if (content) setAudioSync(true);
       } catch (err) {
         console.error(err);
       }
