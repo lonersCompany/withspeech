@@ -63,7 +63,6 @@ export const createWsFile = async () => {
 };
 
 export const downLoadWsFile = async (id) => {
-  console.log(id);
   try {
     const { data } = await API.graphql({
       query: getDocumentItem,
@@ -77,8 +76,47 @@ export const downLoadWsFile = async (id) => {
   }
 };
 
+export const handleListWsFiles = async () => {
+  // Use aplify api graphql method to request graphql queries
+  // that we improt by name "listNotes"
+  try {
+    const { data } = await API.graphql({
+      query: listDocumentItems,
+      authMode: "AWS_IAM",
+    });
+    const { items } = data.listDocumentItems;
+    console.log(data);
+    return items;
+  } catch (err) {
+    console.log(err);
+  }
+
+  // try {
+  //   const { data } = await API.graphql(
+  //     graphqlOperation({
+  //       query: `query listDocumentItems {
+  //         listDocumentItems {
+  //           items {
+  //             id
+  //             name
+  //           }
+  //         }
+  //       }`,
+  //       variables: {},
+  //       authMode: "AWS_IAM",
+  //     })
+  //   );
+  //   console.log(data);
+  //   const { items } = data.listDocumentItems;
+
+  //   return items;
+  // } catch (err) {
+  //   console.log(err);
+  //   //history.push("/login");
+  // }
+};
+
 export const uploadWsFile = async (input) => {
-  console.log(input);
   try {
     const { data } = await API.graphql(
       graphqlOperation(updateDocumentItem, { input })
@@ -157,46 +195,6 @@ export const triggerGenSubtitleBlock = async (block) => {
   } catch (err) {
     console.log(err);
   }
-};
-
-export const handleListWsFiles = async () => {
-  // Use aplify api graphql method to request graphql queries
-  // that we improt by name "listNotes"
-  try {
-    const { data } = await API.graphql({
-      query: listDocumentItems,
-      variables: {},
-    });
-    const { items } = data.listDocumentItems;
-    console.log(data);
-    return items;
-  } catch (err) {
-    console.log(err);
-  }
-
-  // try {
-  //   const { data } = await API.graphql(
-  //     graphqlOperation({
-  //       query: `query listDocumentItems {
-  //         listDocumentItems {
-  //           items {
-  //             id
-  //             name
-  //           }
-  //         }
-  //       }`,
-  //       variables: {},
-  //       authMode: "AWS_IAM",
-  //     })
-  //   );
-  //   console.log(data);
-  //   const { items } = data.listDocumentItems;
-
-  //   return items;
-  // } catch (err) {
-  //   console.log(err);
-  //   //history.push("/login");
-  // }
 };
 
 export const saveWsFile = async (input) => {

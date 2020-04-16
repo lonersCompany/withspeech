@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 import SingUpForm from "./SingUpForm";
@@ -34,7 +34,7 @@ const SingUpPage = ({ children }) => {
 // };
 
 const AuthLayer = ({ setAuth, setAuthProcess }) => {
-  const [logInMode, setLogMode] = useState(false);
+  const [logInMode, setLogMode] = useState(true);
   return (
     <div className="fixed flex justify-center items-center top-0 w-full h-full z-1">
       <div className="p-10 w-3/4 bg-black shadow">

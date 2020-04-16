@@ -18,14 +18,7 @@ const LandingPage = () => {
             </button>
           </Link>
         </div>
-        <div className="flex-grow text-right text-xl">
-          <Link to="/login" className="px-5 py-3">
-            Log in
-          </Link>
-          <Link to="/signup" className="bg-blue-900 px-5 py-3">
-            Get started<span className="">&nbsp;— it's free</span>
-          </Link>
-        </div>
+        <div className="flex-grow text-right text-xl"></div>
       </nav>
 
       <section className="py-20 px-10">
@@ -37,7 +30,7 @@ const LandingPage = () => {
           <div className="lg:w-2/5 p-10 text-2xl">
             <p className="font-light mb-5">{appDefinition}</p>
             <div>
-              <Link to="/dashboard">
+              <Link to="/doc/8aef74e5-6c41-4b51-bb9f-4edcc70ea346">
                 <button className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4">
                   Try beta version{" "}
                   <span role="img" aria-label="" description="wave hand">

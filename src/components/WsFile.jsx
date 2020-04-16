@@ -67,7 +67,7 @@ function WsFile({ match }) {
   const [id] = useState(match.params.id);
 
   const [authUser, setAuth] = useState();
-  const [authProcess, setAuthProcess] = useState(true);
+  const [authProcess, setAuthProcess] = useState(false);
   const [version, setVersion] = useState();
   const [name, setName] = useState(match.params.id);
   const [content, setContent] = useState([]);
@@ -76,7 +76,6 @@ function WsFile({ match }) {
   const [isEditor, setEditor] = useState(false);
   const [isPresentation, setPresentation] = useState(false);
   const [isAudioSync, setAudioSync] = useState(false);
-  const [isReading, setReading] = useState(null);
   const [voice, setVoice] = useState("Salli");
 
   const toggleEditorVue = () => {
@@ -146,7 +145,6 @@ function WsFile({ match }) {
   };
 
   useEffect(() => {
-    console.log("useEffect of WsFile");
     const renderWSFile = async () => {
       try {
         const response = await downLoadWsFile(match.params.id);
