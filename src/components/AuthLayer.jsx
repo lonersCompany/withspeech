@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-import SingUpForm from "./SingUpFormM";
+import SingUpForm from "./SingUpForm";
 import SingInForm from "./SingInForm";
 
 const LogInPage = ({ children }) => {
