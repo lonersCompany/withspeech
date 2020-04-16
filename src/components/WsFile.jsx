@@ -258,8 +258,15 @@ function WsFile({ match }) {
             </button>
           ) : (
             <div className="m-2 px-5 py-5 rounded bg-blue-900">
-              <p className="mb-2">Create our own audio articles :)</p>
-              <button onClick={() => setAuthProcess(true)}>Join us!</button>
+              <p className="mb-2">
+                Create and share your own audio articles with beta verison
+              </p>
+              <button
+                className="bg-green-500 px-2 rounded"
+                onClick={() => setAuthProcess(true)}
+              >
+                Join us!
+              </button>
             </div>
           )}
         </Sidebar>
