@@ -1,37 +1,24 @@
 import React, { useState } from "react";
 import { Auth } from "aws-amplify";
-import { Link } from "react-router-dom";
-import { useHistory } from "react-router-dom";
 
-const SingUpForm = (params) => {
-  const [username, setUsername] = useState("simon@loners.company");
+const SingUpForm = ({ setLogMode }) => {
+  const [username, setUserName] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [errMessage, setErrMessage] = useState(false);
-  const [emailPosted, setEmailPosted] = useState(true);
-  const [verificationCode, setVerificationCode] = useState("307694");
+  const [emailPosted, setEmailPosted] = useState(false);
+  const [verificationCode, setVerificationCode] = useState();
 
-  let history = useHistory();
-
-  const handleVerification = (e) => {
+  const handleVerification = async (e) => {
     e.preventDefault();
-    console.log(username);
-    console.log(verificationCode);
-    const mfaType = "SOFTWARE_TOKEN_MFA";
-    const responseAuth = Auth.confirmSignIn(
-      username,
-      verificationCode,
-      mfaType
-    );
 
-    responseAuth
-      .then((msg) => {
-        history.push("/dashboard");
-        console.log(msg);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    try {
+      const responseAuth = await Auth.confirmSignUp(username, verificationCode);
+      console.log(responseAuth);
+      if (responseAuth) setLogMode(true);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const handleSubmit = (e) => {
@@ -63,12 +50,6 @@ const SingUpForm = (params) => {
 
   return (
     <div>
-      <h1>With account you can save your audio articles</h1>
-      {/* <Federated
-        federated={federated}
-        onStateChange={() => console.log("what?")}
-      /> */}
-
       {emailPosted ? (
         <div className="mb-5 text-center mb-10">
           <div className="text-xl">
@@ -85,19 +66,28 @@ const SingUpForm = (params) => {
                 <input
                   className="mb-5 bg-gray-800 border border-gray-300 rounded-lg py-5 px-4 block w-full appearance-none leading-normal"
                   type="text"
+                  name="username"
+                  placeholder="E-mail"
+                  value={username}
+                  onChange={(e) => {
+                    setUserName(e.target.value);
+                    setEmail(e.target.value);
+                  }}
+                />
+                <input
+                  className="mb-5 bg-gray-800 border border-gray-300 rounded-lg py-5 px-4 block w-full appearance-none leading-normal"
+                  type="text"
                   placeholder="code"
                   name="code"
                   onChange={(e) => setVerificationCode(e.target.value)}
                 />
-              </form>
-              <Link to="/login">
                 <button className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4">
-                  Log In{" "}
+                  Verificate E-mail{" "}
                   <span role="img" aria-label="" description="wave hand">
                     🖖🏼
                   </span>
                 </button>
-              </Link>
+              </form>
             </div>
           </div>
         </div>
@@ -111,8 +101,7 @@ const SingUpForm = (params) => {
               name="username"
               placeholder="E-mail"
               onChange={(e) => {
-                console.log(e.target.value);
-                setUsername(e.target.value);
+                setUserName(e.target.value);
                 setEmail(e.target.value);
               }}
             />
@@ -134,8 +123,8 @@ const SingUpForm = (params) => {
             ) : (
               ""
             )}
-            <button className="w-full bg-blue-500 py-5 mb-5">
-              Create account
+            <button className="w-full bg-green-500 py-5 mb-5">
+              Create new account
             </button>
           </form>
         </>

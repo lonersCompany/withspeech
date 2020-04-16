@@ -23,7 +23,7 @@ import { useHistory } from "react-router-dom";
 
 // const Federated = withGoogle(GoogleSingIn);
 
-const SingInForm = ({ setAuthUser }) => {
+const SingInForm = ({ setAuth, setAuthProcess }) => {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
 
@@ -34,24 +34,11 @@ const SingInForm = ({ setAuthUser }) => {
 
     try {
       const response = await Auth.signIn(username, password);
-      console.log("Logged in");
-      console.log(response);
-      setAuthUser(response.username);
+      setAuthProcess(false);
+      setAuth(response.username);
     } catch (error) {
       console.log(`Error logging in: ${error}`);
     }
-
-    // responseAuth
-    //   .then((msg) => {
-    //     console.log(msg);
-    //     history.push("/dashboard");
-    //   })
-    //   .catch((err) => console.log(err));
-
-    // Auth.confirmSignUp(username)
-    //   .then(() => console.log("confirmed sign in"))
-    //   .catch(err => console.log(err));
-    // console.log("obhandleSubmitject");
   };
 
   return (
@@ -73,7 +60,7 @@ const SingInForm = ({ setAuthUser }) => {
         type="password"
         placeholder="Password"
       ></input>
-      <button className="w-full bg-blue-500 py-5">Log In</button>
+      <button className="w-full bg-green-500 py-5">Log In</button>
     </form>
   );
 };

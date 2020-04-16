@@ -14,7 +14,7 @@ import uuidv1 from "uuid/v1";
 import WsPreview from "./WsPreview";
 import WsEditor from "./WsEditor";
 import CreateDocument from "./create-document";
-import SingInForm from "./SingInForm";
+import AuthLayer from "./AuthLayer";
 
 const basicTextValue = [
   {
@@ -66,7 +66,8 @@ const getParagrafTextValue = (sentences) => {
 function WsFile({ match }) {
   const [id] = useState(match.params.id);
 
-  const [authUser, setAuthUser] = useState();
+  const [authUser, setAuth] = useState();
+  const [authProcess, setAuthProcess] = useState(true);
   const [version, setVersion] = useState();
   const [name, setName] = useState(match.params.id);
   const [content, setContent] = useState([]);
@@ -88,10 +89,8 @@ function WsFile({ match }) {
 
   const handleSignOut = (e) => {
     Auth.signOut()
-      .then((data) => {
-        //history.push("/");
-        setAuthUser();
-        console.log(data);
+      .then((msg) => {
+        setAuth();
       })
       .catch((err) => console.log(err));
   };
@@ -181,23 +180,12 @@ function WsFile({ match }) {
       const responseConfirm = Auth.currentAuthenticatedUser();
       responseConfirm
         .then((msg) => {
-          setAuthUser(msg.username);
+          setAuth(msg.username);
         })
         .catch((err) => console.log(err));
     };
 
     handleConfirm();
-
-    // const asyncRequest = async (params) => {
-    //   try {
-    //     const isAuth = await Auth.currentAuthenticatedUser();
-    //     console.log(isAuth);
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
-    // };
-
-    // asyncRequest();
   }, []);
 
   const handleVoiceChange = ({ target }) => {
@@ -210,85 +198,94 @@ function WsFile({ match }) {
   };
 
   return (
-    <div className="lg:flex">
-      <Sidebar>
-        <button
-          className="flex block px-6 py-5 block w-full hover:bg-green-400"
-          onClick={togglePresentationVue}
-        >
-          <div className="text-left flex-grow">
-            <div className="font-semibold text-xl">Presentation</div>
-            {/* <div className="text-blue-700"> ctrl+P</div> */}
-          </div>
-
-          <div
-            className={`tgl-btn ml-5 ${isPresentation ? "active" : ""}`}
-          ></div>
-        </button>
-        <div className={`${authUser ? "" : "opacity-50 pointer-events-none"}`}>
-          <CreateDocument />
+    <>
+      <div className="lg:flex">
+        <Sidebar>
           <button
             className="flex block px-6 py-5 block w-full hover:bg-green-400"
-            onClick={toggleEditorVue}
+            onClick={togglePresentationVue}
           >
             <div className="text-left flex-grow">
-              <div className="font-semibold text-xl">Edit</div>
-              {/* <div className="text-blue-700"> ctrl+E</div> */}
+              <div className="font-semibold text-xl">Presentation</div>
+              {/* <div className="text-blue-700"> ctrl+P</div> */}
             </div>
 
-            <div className={`tgl-btn ml-5 ${isEditor ? "active" : ""}`}></div>
+            <div
+              className={`tgl-btn ml-5 ${isPresentation ? "active" : ""}`}
+            ></div>
           </button>
-          <div className="relative font-semibold text-xl p-1">
-            <form>
-              <select
-                value={voice}
-                //defaultValue={voice}
-                onChange={handleVoiceChange}
-                className="block appearance-none w-full bg-gray-900 px-6 py-5 pr-8 rounded leading-tight focus:outline-none focus:shadow-outline"
-              >
-                <option value="Salli">Salli</option>
-                <option value="Joanna">Joanna</option>
-                <option value="Ivy">Ivy</option>
-                <option value="Kendra">Kendra</option>
-                <option value="Kimberly">Kimberly</option>
-
-                <option value="Matthew">Matthew</option>
-                <option value="Justin">Justin</option>
-                <option value="Joey">Joey</option>
-              </select>
-            </form>
-          </div>
-        </div>
-
-        {authUser ? (
-          <button
-            onClick={handleSignOut}
-            className="px-6 py-5 w-full text-left"
+          <div
+            className={`${authUser ? "" : "opacity-50 pointer-events-none"}`}
           >
-            Sing Out <span className="opacity-50 text-xs">{authUser}</span>
-          </button>
-        ) : (
-          <div className="m-2 px-5 py-5 rounded bg-blue-900">
-            <p className="mb-2">Create our own audio articles :)</p>
-            <SingInForm setAuthUser={setAuthUser} />
+            <CreateDocument />
+            <button
+              className="flex block px-6 py-5 block w-full hover:bg-green-400"
+              onClick={toggleEditorVue}
+            >
+              <div className="text-left flex-grow">
+                <div className="font-semibold text-xl">Edit</div>
+                {/* <div className="text-blue-700"> ctrl+E</div> */}
+              </div>
+
+              <div className={`tgl-btn ml-5 ${isEditor ? "active" : ""}`}></div>
+            </button>
+            <div className="relative font-semibold text-xl p-1">
+              <form>
+                <select
+                  value={voice}
+                  //defaultValue={voice}
+                  onChange={handleVoiceChange}
+                  className="block appearance-none w-full bg-gray-900 px-6 py-5 pr-8 rounded leading-tight focus:outline-none focus:shadow-outline"
+                >
+                  <option value="Salli">Salli</option>
+                  <option value="Joanna">Joanna</option>
+                  <option value="Ivy">Ivy</option>
+                  <option value="Kendra">Kendra</option>
+                  <option value="Kimberly">Kimberly</option>
+
+                  <option value="Matthew">Matthew</option>
+                  <option value="Justin">Justin</option>
+                  <option value="Joey">Joey</option>
+                </select>
+              </form>
+            </div>
           </div>
-        )}
-      </Sidebar>
-      <div className="text-white min-h-screen w-full lg:static lg:max-h-full lg:overflow-visible lg:w-3/4 xl:w-4/5">
-        <div className={isEditor ? "bg-green-900" : "bg-gray-900"}>
-          <div className="max-w-xl text-xl m-auto py-20 min-h-screen article">
-            {isEditor ? (
-              <WsEditor
-                textValue={textValue}
-                handleEditiorChange={handleEditiorChange}
-              />
-            ) : (
-              <WsPreview content={content} presentationVue={isPresentation} />
-            )}
+
+          {authUser ? (
+            <button
+              onClick={() => handleSignOut()}
+              className="px-6 py-5 w-full text-left"
+            >
+              Sing Out <span className="opacity-50 text-xs">{authUser}</span>
+            </button>
+          ) : (
+            <div className="m-2 px-5 py-5 rounded bg-blue-900">
+              <p className="mb-2">Create our own audio articles :)</p>
+              <button onClick={() => setAuthProcess(true)}>Join us!</button>
+            </div>
+          )}
+        </Sidebar>
+        <div className="text-white min-h-screen w-full lg:static lg:max-h-full lg:overflow-visible lg:w-3/4 xl:w-4/5">
+          <div className={isEditor ? "bg-green-900" : "bg-gray-900"}>
+            <div className="max-w-xl text-xl m-auto py-20 min-h-screen article">
+              {isEditor ? (
+                <WsEditor
+                  textValue={textValue}
+                  handleEditiorChange={handleEditiorChange}
+                />
+              ) : (
+                <WsPreview content={content} presentationVue={isPresentation} />
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      {authProcess ? (
+        <AuthLayer setAuth={setAuth} setAuthProcess={setAuthProcess} />
+      ) : (
+        ""
+      )}
+    </>
   );
 }
 
