@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 
-import SingInForm from "./singInForm";
+import SingInForm from "./SingInForm";
 
 const LoginPage = () => {
   return (
@@ -11,7 +11,7 @@ const LoginPage = () => {
           <Link to="/">
             <button className="text-left font-semibold text-xl">
               Wave Page{" "}
-              <span role="img" description="wave hand">
+              <span role="img" aria-label="" description="wave hand">
                 👋🏼
               </span>
             </button>
@@ -19,7 +19,10 @@ const LoginPage = () => {
         </div>
         <div className="flex-grow text-right text-xl"></div>
       </nav>
-      <SingInForm />
+      <div className="lg:w-1/3 m-auto">
+        <h1>Log Into My Account</h1>
+        <SingInForm />
+      </div>
     </div>
   );
 };

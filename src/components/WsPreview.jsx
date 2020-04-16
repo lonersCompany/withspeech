@@ -25,7 +25,7 @@ const Element = ({
   setActiveElement,
   index,
   isActive,
-  presentationVue
+  presentationVue,
 }) => {
   switch (element.type) {
     case "image":
@@ -53,18 +53,18 @@ const Element = ({
   }
 };
 
-function Content({ content, presentationVue, isReading }) {
+function Content({ content, presentationVue, ActiveElement }) {
   const [activeElement, setActiveElement] = useState(null);
   const [slides, setSlides] = useState([]);
 
   // PREPARE PRESENTATION
   useEffect(() => {
     const titleSlide = content[0];
-    const imageSlides = content.filter(element => element.type === "image");
+    const imageSlides = content.filter((element) => element.type === "image");
 
-    const slides = [titleSlide, ...imageSlides].map(obj => ({
+    const slides = [titleSlide, ...imageSlides].map((obj) => ({
       ...obj,
-      blocks: []
+      blocks: [],
     }));
 
     let slideIndex = 0;
@@ -79,12 +79,21 @@ function Content({ content, presentationVue, isReading }) {
     setSlides(slides);
   }, [content]);
 
-  useEffect(() => {
-    setActiveElement(isReading);
-  }, [isReading]);
+  const toggleReading = () => {
+    const toggle = activeElement !== null ? null : 0;
+    setActiveElement(toggle);
+  };
 
   return (
     <>
+      <div>
+        <button
+          onClick={toggleReading}
+          className="bg-blue-500 hover:bg-blue-400 px-4 rounded-lg mb-10"
+        >
+          Click into text to {activeElement === null ? "start" : "stop"}
+        </button>
+      </div>
       <div
         className={`${activeElement === null ? "not-speaking" : "speaking"} ${
           presentationVue ? "mt-70" : ""
@@ -110,7 +119,7 @@ function Content({ content, presentationVue, isReading }) {
               <p className="text-gray-600">(Presentation Mode)</p>
             </div>
           </div>
-          {slides.map(element => (
+          {slides.map((element) => (
             <Slide
               key={element.id}
               element={element}
@@ -125,17 +134,13 @@ function Content({ content, presentationVue, isReading }) {
   );
 }
 
-const WsPreview = ({ content, presentationVue, isReading }) => {
+const WsPreview = ({ content, presentationVue }) => {
   return (
     <div>
-      {content && content.length != 0 ? (
-        <Content
-          content={content}
-          presentationVue={presentationVue}
-          isReading={isReading}
-        />
+      {content && content.length !== 0 ? (
+        <Content content={content} presentationVue={presentationVue} />
       ) : (
-        "Generate content"
+        "..."
       )}
     </div>
   );

@@ -4,7 +4,7 @@ import WsPreview from "./WsPreview";
 import { downLoadWsFile } from "../actions/fetchFunctions";
 
 const MobileMockup = () => {
-  const [id] = useState("8d588311-6c89-4f4f-ad9e-6b914681fc08");
+  const [id] = useState("1cc04936-c092-4b42-a2ba-1b6c718bb1f2");
   const [name, setName] = useState();
   const [content, setContent] = useState([]);
   const [textValue, setTextValue] = useState([

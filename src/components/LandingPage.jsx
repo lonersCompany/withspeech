@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import MobileMockup from "./MobileMockup";
 const LandingPage = () => {
@@ -12,7 +12,7 @@ const LandingPage = () => {
           <Link to="/">
             <button className="text-left font-semibold text-xl">
               Wave Page{" "}
-              <span role="img" description="wave hand">
+              <span role="img" aria-label="" description="wave hand">
                 👋🏼
               </span>
             </button>
@@ -40,7 +40,7 @@ const LandingPage = () => {
               <Link to="/dashboard">
                 <button className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4">
                   Try beta version{" "}
-                  <span role="img" description="wave hand">
+                  <span role="img" aria-label="" description="wave hand">
                     🖖🏼
                   </span>
                 </button>

@@ -45,7 +45,7 @@ const renameObjFiled = (obj, old_key, new_key) => {
 
 export const createWsFile = async () => {
   const input = {
-    name: "untitle",
+    name: "Audio article without Name",
   };
 
   try {
@@ -63,12 +63,14 @@ export const createWsFile = async () => {
 };
 
 export const downLoadWsFile = async (id) => {
+  console.log(id);
   try {
     const { data } = await API.graphql({
       query: getDocumentItem,
       variables: { id },
       authMode: "AWS_IAM",
     });
+    console.log(data);
     return data.getDocumentItem;
   } catch (err) {
     console.log(err);
@@ -76,13 +78,13 @@ export const downLoadWsFile = async (id) => {
 };
 
 export const uploadWsFile = async (input) => {
+  console.log(input);
   try {
     const { data } = await API.graphql(
       graphqlOperation(updateDocumentItem, { input })
     );
 
     const response = data.updateDocumentItem;
-
     return response;
   } catch (err) {
     console.log(err);
@@ -164,12 +166,12 @@ export const handleListWsFiles = async () => {
     const { data } = await API.graphql({
       query: listDocumentItems,
       variables: {},
-      authMode: "AWS_IAM",
     });
     const { items } = data.listDocumentItems;
+    console.log(data);
     return items;
-  } catch (error) {
-    console.log(`Error executing query: ${error}`);
+  } catch (err) {
+    console.log(err);
   }
 
   // try {

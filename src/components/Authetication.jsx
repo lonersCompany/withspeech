@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
-import SingUpForm from "./singUpForm";
-import SingInForm from "./singInForm";
+import SingUpForm from "./SingUpForm";
+import SingInForm from "./SingInForm";
 // const Authentication = params => {
 //   const [isSingIn, setSingIn] = useState(true);
 //   return (
@@ -14,7 +14,7 @@ import SingInForm from "./singInForm";
 //   );
 // };
 
-const Authentication = params => {
+const Authentication = (params) => {
   const [isSingIn, setSingIn] = useState(true);
   return (
     <div>

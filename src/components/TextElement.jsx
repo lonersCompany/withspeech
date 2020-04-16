@@ -16,7 +16,7 @@ const scrollToRef = (ref, presentationVue) => {
 
   ref.current.scrollIntoView({
     behavior: "smooth",
-    block: position
+    block: position,
   });
   //console.log(window.document.body);
 };
@@ -49,7 +49,7 @@ const TextElement = ({
   index,
   isActive,
   setActiveElement,
-  presentationVue
+  presentationVue,
 }) => {
   const { id, children, url } = element;
   const [mediaPermition, setMediaPermition] = useState(true);
@@ -57,7 +57,7 @@ const TextElement = ({
   const [sentenceIndex, setSentenceIndex] = useState(null);
   const [sentences, setSentences] = useState(children);
 
-  const playAudioObject = async audio => {
+  const playAudioObject = async (audio) => {
     try {
       await audio.play();
       setMediaPermition(true);
@@ -77,7 +77,7 @@ const TextElement = ({
 
         audio.pause();
 
-        if (sentenceIndex != null) {
+        if (sentenceIndex !== null) {
           let newSentences = [...sentences];
           newSentences[sentenceIndex].sentenceActive = false;
           setSentences(newSentences);
@@ -89,7 +89,7 @@ const TextElement = ({
         audio.currentTime = start * 0.001;
         audio.addEventListener(
           "timeupdate",
-          function(e) {
+          function (e) {
             const currentTime = e.target.currentTime * 1000;
             const newSentences = sentences.map((item, index) => {
               const itemTiming =
@@ -120,7 +120,7 @@ const TextElement = ({
     if (isActive && audio.paused) speakTextBlock(0, false);
   }, [isActive]);
 
-  const sentenceItems = sentences.map(inline => {
+  const sentenceItems = sentences.map((inline) => {
     // Correct! Key should be specified inside the array.
     const sentenceId = `${id}-${inline.start}`;
     return (

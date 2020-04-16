@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import WsFile from "./components/WsFile";
 import WsDashboard from "./components/WsDashboard";
 import LandingPage from "./components/LandingPage";
 import LoginPage from "./components/LoginPage";
 import SingUpPage from "./components/SingUpPage";
 import PrivacyPolicy from "./components/PrivacyPolicy";
-import { Auth } from "aws-amplify";
 
-import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
 function App() {
   return (

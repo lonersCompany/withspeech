@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import WsEntry from "./WsEntry";
 import { deleteWsFile, handleListWsFiles } from "../actions/fetchFunctions";
-import Sidebar from "./Sidebar";
-import CreateDocument from "./create-document";
-import { useHistory } from "react-router-dom";
+import { Auth } from "aws-amplify";
+//import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function WsDashboard() {
   const [files, setFiles] = useState(false);
-  let history = useHistory();
 
   const handleDeleteWSFile = (index, id) => {
     let newFiles = [...files];
@@ -19,6 +18,16 @@ function WsDashboard() {
 
   useEffect(() => {
     // On load of page run handleListNotes function
+
+    const handleConfirm = () => {
+      const responseConfirm = Auth.currentCredentials();
+      responseConfirm
+        .then((msg) => console.log(msg))
+        .catch((err) => console.log(err));
+    };
+
+    handleConfirm();
+
     const asyncRead = async () => {
       const items = await handleListWsFiles();
       console.log(items);
@@ -28,33 +37,47 @@ function WsDashboard() {
   }, []);
 
   return (
-    <div className="lg:flex text-white ">
-      <Sidebar>
-        <CreateDocument />
-      </Sidebar>
-
-      <div className="pt-20 bg-gray-900 min-h-screen w-full lg:static lg:max-h-full lg:overflow-visible lg:w-3/4 xl:w-4/5">
-        <div className="">
-          <div className=" py-5 px-6 border-b-4 border-gray-800 text-3xl">
-            Documents:
-          </div>
-
-          {files ? (
-            <>
-              {files.map((doc, index) => (
-                <WsEntry
-                  key={doc.id}
-                  index={index}
-                  id={doc.id}
-                  name={doc.name}
-                  handleDeleteWSFile={() => handleDeleteWSFile(index, doc.id)}
-                />
-              ))}
-            </>
-          ) : (
-            <div className="py-5 px-6">Loading...</div>
-          )}
+    <div className="container mx-auto">
+      <nav className="flex py-5 px-6">
+        <div>
+          <Link to="/">
+            <button className="text-left font-semibold text-xl">
+              Wave Page{" "}
+              <span role="img" aria-label="" description="wave hand">
+                👋🏼
+              </span>
+            </button>
+          </Link>
         </div>
+        <div className="flex-grow text-right text-xl">
+          <Link to="/login" className="px-5 py-3">
+            Log in
+          </Link>
+          <Link to="/signup" className="bg-blue-900 px-5 py-3">
+            Get started<span className="">&nbsp;— it's free</span>
+          </Link>
+        </div>
+      </nav>
+      <div>
+        <div className="py-5 px-6 mt-24 border-b-4 border-gray-800 text-3xl">
+          Audio Articles:
+        </div>
+
+        {files ? (
+          <>
+            {files.map((doc, index) => (
+              <WsEntry
+                key={doc.id}
+                index={index}
+                id={doc.id}
+                name={doc.name}
+                handleDeleteWSFile={() => handleDeleteWSFile(index, doc.id)}
+              />
+            ))}
+          </>
+        ) : (
+          <div className="py-5 px-6">Loading...</div>
+        )}
       </div>
     </div>
   );

@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 
-import SingUpForm from "./singUpForm";
+import SingUpForm from "./SingUpForm";
 
-const SingUpPage = params => {
+const SingUpPage = (params) => {
   return (
     <div>
       <nav className="flex p-5 px-10">
@@ -11,7 +11,7 @@ const SingUpPage = params => {
           <Link to="/">
             <button className="text-left font-semibold text-xl">
               Wave Page{" "}
-              <span role="img" description="wave hand">
+              <span role="img" aria-label="" description="wave hand">
                 👋🏼
               </span>
             </button>

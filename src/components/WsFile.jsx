@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "./Sidebar";
-//import { withAuthenticator } from "aws-amplify-react";
+import { Auth } from "aws-amplify";
 
 import {
   downLoadWsFile,
   triggerGenAudioBlock,
   triggerGenSubtitleBlock,
-  uploadWsFile
+  uploadWsFile,
 } from "../actions/fetchFunctions";
 
 import uuidv1 from "uuid/v1";
@@ -14,6 +14,14 @@ import uuidv1 from "uuid/v1";
 import WsPreview from "./WsPreview";
 import WsEditor from "./WsEditor";
 import CreateDocument from "./create-document";
+import SingInForm from "./SingInForm";
+
+const basicTextValue = [
+  {
+    type: "paragraph",
+    children: [{ text: "Write something were :)" }],
+  },
+];
 
 const generateAudioBlock = async (ssmlValue, voice) => {
   console.log(ssmlValue);
@@ -21,7 +29,7 @@ const generateAudioBlock = async (ssmlValue, voice) => {
     text: ssmlValue,
     key: uuidv1(),
     voice: voice,
-    ssml: true
+    ssml: true,
   };
   try {
     // Request speakable blocks
@@ -46,25 +54,23 @@ const generateAudioBlock = async (ssmlValue, voice) => {
 };
 
 // Conver Editor to content Value
-const getParagrafTextValue = sentences => {
+const getParagrafTextValue = (sentences) => {
   console.log(sentences);
-  const paragrafTextValue = sentences.map(sentence => sentence.text).join("");
+  const paragrafTextValue = sentences.map((sentence) => sentence.text).join("");
 
   console.log(paragrafTextValue);
 
-  return `<speak>${paragrafTextValue}</speak>`;
+  return `<speak>${paragrafTextValue}<break strength="medium"></speak>`;
 };
 
 function WsFile({ match }) {
   const [id] = useState(match.params.id);
+
+  const [authUser, setAuthUser] = useState();
+  const [version, setVersion] = useState();
   const [name, setName] = useState(match.params.id);
   const [content, setContent] = useState([]);
-  const [textValue, setTextValue] = useState([
-    {
-      type: "paragraph",
-      children: [{ text: "Add your text" }]
-    }
-  ]);
+  const [textValue, setTextValue] = useState();
   const [isLoading, setLoading] = useState(false);
   const [isEditor, setEditor] = useState(false);
   const [isPresentation, setPresentation] = useState(false);
@@ -80,24 +86,23 @@ function WsFile({ match }) {
     isEditor ? setEditor(false) : setEditor(true);
   };
 
-  const toggleReading = () => {
-    const toggleReading = isReading === null ? 0 : null;
-    setReading(toggleReading);
-
-    if (isEditor) setEditor(false);
-    if (!isAudioSync) {
-      setContent([]);
-      handleAudioSync({ voice });
-    }
+  const handleSignOut = (e) => {
+    Auth.signOut()
+      .then((data) => {
+        //history.push("/");
+        setAuthUser();
+        console.log(data);
+      })
+      .catch((err) => console.log(err));
   };
 
   const togglePresentationVue = () => {
     isPresentation ? setPresentation(false) : setPresentation(true);
   };
 
-  const handleEditiorChange = value => {
-    //console.log(value);
-    setName(value[0].children[0].text);
+  const handleEditiorChange = (value) => {
+    console.log(value);
+    //setName(value[0].children[0].text);
     setTextValue(value);
     setAudioSync(false);
   };
@@ -107,7 +112,7 @@ function WsFile({ match }) {
     setLoading(true);
 
     // TODO probably will be costed
-    const contentPromisses = textValue.map(block => {
+    const contentPromisses = textValue.map((block) => {
       if (block.type === "image") {
         const newBlock = Object.assign({}, block);
         newBlock.id = uuidv1();
@@ -129,39 +134,71 @@ function WsFile({ match }) {
       setContent(content);
       setLoading(false);
       setAudioSync(true);
-      uploadWsFile({
+      const { _version } = await uploadWsFile({
         id,
         name,
         content,
-        voice
+        voice,
+        _version: version,
       });
+
+      setVersion(_version);
     }
   };
 
   useEffect(() => {
+    console.log("useEffect of WsFile");
     const renderWSFile = async () => {
       try {
-        const { name, content, voice } = await downLoadWsFile(id);
+        const response = await downLoadWsFile(match.params.id);
+
+        const { name, content, voice, _version } = response;
 
         // LOAD TEXT WITH SPEECH DOCUMENT
         if (name) setName(name);
-        console.log(voice);
         if (voice) setVoice(voice);
+        if (_version) setVersion(_version);
 
-        if (content === null) setEditor(true);
-        const str = JSON.stringify(content, null, 4); // (Optional) beautiful indented output.
-        //console.log(str); // Logs output to dev tools consol
-        console.log(content);
-        if (content) setContent(content);
-        if (content) setTextValue(content);
-        if (content) setAudioSync(true);
+        if (content === null) {
+          setTextValue(basicTextValue);
+          setEditor(true);
+        } else {
+          setAudioSync(true);
+          setContent(content);
+          setTextValue(content);
+        }
       } catch (err) {
         console.error(err);
       }
     };
 
     renderWSFile();
-  }, [id]);
+  }, [match.params.id]);
+
+  useEffect(() => {
+    console.log("Use land on page. So how to reg him? ");
+    const handleConfirm = () => {
+      const responseConfirm = Auth.currentAuthenticatedUser();
+      responseConfirm
+        .then((msg) => {
+          setAuthUser(msg.username);
+        })
+        .catch((err) => console.log(err));
+    };
+
+    handleConfirm();
+
+    // const asyncRequest = async (params) => {
+    //   try {
+    //     const isAuth = await Auth.currentAuthenticatedUser();
+    //     console.log(isAuth);
+    //   } catch (err) {
+    //     console.log(err);
+    //   }
+    // };
+
+    // asyncRequest();
+  }, []);
 
   const handleVoiceChange = ({ target }) => {
     const voice = target.value;
@@ -175,18 +212,6 @@ function WsFile({ match }) {
   return (
     <div className="lg:flex">
       <Sidebar>
-        <CreateDocument />
-        <button
-          className="flex block px-6 py-5 block w-full hover:bg-green-400"
-          onClick={toggleEditorVue}
-        >
-          <div className="text-left flex-grow">
-            <div className="font-semibold text-xl">Edit</div>
-            {/* <div className="text-blue-700"> ctrl+E</div> */}
-          </div>
-
-          <div className={`tgl-btn ml-5 ${isEditor ? "active" : ""}`}></div>
-        </button>
         <button
           className="flex block px-6 py-5 block w-full hover:bg-green-400"
           onClick={togglePresentationVue}
@@ -200,59 +225,67 @@ function WsFile({ match }) {
             className={`tgl-btn ml-5 ${isPresentation ? "active" : ""}`}
           ></div>
         </button>
+        <div className={`${authUser ? "" : "opacity-50 pointer-events-none"}`}>
+          <CreateDocument />
+          <button
+            className="flex block px-6 py-5 block w-full hover:bg-green-400"
+            onClick={toggleEditorVue}
+          >
+            <div className="text-left flex-grow">
+              <div className="font-semibold text-xl">Edit</div>
+              {/* <div className="text-blue-700"> ctrl+E</div> */}
+            </div>
 
-        <div className="relative font-semibold text-xl p-1">
-          <form>
-            <select
-              value={voice}
-              defaultValue={voice}
-              onChange={handleVoiceChange}
-              className="block appearance-none w-full bg-gray-900 px-6 py-5 pr-8 rounded leading-tight focus:outline-none focus:shadow-outline"
-            >
-              <option value="Salli">Salli</option>
-              <option value="Joanna">Joanna</option>
-              <option value="Ivy">Ivy</option>
-              <option value="Kendra">Kendra</option>
-              <option value="Kimberly">Kimberly</option>
+            <div className={`tgl-btn ml-5 ${isEditor ? "active" : ""}`}></div>
+          </button>
+          <div className="relative font-semibold text-xl p-1">
+            <form>
+              <select
+                value={voice}
+                //defaultValue={voice}
+                onChange={handleVoiceChange}
+                className="block appearance-none w-full bg-gray-900 px-6 py-5 pr-8 rounded leading-tight focus:outline-none focus:shadow-outline"
+              >
+                <option value="Salli">Salli</option>
+                <option value="Joanna">Joanna</option>
+                <option value="Ivy">Ivy</option>
+                <option value="Kendra">Kendra</option>
+                <option value="Kimberly">Kimberly</option>
 
-              <option value="Matthew">Matthew</option>
-              <option value="Justin">Justin</option>
-              <option value="Joey">Joey</option>
-            </select>
-          </form>
-          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-            <svg
-              className="fill-current h-6 w-6"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-            >
-              <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-            </svg>
+                <option value="Matthew">Matthew</option>
+                <option value="Justin">Justin</option>
+                <option value="Joey">Joey</option>
+              </select>
+            </form>
           </div>
         </div>
-      </Sidebar>
-      <div className="bg-gray-900 text-white min-h-screen w-full lg:static lg:max-h-full lg:overflow-visible lg:w-3/4 xl:w-4/5">
-        <div className="max-w-xl text-2xl m-auto py-20 min-h-screen article">
-          <div className={isReading === null ? "" : "opacity-25"}>
-            <button
-              onClick={toggleReading}
-              className="bg-blue-500 hover:bg-blue-400 px-4 rounded-lg mb-10"
-            >
-              Click into text to {isReading === null ? "start" : "stop"}
-            </button>
+
+        {authUser ? (
+          <button
+            onClick={handleSignOut}
+            className="px-6 py-5 w-full text-left"
+          >
+            Sing Out <span className="opacity-50 text-xs">{authUser}</span>
+          </button>
+        ) : (
+          <div className="m-2 px-5 py-5 rounded bg-blue-900">
+            <p className="mb-2">Create our own audio articles :)</p>
+            <SingInForm setAuthUser={setAuthUser} />
           </div>
-          {isEditor ? (
-            <WsEditor
-              textValue={textValue}
-              handleEditiorChange={handleEditiorChange}
-            />
-          ) : (
-            <WsPreview
-              content={content}
-              presentationVue={isPresentation}
-              isReading={isReading}
-            />
-          )}
+        )}
+      </Sidebar>
+      <div className="text-white min-h-screen w-full lg:static lg:max-h-full lg:overflow-visible lg:w-3/4 xl:w-4/5">
+        <div className={isEditor ? "bg-green-900" : "bg-gray-900"}>
+          <div className="max-w-xl text-xl m-auto py-20 min-h-screen article">
+            {isEditor ? (
+              <WsEditor
+                textValue={textValue}
+                handleEditiorChange={handleEditiorChange}
+              />
+            ) : (
+              <WsPreview content={content} presentationVue={isPresentation} />
+            )}
+          </div>
         </div>
       </div>
     </div>

@@ -41,7 +41,7 @@ type SpeakableItem {
   children: [SpeakableBlock]
 }
 
-type SpeakableBlock @aws_iam {
+type SpeakableBlock @aws_iam @aws_cognito_user_pools {
   text: String
   start: Int
   end: Int

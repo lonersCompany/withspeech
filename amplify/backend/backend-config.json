@@ -45,7 +45,7 @@
 				"securityType": "AMAZON_COGNITO_USER_POOLS"
 			}
 		},
-		"wavepage": {
+		"documentAPI": {
 			"service": "AppSync",
 			"providerPlugin": "awscloudformation",
 			"output": {

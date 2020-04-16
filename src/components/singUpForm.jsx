@@ -4,13 +4,35 @@ import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 
 const SingUpForm = (params) => {
-  const [username, setUsername] = useState();
+  const [username, setUsername] = useState("simon@loners.company");
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [errMessage, setErrMessage] = useState(false);
-  const [emailPosted, setEmailPosted] = useState(false);
+  const [emailPosted, setEmailPosted] = useState(true);
+  const [verificationCode, setVerificationCode] = useState("307694");
 
   let history = useHistory();
+
+  const handleVerification = (e) => {
+    e.preventDefault();
+    console.log(username);
+    console.log(verificationCode);
+    const mfaType = "SOFTWARE_TOKEN_MFA";
+    const responseAuth = Auth.confirmSignIn(
+      username,
+      verificationCode,
+      mfaType
+    );
+
+    responseAuth
+      .then((msg) => {
+        history.push("/dashboard");
+        console.log(msg);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -51,18 +73,27 @@ const SingUpForm = (params) => {
         <div className="mb-5 text-center mb-10">
           <div className="text-xl">
             <p className="mb-5">
-              <span role="img" description="Envelope">
+              <span role="img" aria-label="" description="Envelope">
                 ✉️
               </span>
             </p>
             <p className="font-light mb-5">
-              Check your E-mail, we send you verification :)
+              Check your E-mail, we send you verification code :)
             </p>
             <div>
+              <form onSubmit={handleVerification}>
+                <input
+                  className="mb-5 bg-gray-800 border border-gray-300 rounded-lg py-5 px-4 block w-full appearance-none leading-normal"
+                  type="text"
+                  placeholder="code"
+                  name="code"
+                  onChange={(e) => setVerificationCode(e.target.value)}
+                />
+              </form>
               <Link to="/login">
                 <button className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4">
                   Log In{" "}
-                  <span role="img" description="wave hand">
+                  <span role="img" aria-label="" description="wave hand">
                     🖖🏼
                   </span>
                 </button>
@@ -96,7 +127,7 @@ const SingUpForm = (params) => {
             {errMessage ? (
               <div className="bg-red-500 mb-5 bg-gray-800 rounded-lg py-5 px-4 block w-full">
                 {errMessage}
-                <span role="img" description="sad emoji">
+                <span role="img" aria-label="" description="sad emoji">
                   😑
                 </span>{" "}
               </div>
