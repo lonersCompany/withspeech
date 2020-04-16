@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-import SingUpForm from "./SingUpForm";
+import SingUpForm from "./necojineho";
 import SingInForm from "./SingInForm";
 
 const LogInPage = ({ children }) => {
