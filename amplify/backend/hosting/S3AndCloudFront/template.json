@@ -261,6 +261,11 @@
                     ]
                 ]
             }
+        },
+        "CloudFrontOriginAccessIdentity": {
+            "Value": {
+                "Ref": "OriginAccessIdentity"
+            }
         }
     }
 }
