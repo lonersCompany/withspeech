@@ -53,7 +53,7 @@ const Element = ({
   }
 };
 
-function Content({ content, presentationVue, ActiveElement }) {
+function Content({ content, presentationVue }) {
   const [activeElement, setActiveElement] = useState(null);
   const [slides, setSlides] = useState([]);
 

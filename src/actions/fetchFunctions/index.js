@@ -69,7 +69,8 @@ export const downLoadWsFile = async (id) => {
       variables: { id },
       authMode: "AWS_IAM",
     });
-    console.log(data);
+
+    console.log(JSON.stringify(data));
     return data.getDocumentItem;
   } catch (err) {
     console.log(err);

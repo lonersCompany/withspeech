@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@aws-amplify/cli": "^4.18.0",
     "@babel/compat-data": "^7.9.0",
     "@babel/helper-call-delegate": "^7.8.7",
     "@babel/plugin-proposal-numeric-separator": "^7.8.3",
