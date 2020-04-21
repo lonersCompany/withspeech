@@ -87,12 +87,12 @@ function Content({ content, presentationVue }) {
   return (
     <>
       <div>
-        <button
+        {/* <button
           onClick={toggleReading}
           className="bg-blue-500 hover:bg-blue-400 px-4 rounded-lg mb-10"
         >
           Click into text to {activeElement === null ? "start" : "stop"}
-        </button>
+        </button> */}
       </div>
       <div
         className={`${activeElement === null ? "not-speaking" : "speaking"} ${

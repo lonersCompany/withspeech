@@ -55,7 +55,6 @@ export const createWsFile = async () => {
 
     const response = data.createDocumentItem;
 
-    console.log(data);
     return response;
   } catch (err) {
     console.error(err);
@@ -70,7 +69,6 @@ export const downLoadWsFile = async (id) => {
       authMode: "AWS_IAM",
     });
 
-    console.log(JSON.stringify(data));
     return data.getDocumentItem;
   } catch (err) {
     console.log(err);
@@ -173,10 +171,8 @@ export const triggerGenAudioBlock = async (block) => {
 };
 
 export const triggerGenSubtitleBlock = async (block) => {
-  console.log(block);
   try {
     const buffer = await API.graphql(graphqlOperation(generateTimming, block));
-    console.log(block);
     // Create JS object from JSON
     const { body } = JSON.parse(buffer.data.generateTimming);
     const returnedStream = body.stream;

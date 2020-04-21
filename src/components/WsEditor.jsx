@@ -139,11 +139,11 @@ const WsEditor = ({ textValue, handleEditiorChange }) => {
     <>
       <div>
         <div
-          class="flex items-center bg-green-400 text-white text-sm font-bold px-4 py-3 mb-10"
+          className="flex items-center bg-green-400 text-white text-sm font-bold px-4 py-3 mb-10"
           role="alert"
         >
           <svg
-            class="fill-current w-4 h-4 mr-2"
+            className="fill-current w-4 h-4 mr-2"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
           >

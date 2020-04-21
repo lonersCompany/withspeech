@@ -89,7 +89,7 @@ const TextElement = ({
         audio.currentTime = start * 0.001;
         audio.addEventListener(
           "timeupdate",
-          function (e) {
+          function(e) {
             const currentTime = e.target.currentTime * 1000;
             const newSentences = sentences.map((item, index) => {
               const itemTiming =
@@ -141,7 +141,7 @@ const TextElement = ({
       {mediaPermition ? (
         ""
       ) : (
-        <p class="bg-red-500 text-sm ">
+        <p className="bg-red-500 text-sm ">
           Allow autoplay in browser setting, or click into text again
         </p>
       )}

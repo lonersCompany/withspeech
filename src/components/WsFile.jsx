@@ -19,7 +19,7 @@ import AuthLayer from "./AuthLayer";
 const basicTextValue = [
   {
     type: "paragraph",
-    children: [{ text: "Write something were :)" }],
+    children: [{ text: "Write something here :)" }],
   },
 ];
 
@@ -60,7 +60,7 @@ const getParagrafTextValue = (sentences) => {
 
   console.log(paragrafTextValue);
 
-  return `<speak>${paragrafTextValue}<break strength="medium"></speak>`;
+  return `<speak>${paragrafTextValue}<break time=\"1s\"/></speak>`;
 };
 
 function WsFile({ match }) {
@@ -206,9 +206,10 @@ function WsFile({ match }) {
             ></div>
           </button>
           <div
-            className={`${authUser ? "" : "opacity-50 pointer-events-none"}`}
+            className={`${
+              authUser ? "" : "opacity-50 pointer-events-none "
+            } mb-5`}
           >
-            <CreateDocument />
             <button
               className="flex block px-6 py-5 block w-full hover:bg-green-400"
               onClick={toggleEditorVue}
@@ -220,7 +221,7 @@ function WsFile({ match }) {
 
               <div className={`tgl-btn ml-5 ${isEditor ? "active" : ""}`}></div>
             </button>
-            <div className="relative font-semibold text-xl p-1">
+            <div className="relative font-semibold text-xl p-1 ">
               <form>
                 <select
                   value={voice}
@@ -240,6 +241,7 @@ function WsFile({ match }) {
                 </select>
               </form>
             </div>
+            <CreateDocument />
           </div>
 
           {authUser ? (
@@ -251,9 +253,7 @@ function WsFile({ match }) {
             </button>
           ) : (
             <div className="m-2 px-5 py-5 rounded bg-blue-900">
-              <p className="mb-2">
-                Create and share your own audio articles with beta verison
-              </p>
+              <p className="mb-2">Create and share your own audio articles</p>
               <button
                 className="bg-green-500 px-2 rounded"
                 onClick={() => setAuthProcess(true)}
@@ -264,7 +264,7 @@ function WsFile({ match }) {
           )}
         </Sidebar>
         <div className="text-white min-h-screen w-full lg:static lg:max-h-full lg:overflow-visible lg:w-3/4 xl:w-4/5">
-          <div className={isEditor ? "bg-green-900" : "bg-gray-900"}>
+          <div>
             <div className="max-w-xl text-xl m-auto py-20 min-h-screen article">
               {isEditor ? (
                 <WsEditor
