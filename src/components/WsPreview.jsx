@@ -4,16 +4,23 @@ import TextElement from "./TextElement";
 import ImageElement from "./ImageElement";
 
 const Slide = ({ element, active }) => {
+  console.log(element);
   return (
-    <div className={`w-full h-full top-0 ${active ? "absolute" : "hidden"}`}>
+    <div
+      className={`w-full h-full top-0 bg-blue-900 flex justify-center ${
+        active ? "absolute" : "hidden"
+      }`}
+    >
       {element.type === "image" ? (
         <img
-          className="block max-w-full h-full mx-auto"
+          className="block max-w-full h-full mx-auto self-center"
           src={element.url}
           alt="we need to do alts"
         />
       ) : (
-        ""
+        <div className="flex justify-center self-center">
+          <h1 className=" ">{element.children[0].text}</h1>
+        </div>
       )}
     </div>
   );
@@ -61,11 +68,16 @@ function Content({ content, presentationVue }) {
   useEffect(() => {
     const titleSlide = content[0];
     const imageSlides = content.filter((element) => element.type === "image");
+    console.log(imageSlides);
+
+    // CREATE LINKS WITH SLIDE LOGIC
 
     const slides = [titleSlide, ...imageSlides].map((obj) => ({
       ...obj,
       blocks: [],
     }));
+
+    console.log(slides);
 
     let slideIndex = 0;
     let i;
@@ -87,12 +99,12 @@ function Content({ content, presentationVue }) {
   return (
     <>
       <div>
-        {/* <button
+        <button
           onClick={toggleReading}
-          className="bg-blue-500 hover:bg-blue-400 px-4 rounded-lg mb-10"
+          className="px-4 rounded-lg mb-10 text-blue-500 border border-blue-500 rounded"
         >
-          Click into text to {activeElement === null ? "start" : "stop"}
-        </button> */}
+          Click into text to {activeElement === null ? "start" : "stop"} reading
+        </button>
       </div>
       <div
         className={`${activeElement === null ? "not-speaking" : "speaking"} ${
@@ -113,19 +125,12 @@ function Content({ content, presentationVue }) {
 
       {presentationVue ? (
         <div className="fixed top-0 right-0 lg:w-3/4 xl:w-4/5 h-70 bg-blue-900">
-          <div className={`w-full h-full top-0 absolute flex justify-center`}>
-            <div className="self-center text-center">
-              <h1 className=" ">{content[0].children[0].text}</h1>
-              <p className="text-gray-600">(Presentation Mode)</p>
-            </div>
-          </div>
-          {slides.map((element) => (
-            <Slide
-              key={element.id}
-              element={element}
-              active={element.blocks.includes(activeElement)}
-            />
-          ))}
+          {slides.map((element, index) => {
+            const active = activeElement
+              ? element.blocks.includes(activeElement)
+              : index === 0;
+            return <Slide key={element.id} element={element} active={active} />;
+          })}
         </div>
       ) : (
         ""

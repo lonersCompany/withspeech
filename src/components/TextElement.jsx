@@ -36,7 +36,9 @@ function SentenceItem({ text, start, sentenceActive, speak, presentationVue }) {
       <span
         ref={myRef}
         onClick={() => speak(start, sentenceActive, true)}
-        className={`speakable ${sentenceActive ? "active" : "pasive"}`}
+        className={`speakable ${sentenceActive ? "active" : "pasive"} ${
+          presentationVue ? "pb-5" : ""
+        }`}
       >
         {text}
       </span>
