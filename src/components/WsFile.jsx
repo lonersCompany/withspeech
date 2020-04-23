@@ -127,7 +127,7 @@ function WsFile({ match }) {
       console.log(content);
       setContent(content);
       setAudioSync(true);
-      const { _version } = await uploadWsFile({
+      const responce = await uploadWsFile({
         id,
         name,
         content,
@@ -135,7 +135,10 @@ function WsFile({ match }) {
         _version: version,
       });
 
-      setVersion(_version);
+      const { _version } = responce;
+      const something = _version ? _version : 0;
+
+      setVersion(something);
     }
   };
 
@@ -263,9 +266,9 @@ function WsFile({ match }) {
             </div>
           )}
         </Sidebar>
-        <div className="text-white min-h-screen w-full lg:static lg:max-h-full lg:overflow-visible lg:w-3/4 xl:w-4/5">
-          <div>
-            <div className="max-w-xl text-xl m-auto py-20 min-h-screen article">
+        <div className="min-h-screen w-full lg:static lg:max-h-full lg:overflow-visible lg:w-3/4 xl:w-4/5">
+          <div className={`${isEditor ? "text-xl" : "text-4xl"}`}>
+            <div className="px-10 py-20 text-white min-h-screen article">
               {isEditor ? (
                 <WsEditor
                   textValue={textValue}

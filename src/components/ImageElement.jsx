@@ -4,7 +4,7 @@ const scrollToRef = (ref, presentationVue) => {
   const position = presentationVue ? "end" : "center";
   ref.current.scrollIntoView({
     behavior: "smooth",
-    block: position
+    block: position,
   });
 };
 
@@ -13,7 +13,7 @@ const ImageElement = ({
   isActive,
   setActiveElement,
   index,
-  presentationVue
+  presentationVue,
 }) => {
   const myRef = useRef(null);
 
@@ -43,7 +43,7 @@ const ImageElement = ({
       <img
         alt=""
         src={element.url}
-        className={`${presentationVue ? "w-40" : " w-full"} `}
+        className={`${presentationVue ? "w-40" : " max-h-screen"} `}
       />
     </div>
   );

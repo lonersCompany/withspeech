@@ -101,9 +101,9 @@ function Content({ content, presentationVue }) {
       <div>
         <button
           onClick={toggleReading}
-          className="px-4 rounded-lg mb-10 text-blue-500 border border-blue-500 rounded"
+          className="px-4 rounded-lg mb-10 bg-gray-800 rounded"
         >
-          Click into text to {activeElement === null ? "start" : "stop"} reading
+          🔉
         </button>
       </div>
       <div

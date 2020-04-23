@@ -9,7 +9,7 @@ html {
 }
 
 .article p {
-  @apply mb-5;
+  margin-bottom: 2em;
 }
 h1 {
   @apply text-3xl;
