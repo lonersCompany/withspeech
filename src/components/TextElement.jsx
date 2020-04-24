@@ -13,6 +13,7 @@ const scrollToRef = (ref, presentationVue) => {
   // );
 
   const position = presentationVue ? "end" : "center";
+  //const position = "center";
 
   ref.current.scrollIntoView({
     behavior: "smooth",
@@ -36,9 +37,9 @@ function SentenceItem({ text, start, sentenceActive, speak, presentationVue }) {
       <span
         ref={myRef}
         onClick={() => speak(start, sentenceActive, true)}
-        className={`speakable ${sentenceActive ? "active" : "pasive"} ${
-          presentationVue ? "pb-5" : ""
-        }`}
+        className={`speakable ${
+          sentenceActive ? "active bg-gray-900" : "pasive"
+        } ${presentationVue ? "block " : ""}`}
       >
         {text}
       </span>
@@ -143,11 +144,13 @@ const TextElement = ({
       {mediaPermition ? (
         ""
       ) : (
-        <p className="bg-red-500 text-sm ">
+        <p className="bg-red-500 text-sm bg-gray-800">
           Allow autoplay in browser setting, or click into text again
         </p>
       )}
-      <p className={isActive ? "active" : "pasive"}>{sentenceItems}</p>
+      <p className={`relative ${isActive ? "active" : "pasive"} `}>
+        {sentenceItems}
+      </p>
     </>
   );
 };

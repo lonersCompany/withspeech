@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 
 const scrollToRef = (ref, presentationVue) => {
-  const position = presentationVue ? "end" : "center";
+  const position = presentationVue ? "start" : "center";
   ref.current.scrollIntoView({
     behavior: "smooth",
     block: position,
@@ -36,15 +36,15 @@ const ImageElement = ({
   return (
     <div
       ref={myRef}
-      className={`mb-10 speakable ${isActive ? "active" : "pasive"}`}
+      className={`mb-10  ${isActive ? "active" : "pasive"} ${
+        presentationVue
+          ? "sticky w-full top-0  h-full flex justify-center bg-gray-900"
+          : ""
+      }`}
       contentEditable={false}
       onClick={speakImageBlock}
     >
-      <img
-        alt=""
-        src={element.url}
-        className={`${presentationVue ? "w-40" : " max-h-screen"} `}
-      />
+      <img alt="" src={element.url} className={` max-h-screen `} />
     </div>
   );
 };

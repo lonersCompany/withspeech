@@ -13189,7 +13189,7 @@ html {
 }
 
 .article p {
-  margin-bottom: 1.25rem;
+  margin-bottom: 2em;
 }
 
 h1 {
@@ -13260,10 +13260,9 @@ h1 {
   color: rgb(179, 255, 163);
 }
 
-div.speakable.active {
-  -webkit-animation: progress 3s;
-          animation: progress 3s;
-}
+/* div.speakable.active {
+  animation: progress 3s;
+} */
 
 .speakable:hover {
   cursor: pointer;

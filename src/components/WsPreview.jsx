@@ -7,8 +7,8 @@ const Slide = ({ element, active }) => {
   console.log(element);
   return (
     <div
-      className={`w-full h-full top-0 bg-blue-900 flex justify-center ${
-        active ? "absolute" : "hidden"
+      className={`w-full h-full top-0 flex justify-center ${
+        active ? "" : "hidden"
       }`}
     >
       {element.type === "image" ? (
@@ -77,8 +77,6 @@ function Content({ content, presentationVue }) {
       blocks: [],
     }));
 
-    console.log(slides);
-
     let slideIndex = 0;
     let i;
     for (i = 0; i < content.length; i++) {
@@ -97,7 +95,7 @@ function Content({ content, presentationVue }) {
   };
 
   return (
-    <>
+    <div>
       <div>
         <button
           onClick={toggleReading}
@@ -107,9 +105,9 @@ function Content({ content, presentationVue }) {
         </button>
       </div>
       <div
-        className={`${activeElement === null ? "not-speaking" : "speaking"} ${
-          presentationVue ? "mt-70" : ""
-        }`}
+        className={`z-10 ${
+          activeElement === null ? "not-speaking" : "speaking"
+        } `}
       >
         {content.map((element, index) => (
           <Element
@@ -122,20 +120,7 @@ function Content({ content, presentationVue }) {
           />
         ))}
       </div>
-
-      {presentationVue ? (
-        <div className="fixed top-0 right-0 lg:w-3/4 xl:w-4/5 h-70 bg-blue-900">
-          {slides.map((element, index) => {
-            const active = activeElement
-              ? element.blocks.includes(activeElement)
-              : index === 0;
-            return <Slide key={element.id} element={element} active={active} />;
-          })}
-        </div>
-      ) : (
-        ""
-      )}
-    </>
+    </div>
   );
 }
 

@@ -76,9 +76,9 @@ h1 {
   color: rgb(179, 255, 163);
 }
 
-div.speakable.active {
+/* div.speakable.active {
   animation: progress 3s;
-}
+} */
 
 .speakable:hover {
   cursor: pointer;

@@ -73,7 +73,7 @@ function WsFile({ match }) {
   const [content, setContent] = useState([]);
   const [textValue, setTextValue] = useState();
   const [isEditor, setEditor] = useState(false);
-  const [isPresentation, setPresentation] = useState(false);
+  const [isPresentation, setPresentation] = useState(true);
   const [isAudioSync, setAudioSync] = useState(false);
   const [voice, setVoice] = useState("Salli");
 
