@@ -73,7 +73,7 @@ function WsFile({ match }) {
   const [content, setContent] = useState([]);
   const [textValue, setTextValue] = useState();
   const [isEditor, setEditor] = useState(false);
-  const [isPresentation, setPresentation] = useState(true);
+  const [isPresentation, setPresentation] = useState(false);
   const [isAudioSync, setAudioSync] = useState(false);
   const [voice, setVoice] = useState("Salli");
 
@@ -127,18 +127,24 @@ function WsFile({ match }) {
       console.log(content);
       setContent(content);
       setAudioSync(true);
-      const responce = await uploadWsFile({
+
+      const uplodInput = {
         id,
         name,
         content,
         voice,
         _version: version,
-      });
+      };
+      console.log(uplodInput);
+      const responce = await uploadWsFile(uplodInput);
 
-      const { _version } = responce;
-      const something = _version ? _version : 0;
+      console.log(responce);
 
-      setVersion(something);
+      if (responce) {
+        const { _version } = responce;
+        const something = _version ? _version : 0;
+        setVersion(something);
+      }
     }
   };
 
@@ -268,7 +274,7 @@ function WsFile({ match }) {
         </Sidebar>
         <div className="min-h-screen w-full lg:static lg:max-h-full lg:overflow-visible lg:w-3/4 xl:w-4/5">
           <div className={`${isEditor ? "text-xl" : "text-4xl"}`}>
-            <div className="px-10 py-20 text-white min-h-screen article">
+            <div className="px-10 py-20 text-white font-serif min-h-screen article">
               {isEditor ? (
                 <WsEditor
                   textValue={textValue}

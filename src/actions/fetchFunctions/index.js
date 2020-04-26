@@ -120,7 +120,6 @@ export const uploadWsFile = async (input) => {
     const { data } = await API.graphql(
       graphqlOperation(updateDocumentItem, { input })
     );
-
     const response = data.updateDocumentItem;
     return response;
   } catch (err) {
