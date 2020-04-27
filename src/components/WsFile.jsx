@@ -68,7 +68,7 @@ function WsFile({ match }) {
 
   const [authUser, setAuth] = useState();
   const [authProcess, setAuthProcess] = useState(false);
-  const [version, setVersion] = useState();
+  const [version, setVersion] = useState(1);
   const [name, setName] = useState(match.params.id);
   const [content, setContent] = useState([]);
   const [textValue, setTextValue] = useState();
