@@ -32,18 +32,25 @@ function SentenceItem({ text, start, sentenceActive, speak, presentationVue }) {
 
   //const sentenceView = presentationVue ? "block pb-10" : "inline";
 
-  return (
-    <>
+  return presentationVue ? (
+    <div ref={myRef} className={`${sentenceActive ? "pb-20" : ""} `}>
       <span
-        ref={myRef}
         onClick={() => speak(start, sentenceActive, true)}
         className={`speakable ${
           sentenceActive ? "active bg-gray-900" : "pasive"
-        } ${presentationVue ? "block " : ""}`}
+        } `}
       >
         {text}
       </span>
-    </>
+    </div>
+  ) : (
+    <span
+      ref={myRef}
+      onClick={() => speak(start, sentenceActive, true)}
+      className={`speakable ${sentenceActive ? "active" : "pasive"} `}
+    >
+      {text}
+    </span>
   );
 }
 
