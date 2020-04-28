@@ -7,7 +7,7 @@ const LandingPage = () => {
     "Edit content in text and audio layer will automatically synchronize with best quality AI voices.";
   return (
     <div className="text-white w-full max-w-screen-xl mx-auto ">
-      <nav className="flex  p-5 px-10">
+      <nav className="flex  p-5 px-5">
         <div>
           <Link to="/">
             <button className="text-left font-semibold text-xl">
@@ -21,13 +21,13 @@ const LandingPage = () => {
         <div className="flex-grow text-right text-xl"></div>
       </nav>
 
-      <section className="py-20 px-10">
-        <h1 className="text-6xl mb-0">{appTitle} </h1>
+      <section className="py-20 px-5">
+        <h1 className="text-4xl lg:text-6xl mb-0">{appTitle} </h1>
       </section>
 
       <section className="py-10">
         <div className="lg:flex">
-          <div className="lg:w-2/5 p-10 text-2xl">
+          <div className="lg:w-2/5 p-5 text-2xl">
             <p className="font-light mb-5">{appDefinition}</p>
             <div>
               <a href="https://wavepage.netlify.app/doc/8aef74e5-6c41-4b51-bb9f-4edcc70ea346">
@@ -41,7 +41,7 @@ const LandingPage = () => {
             </div>
           </div>
 
-          <div className="lg:w-3/5 p-10">
+          <div className="lg:w-3/5 p-5">
             <iframe
               width="100%"
               height="340"
@@ -85,7 +85,7 @@ const LandingPage = () => {
           </div>
         </div>
       </section>
-      <section className="py-20 px-10 bg-blue-600">
+      <section className="py-20 lg:px-5 bg-blue-600">
         <div className="container">
           <h3 className="text-6xl mb-20">Try simple example:</h3>
         </div>

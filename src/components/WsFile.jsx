@@ -68,7 +68,7 @@ function WsFile({ match }) {
 
   const [authUser, setAuth] = useState();
   const [authProcess, setAuthProcess] = useState(false);
-  const [version, setVersion] = useState(1);
+  const [version, setVersion] = useState(0);
   const [name, setName] = useState(match.params.id);
   const [content, setContent] = useState([]);
   const [textValue, setTextValue] = useState();
@@ -273,8 +273,8 @@ function WsFile({ match }) {
           )}
         </Sidebar>
         <div className="min-h-screen w-full lg:static lg:max-h-full lg:overflow-visible lg:w-3/4 xl:w-4/5">
-          <div className={`${isEditor ? "text-xl" : "text-4xl"}`}>
-            <div className="px-10 py-20 text-white font-serif min-h-screen article">
+          <div className={`${isEditor ? "text-xl" : "text-xl lg:text-4xl"}`}>
+            <div className="px-5 py-20 text-white font-serif min-h-screen article">
               {isEditor ? (
                 <WsEditor
                   textValue={textValue}
