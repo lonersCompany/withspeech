@@ -23,14 +23,9 @@ const basicTextValue = [
   },
 ];
 
-const generateAudioBlock = async (ssmlValue, voice) => {
-  console.log(ssmlValue);
-  const pollyBlock = {
-    text: ssmlValue,
-    key: uuidv1(),
-    voice: voice,
-    ssml: true,
-  };
+const generateAudioBlock = async (pollyBlock) => {
+  //console.log(ssmlValue);
+
   try {
     // Request speakable blocks
     const children = await triggerGenSubtitleBlock(pollyBlock);
@@ -54,13 +49,25 @@ const generateAudioBlock = async (ssmlValue, voice) => {
 };
 
 // Conver Editor to content Value
-const getParagrafTextValue = (sentences) => {
-  console.log(sentences);
+const getSSMLTextValue = (sentences, defaultVoice) => {
+  //console.log(sentences);
   const paragrafTextValue = sentences.map((sentence) => sentence.text).join("");
 
-  console.log(paragrafTextValue);
+  const secondVoice = paragrafTextValue.includes("--");
+  console.log(secondVoice);
 
-  return `<speak>${paragrafTextValue}<break time=\"1s\"/></speak>`;
+  const voice = secondVoice ? "Matthew" : defaultVoice;
+
+  const ssmlValue = `<speak>${paragrafTextValue}<break time=\"1s\"/></speak>`;
+
+  const pollyBlock = {
+    text: ssmlValue,
+    key: uuidv1(),
+    voice: voice,
+    ssml: true,
+  };
+
+  return pollyBlock;
 };
 
 function WsFile({ match }) {
@@ -115,9 +122,9 @@ function WsFile({ match }) {
 
       // BUM BUM!
       if (block.type === "paragraph") {
-        const paragrafTextValue = getParagrafTextValue(block.children);
+        const pollyBlock = getSSMLTextValue(block.children, voice);
 
-        const newBlock = generateAudioBlock(paragrafTextValue, voice);
+        const newBlock = generateAudioBlock(pollyBlock);
         return newBlock;
       }
     });
@@ -234,7 +241,6 @@ function WsFile({ match }) {
               <form>
                 <select
                   value={voice}
-                  //defaultValue={voice}
                   onChange={handleVoiceChange}
                   className="block appearance-none w-full bg-gray-900 px-6 py-5 pr-8 rounded leading-tight focus:outline-none focus:shadow-outline"
                 >
@@ -273,7 +279,7 @@ function WsFile({ match }) {
           )}
         </Sidebar>
         <div className="min-h-screen w-full lg:static lg:max-h-full lg:overflow-visible lg:w-3/4 xl:w-4/5">
-          <div className={`${isEditor ? "text-xl" : "text-xl lg:text-4xl"}`}>
+          <div className="text-xl">
             <div className="px-5 py-20 text-white font-serif min-h-screen article">
               {isEditor ? (
                 <WsEditor

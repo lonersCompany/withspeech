@@ -48,14 +48,7 @@ function WsDashboard() {
             </button>
           </Link>
         </div>
-        <div className="flex-grow text-right text-xl">
-          <Link to="/login" className="px-5 py-3">
-            Log in
-          </Link>
-          <Link to="/signup" className="bg-blue-900 px-5 py-3">
-            Get started<span className="">&nbsp;— it's free</span>
-          </Link>
-        </div>
+        <div className="flex-grow text-right text-xl"></div>
       </nav>
       <div>
         <div className="py-5 px-6 mt-24 border-b-4 border-gray-800 text-3xl">
