@@ -105,7 +105,6 @@ function WsFile({ match }) {
   };
 
   const handleEditiorChange = (value) => {
-    if (value) setName(value[0].children[0].text);
     setTextValue(value);
     setAudioSync(false);
   };
@@ -131,13 +130,14 @@ function WsFile({ match }) {
 
     const content = await Promise.all(contentPromisses);
     if (content) {
-      console.log(content);
       setContent(content);
       setAudioSync(true);
+      const newName = content[0].children[0].text;
+      setName(content[0].children[0].text);
 
       const uplodInput = {
         id,
-        name,
+        name: newName,
         content,
         voice,
         _version: version,
@@ -279,7 +279,7 @@ function WsFile({ match }) {
           )}
         </Sidebar>
         <div className="min-h-screen w-full lg:static lg:max-h-full lg:overflow-visible lg:w-3/4 xl:w-4/5">
-          <div className="text-xl">
+          <div className="text-xl lg:text-3xl">
             <div className="px-5 py-20 text-white font-serif min-h-screen article">
               {isEditor ? (
                 <WsEditor
