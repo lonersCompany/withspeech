@@ -9,6 +9,8 @@ import {
   uploadWsFile,
 } from "../actions/fetchFunctions";
 
+import { getSSMLTextValue } from "../actions/manipulationFunctions";
+
 import uuidv1 from "uuid/v1";
 
 import WsPreview from "./WsPreview";
@@ -29,6 +31,7 @@ const generateAudioBlock = async (pollyBlock) => {
   try {
     // Request speakable blocks
     const children = await triggerGenSubtitleBlock(pollyBlock);
+
     if (children) console.log("children are ready");
 
     // Request Auido key
@@ -46,28 +49,6 @@ const generateAudioBlock = async (pollyBlock) => {
   } catch (err) {
     console.log(err);
   }
-};
-
-// Conver Editor to content Value
-const getSSMLTextValue = (sentences, defaultVoice) => {
-  //console.log(sentences);
-  const paragrafTextValue = sentences.map((sentence) => sentence.text).join("");
-
-  const secondVoice = paragrafTextValue.includes("--");
-  console.log(secondVoice);
-
-  const voice = secondVoice ? "Matthew" : defaultVoice;
-
-  const ssmlValue = `<speak>${paragrafTextValue}<break time=\"1s\"/></speak>`;
-
-  const pollyBlock = {
-    text: ssmlValue,
-    key: uuidv1(),
-    voice: voice,
-    ssml: true,
-  };
-
-  return pollyBlock;
 };
 
 function WsFile({ match }) {

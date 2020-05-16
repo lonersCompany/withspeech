@@ -81,6 +81,7 @@ export const handleListWsFiles = async () => {
   try {
     const { data } = await API.graphql({
       query: listDocumentItems,
+      variables: { limit: 50 },
       authMode: "AWS_IAM",
     });
     const { items } = data.listDocumentItems;
@@ -147,15 +148,6 @@ export const triggerDeleteAudioBlock = async (key) => {
   await API.graphql(graphqlOperation(deleteAudioFile, { key }));
 };
 
-// function isInt(value) {
-//   return (
-//     !isNaN(value) &&
-//     (function(x) {
-//       return (x | 0) === x;
-//     })(parseFloat(value))
-//   );
-// }
-
 export const triggerGenAudioBlock = async (block) => {
   try {
     const buffer = await API.graphql(
@@ -176,16 +168,30 @@ export const triggerGenSubtitleBlock = async (block) => {
     const { body } = JSON.parse(buffer.data.generateTimming);
     const returnedStream = body.stream;
 
-    const renameValueToText = returnedStream.map((obj) =>
-      renameObjFiled(obj, "value", "text")
-    );
+    // TODO: REMOVE MANIPULATIN LOGIC TO LAMBDA
 
-    const addSpaceToEnd = renameValueToText.map((obj) => ({
-      ...obj,
-      text: obj.text + " ",
-    }));
+    const children = returnedStream.map((obj) => {
+      const { value, start, end } = obj;
+      const text = value.replace(/<(.|\n)*?>/g, "") + " ";
+      return {
+        start,
+        end,
+        text,
+      };
+    });
 
-    const children = addSpaceToEnd;
+    console.log(children);
+
+    // const renameValueToText = returnedStream.map((obj) =>
+    //   renameObjFiled(obj, "value", "text")
+    // );
+
+    // const addSpaceToEnd = renameValueToText.map((obj) => ({
+    //   ...obj,
+    //   text: obj.text.replace(/<(.|\n)*?>/g, "") + " ",
+    // }));
+
+    //const children = addSpaceToEnd;
 
     return children;
   } catch (err) {

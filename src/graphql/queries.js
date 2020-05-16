@@ -59,11 +59,6 @@ export const listDocumentItems = /* GraphQL */ `
       items {
         id
         name
-        content {
-          id
-          type
-          url
-        }
         voice
         _version
         _deleted
