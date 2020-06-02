@@ -3,28 +3,28 @@ import React, { useState, useEffect } from "react";
 import TextElement from "./TextElement";
 import ImageElement from "./ImageElement";
 
-const Slide = ({ element, active }) => {
-  console.log(element);
-  return (
-    <div
-      className={`w-full h-full top-0 flex justify-center ${
-        active ? "" : "hidden"
-      }`}
-    >
-      {element.type === "image" ? (
-        <img
-          className="block max-w-full h-full mx-auto self-center"
-          src={element.url}
-          alt="we need to do alts"
-        />
-      ) : (
-        <div className="flex justify-center self-center">
-          <h1 className=" ">{element.children[0].text}</h1>
-        </div>
-      )}
-    </div>
-  );
-};
+// const Slide = ({ element, active }) => {
+//   console.log(element);
+//   return (
+//     <div
+//       className={`w-full h-full top-0 flex justify-center ${
+//         active ? "" : "hidden"
+//       }`}
+//     >
+//       {element.type === "image" ? (
+//         <img
+//           className="block max-w-full h-full mx-auto self-center"
+//           src={element.url}
+//           alt="we need to do alts"
+//         />
+//       ) : (
+//         <div className="flex justify-center self-center">
+//           <h1 className=" ">{element.children[0].text}</h1>
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
 
 // TODO: audioObject is for every paragraf?
 const Element = ({
@@ -99,15 +99,13 @@ function Content({ content, presentationVue }) {
       <div>
         <button
           onClick={toggleReading}
-          className="px-4 rounded-lg mb-10 bg-gray-800 rounded"
+          className="px-4 rounded-lg mb-10 rounded border border-blue-500 focus:outline-none "
         >
           🔉
         </button>
       </div>
       <div
-        className={`z-10 ${
-          activeElement === null ? "not-speaking" : "speaking"
-        } `}
+        className={` ${activeElement === null ? "not-speaking" : "speaking"} `}
       >
         {content.map((element, index) => (
           <Element

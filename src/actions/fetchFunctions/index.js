@@ -133,15 +133,16 @@ export const deleteWsFile = async (id) => {
   const { data } = await API.graphql(
     graphqlOperation(deleteDocumentItem, { input: payload })
   );
-  const { audioFiles } = data.deleteDocumentItem;
-  if (audioFiles) {
-    // TODO: Check ID
-    await Promise.all(
-      audioFiles.map((file) =>
-        API.graphql(graphqlOperation(deleteAudioFile, { key: file.key }))
-      )
-    );
-  }
+  console.log(data);
+  // const { audioFiles } = data.deleteDocumentItem;
+  // if (audioFiles) {
+  //   // TODO: Check ID
+  //   await Promise.all(
+  //     audioFiles.map((file) =>
+  //       API.graphql(graphqlOperation(deleteAudioFile, { key: file.key }))
+  //     )
+  //   );
+  // }
 };
 
 export const triggerDeleteAudioBlock = async (key) => {

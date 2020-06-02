@@ -260,8 +260,8 @@ function WsFile({ match }) {
           )}
         </Sidebar>
         <div className="min-h-screen w-full lg:static lg:max-h-full lg:overflow-visible lg:w-3/4 xl:w-4/5">
-          <div className="text-xl lg:text-3xl">
-            <div className="px-5 py-20 text-white font-serif min-h-screen article">
+          <div className="text-xl md:text-2xl">
+            <div className="px-5 py-8 min-h-screen article">
               {isEditor ? (
                 <WsEditor
                   textValue={textValue}
@@ -270,6 +270,9 @@ function WsFile({ match }) {
               ) : (
                 <WsPreview content={content} presentationVue={isPresentation} />
               )}
+            </div>
+            <div className="text-center text-lg text-blue-500 pb-20 ">
+              made with wavepage.app
             </div>
           </div>
         </div>

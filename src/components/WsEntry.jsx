@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const WsEntry = ({ id, name }) => {
+const WsEntry = ({ id, name, handleDeleteWSFile }) => {
   return (
     <div className="flex border-b-4 border-gray-800 text-2xl">
       <Link
@@ -15,6 +15,12 @@ const WsEntry = ({ id, name }) => {
           {name}
         </h2>
       </Link>
+      <button
+        onClick={handleDeleteWSFile}
+        className="py-5 px-6 hover:bg-blue-700"
+      >
+        X
+      </button>
     </div>
   );
 };

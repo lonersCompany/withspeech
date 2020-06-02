@@ -36,7 +36,7 @@ export const getSSMLTextValue = (sentences, defaultVoice) => {
     });
   }
 
-  const paragrafWithBreak = `${paragrafTextValue} [250ms]`;
+  const paragrafWithBreak = `${paragrafTextValue} [1s]`;
 
   const ssmlValue = speech.toSSML(paragrafWithBreak, {
     platform: "amazon-alexa",

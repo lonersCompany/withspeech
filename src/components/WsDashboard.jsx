@@ -60,7 +60,6 @@ function WsDashboard() {
             {files.map((doc, index) => (
               <WsEntry
                 key={doc.id + index}
-                index={index}
                 id={doc.id}
                 name={doc.name}
                 handleDeleteWSFile={() => handleDeleteWSFile(index, doc.id)}

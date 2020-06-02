@@ -1,10 +1,11 @@
 import React, { useEffect, useRef } from "react";
 
 const scrollToRef = (ref, presentationVue) => {
-  const position = presentationVue ? "start" : "center";
+  const block = presentationVue ? "start" : "center";
+  const behavior = presentationVue ? "auto" : "smooth";
   ref.current.scrollIntoView({
-    behavior: "smooth",
-    block: position,
+    behavior,
+    block,
   });
 };
 
@@ -36,10 +37,10 @@ const ImageElement = ({
   return (
     <div
       ref={myRef}
-      className={`mb-10  ${isActive ? "active" : "pasive"} ${
+      className={`${isActive ? "active" : "pasive"} ${
         presentationVue
-          ? "sticky w-full top-0  h-full flex justify-center bg-gray-900"
-          : ""
+          ? "mb-32 sticky w-full top-0  h-full flex justify-center bg-gray-900"
+          : "mb-8"
       }`}
       contentEditable={false}
       onClick={speakImageBlock}

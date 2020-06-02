@@ -1,25 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 
 const scrollToRef = (ref, presentationVue) => {
-  //var body = document.body,
-  //html = document.documentElement;
-
-  // var height = Math.max(
-  //   body.scrollHeight,
-  //   body.offsetHeight,
-  //   html.clientHeight,
-  //   html.scrollHeight,
-  //   html.offsetHeight
-  // );
-
   const position = presentationVue ? "end" : "center";
-  //const position = "center";
 
   ref.current.scrollIntoView({
     behavior: "smooth",
     block: position,
   });
-  //console.log(window.document.body);
 };
 
 function SentenceItem({ text, start, sentenceActive, speak, presentationVue }) {
@@ -32,22 +19,11 @@ function SentenceItem({ text, start, sentenceActive, speak, presentationVue }) {
 
   //const sentenceView = presentationVue ? "block pb-10" : "inline";
 
-  return presentationVue ? (
-    <div ref={myRef} className={`${sentenceActive ? "pb-20" : ""} `}>
-      <span
-        onClick={() => speak(start, sentenceActive, true)}
-        className={`speakable ${
-          sentenceActive ? "active bg-gray-900" : "pasive"
-        } `}
-      >
-        {text}
-      </span>
-    </div>
-  ) : (
+  return (
     <span
       ref={myRef}
       onClick={() => speak(start, sentenceActive, true)}
-      className={`speakable ${sentenceActive ? "active" : "pasive"} `}
+      className={`speakable ${sentenceActive ? "active z-10" : "pasive"} `}
     >
       {text}
     </span>
@@ -155,7 +131,7 @@ const TextElement = ({
           Allow autoplay in browser setting, or click into text again
         </p>
       )}
-      <p className={`relative ${isActive ? "active" : "pasive"} `}>
+      <p className={`relative ${isActive ? "active bg-gray-900" : "pasive"} `}>
         {sentenceItems}
       </p>
     </>

@@ -2,46 +2,38 @@ import React from "react";
 import { Link } from "react-router-dom";
 import MobileMockup from "./MobileMockup";
 const LandingPage = () => {
-  const appTitle = "Listen audio with text and images. ";
+  const appTitle = "Create video from article - simply";
   const appDefinition =
-    "Edit content in text and audio layer will automatically synchronize with best quality AI voices.";
+    "Lifelike AI speakers will synchronize your text and images with calm voice. Make presentation from your article in minutes not hours. WavePage support multiple languages -> English, German, French or Mandarin backed by Amazon Cloud Services.";
   return (
-    <div className="text-white w-full max-w-screen-xl mx-auto ">
-      <nav className="flex  p-5 px-5">
-        <div>
-          <Link to="/">
-            <button className="text-left font-semibold text-xl">
-              Wave Page{" "}
-              <span role="img" aria-label="" description="wave hand">
-                👋🏼
-              </span>
-            </button>
-          </Link>
-        </div>
-        <div className="flex-grow text-right text-xl"></div>
-      </nav>
+    <>
+      <article
+        id="content"
+        data-key="{{page.key}}"
+        className="container text-xl m-auto leading-snug px-2 bg-gray-900"
+      >
+        <div className="m-auto max-w-3xl mb-16">
+          <p className="text-4xl font-light pt-32 mb-16">{appTitle}</p>
 
-      <section className="py-20 px-5">
-        <h1 className="text-4xl lg:text-6xl mb-0">{appTitle} </h1>
-      </section>
-
-      <section className="py-10">
-        <div className="lg:flex">
-          <div className="lg:w-2/5 p-5 text-2xl">
-            <p className="font-light mb-5">{appDefinition}</p>
-            <div>
-              <a href="https://wavepage.netlify.app/doc/79f58589-5252-436b-8b68-2853e8dedb39">
-                <button className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4">
-                  Try beta version{" "}
-                  <span role="img" aria-label="" description="wave hand">
-                    🖖🏼
-                  </span>
-                </button>
-              </a>
-            </div>
+          <div className="mb-16">
+            <img
+              src="https://res.cloudinary.com/dhxmg9p4i/image/upload/v1591053105/blog/atom.png"
+              alt=""
+            />
           </div>
 
-          <div className="lg:w-3/5 p-5">
+          <p className="text-2xl font-light mb-16">{appDefinition}</p>
+
+          <p className="text-center mb-16">
+            <button className="text-2xl rounded-lg py-2 px-3 text-green-500 border-2 border-green-500">
+              Try beta version{" "}
+              <span role="img" aria-label="" description="wave hand">
+                🖖🏼
+              </span>
+            </button>
+          </p>
+
+          <div>
             <iframe
               width="100%"
               height="340"
@@ -52,15 +44,15 @@ const LandingPage = () => {
             ></iframe>
           </div>
         </div>
-      </section>
+      </article>
 
-      <section className="pt-20 pb-32">
-        <div className="max-w-lg m-auto">
-          <div className="border border-gray-700  rounded p-4 flex flex-col justify-between leading-normal">
+      <section className="">
+        <div className="max-w-lg m-auto mb-16">
+          <div className="border-2 border-gray-700  rounded p-4 flex flex-col justify-between leading-normal">
             <div className="flex items-center">
               <img
                 className="w-10 h-10 rounded-full mr-4"
-                src="https://pbs.twimg.com/profile_images/1245436537938075648/4YpCJ0ZB_400x400.jpg"
+                src="https://pbs.twimg.com/profile_images/1264719053282840576/A90GsbPX_400x400.jpg"
                 alt="Avatar of Jonathan Reinink"
               />
               <div className="">
@@ -72,11 +64,10 @@ const LandingPage = () => {
             </div>
             <div className="mb-4">
               <p className="">
-                I'm learning every day on the internet 🧐 But I'm reading slowly
-                and I'm a visual learner so I love to use illustrations and data
-                visualizations 📈 That why I develop a tool for converting text
-                and images into audio articles 👁️👂👋 If you like to use
-                WavePage please let me know ->{" "}
+                I'm learning every day on the internet 👁️ I'm a visual learner
+                and I love visualize concepts 📈 I develop wavepage for
+                converting my favorite blogs into presentation mode and listen
+                to them.
                 <a className="text-blue-500" href="mailto:simon@loners.company">
                   simon@loners.company
                 </a>
@@ -85,13 +76,22 @@ const LandingPage = () => {
           </div>
         </div>
       </section>
-      <section className="py-20 lg:px-5 bg-blue-600">
-        <div className="container">
-          <h3 className="text-6xl mb-20">Try simple example:</h3>
-        </div>
-        <MobileMockup />
+
+      <section className="">
+        <p className="text-center text-2xl font-light mb-16">
+          We will love to shape wavepage for your needs.
+        </p>
+        <p className="text-center">
+          <a
+            href="mailto:simon@loners.company"
+            className="text-2xl rounded-lg py-2 px-3 text-green-500 border-2 border-green-500"
+          >
+            Contact me
+          </a>
+        </p>
       </section>
-      <section className="py-48">
+
+      <section className="py-16">
         <div className="text-center">
           <p className="leading-none mb-5">
             <a className="text-blue-500" href="mailto:simon@loners.company">
@@ -105,7 +105,7 @@ const LandingPage = () => {
           </p>
         </div>
       </section>
-    </div>
+    </>
   );
 };
 
