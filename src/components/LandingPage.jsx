@@ -1,6 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import MobileMockup from "./MobileMockup";
 const LandingPage = () => {
   const appTitle = "Create video from article - simply";
   const appDefinition =
@@ -25,12 +23,15 @@ const LandingPage = () => {
           <p className="text-2xl font-light mb-16">{appDefinition}</p>
 
           <p className="text-center mb-16">
-            <button className="text-2xl rounded-lg py-2 px-3 text-green-500 border-2 border-green-500">
+            <a
+              href="https://wavepage.netlify.app/doc/9fec123e-c15a-43a2-bfba-2720ce240085"
+              className="text-2xl rounded-lg py-2 px-3 text-green-500 border-2 border-green-500"
+            >
               Try beta version{" "}
               <span role="img" aria-label="" description="wave hand">
                 🖖🏼
               </span>
-            </button>
+            </a>
           </p>
 
           <div>

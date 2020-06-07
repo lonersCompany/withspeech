@@ -63,7 +63,7 @@ function WsFile({ match }) {
   const [isEditor, setEditor] = useState(false);
   const [isPresentation, setPresentation] = useState(false);
   const [isAudioSync, setAudioSync] = useState(false);
-  const [voice, setVoice] = useState("Salli");
+  const [voice, setVoice] = useState("Matthew");
 
   const toggleEditorVue = () => {
     if (isEditor && !isAudioSync) {
