@@ -86,7 +86,7 @@ h1 {
 
 .speakable:hover {
   cursor: pointer;
-  box-shadow: rgb(38, 0, 255) 0px 0px 2px 2px;
+  color: rgb(0, 192, 0);
 }
 
 .mobile-mockup {
