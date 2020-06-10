@@ -68,20 +68,6 @@ export const getHtmlBlocks = (slateData) => {
   return blocks;
 };
 
-export const getRitchBlocks = (slateData) => {
-  const blocks = slateData.nodes.map((block, index) => {
-    const textArrays = block.nodes.map((line) => line.text);
-    const text = textArrays.join(" ");
-    //const count = text.length;
-    //const src = undefined;
-    const key = "test-ksnbs7262HS-" + index;
-    const voice = "Salli";
-
-    return { text, voice, key };
-  });
-
-  return blocks;
-};
 // TODO: rebuild
 export const getSentencesDigits = (slateData) => {
   const blocks = slateData.nodes.map((block) => {

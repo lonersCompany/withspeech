@@ -23,7 +23,7 @@ const ImageElement = ({
     setActiveElement(index);
     const timer = setTimeout(
       () => setActiveElement(index + 1),
-      presentationVue ? 1000 : 3000
+      presentationVue ? 5000 : 3000
     );
     return () => clearTimeout(timer);
   };
@@ -39,7 +39,7 @@ const ImageElement = ({
       ref={myRef}
       className={`${isActive ? "active" : "pasive"} ${
         presentationVue
-          ? "mb-32 sticky w-full top-0  h-full flex justify-center bg-gray-900"
+          ? "mb-32 sticky w-full top-0  h-full flex justify-center bg-gray-900 z-10"
           : "mb-8"
       }`}
       contentEditable={false}

@@ -23,7 +23,7 @@ function SentenceItem({ text, start, sentenceActive, speak, presentationVue }) {
     <span
       ref={myRef}
       onClick={() => speak(start, sentenceActive, true)}
-      className={`speakable ${sentenceActive ? "active z-10" : "pasive"} `}
+      className={`speakable ${sentenceActive ? "active pb-10" : "pasive"} `}
     >
       {text}
     </span>
@@ -127,11 +127,15 @@ const TextElement = ({
       {mediaPermition ? (
         ""
       ) : (
-        <p className="bg-red-500 text-sm bg-gray-800">
+        <p className="bg-red-500 text-sm bg-gray-800 ">
           Allow autoplay in browser setting, or click into text again
         </p>
       )}
-      <p className={`relative ${isActive ? "active bg-gray-900" : "pasive"} `}>
+      <p
+        className={`relative ${isActive ? "active z-10" : "pasive"} ${
+          presentationVue ? "transparent-bg pb-10" : ""
+        } `}
+      >
         {sentenceItems}
       </p>
     </>
