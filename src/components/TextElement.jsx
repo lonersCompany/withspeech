@@ -23,9 +23,7 @@ function SentenceItem({ text, start, sentenceActive, speak, presentationVue }) {
     <span
       ref={myRef}
       onClick={() => speak(start, sentenceActive, true)}
-      className={`speakable ${sentenceActive ? "active" : "pasive"} ${
-        sentenceActive && presentationVue ? "pb-10" : ""
-      } `}
+      className={`speakable pb-10 ${sentenceActive ? "active" : "pasive"} `}
     >
       {text}
     </span>
@@ -134,9 +132,9 @@ const TextElement = ({
         </p>
       )}
       <p
-        className={`relative ${isActive ? "active z-10" : "pasive"} ${
-          presentationVue ? "transparent-bg pb-10" : ""
-        } `}
+        className={`relative pb-10 transparent-bg ${
+          isActive ? "active z-10" : "pasive"
+        }`}
       >
         {sentenceItems}
       </p>

@@ -12,9 +12,6 @@ html {
   background-color: rgba(30, 30, 40, 0.7);
 }
 
-.article p {
-  margin-bottom: 2em;
-}
 h1 {
   @apply text-3xl;
   @apply mb-16;

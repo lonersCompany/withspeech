@@ -29,6 +29,7 @@ import ImageElement from "./ImageElement";
 // TODO: audioObject is for every paragraf?
 const Element = ({
   element,
+  activeElement,
   setActiveElement,
   index,
   isActive,
@@ -41,6 +42,7 @@ const Element = ({
           element={element}
           isActive={isActive}
           index={index}
+          activeElement={activeElement}
           setActiveElement={setActiveElement}
           presentationVue={presentationVue}
         />
@@ -95,7 +97,7 @@ function Content({ content, presentationVue }) {
   };
 
   return (
-    <div>
+    <>
       <div>
         <button
           onClick={toggleReading}
@@ -113,23 +115,20 @@ function Content({ content, presentationVue }) {
             index={index}
             key={element.id}
             element={element}
+            activeElement={activeElement}
             setActiveElement={setActiveElement}
             presentationVue={presentationVue}
           />
         ))}
       </div>
-    </div>
+    </>
   );
 }
 
-const WsPreview = ({ content, presentationVue }) => {
+const WsPreview = ({ content, presentationVue, isLoading }) => {
   return (
-    <div>
-      {content && content.length !== 0 ? (
-        <Content content={content} presentationVue={presentationVue} />
-      ) : (
-        "..."
-      )}
+    <div className={`${isLoading ? "opacity-50 pointer-events-none" : ""} `}>
+      <Content content={content} presentationVue={presentationVue} />
     </div>
   );
 };

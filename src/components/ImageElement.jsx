@@ -13,6 +13,7 @@ const ImageElement = ({
   element,
   isActive,
   setActiveElement,
+  activeElement,
   index,
   presentationVue,
 }) => {
@@ -37,11 +38,11 @@ const ImageElement = ({
   return (
     <div
       ref={myRef}
-      className={`${isActive ? "active" : "pasive"} ${
-        presentationVue
-          ? "mb-32 sticky w-full top-0  h-full flex justify-center bg-gray-900 z-10"
-          : "mb-8"
-      }`}
+      className={` w-full h-full flex justify-center bg-gray-900 pb-10 ${
+        isActive ? "active" : "pasive"
+      } ${presentationVue ? "sticky top-0" : ""} ${
+        activeElement ? "z-10" : ""
+      }  `}
       contentEditable={false}
       onClick={speakImageBlock}
     >

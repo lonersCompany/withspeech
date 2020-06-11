@@ -48,12 +48,15 @@ const ImageElement = ({ attributes, children, element }) => {
   const selected = useSelected();
   const focused = useFocused();
   return (
-    <div {...attributes}>
-      <div contentEditable={false}>
+    <div
+      className="pb-10 w-full h-full flex justify-center bg-gray-900"
+      {...attributes}
+    >
+      <div className="max-h-screen" contentEditable={false}>
         <img
           src={element.url}
           className={`
-          block w-full ${selected && focused ? "h" : "none"};
+          max-h-screen ${selected && focused ? "h" : "none"};
           `}
         />
       </div>
@@ -75,7 +78,11 @@ const Element = (props) => {
     case "image":
       return <ImageElement {...props} />;
     default:
-      return <p {...attributes}>{children}</p>;
+      return (
+        <p className="pb-10" {...attributes}>
+          {children}
+        </p>
+      );
   }
 };
 

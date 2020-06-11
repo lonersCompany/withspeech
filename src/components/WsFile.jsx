@@ -59,6 +59,7 @@ function WsFile({ match }) {
   const [version, setVersion] = useState(0);
   const [name, setName] = useState(match.params.id);
   const [content, setContent] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [textValue, setTextValue] = useState();
   const [isEditor, setEditor] = useState(false);
   const [isPresentation, setPresentation] = useState(false);
@@ -67,7 +68,7 @@ function WsFile({ match }) {
 
   const toggleEditorVue = () => {
     if (isEditor && !isAudioSync) {
-      setContent([]);
+      setIsLoading(true);
       handleAudioSync({ voice });
     }
     isEditor ? setEditor(false) : setEditor(true);
@@ -115,6 +116,7 @@ function WsFile({ match }) {
       setAudioSync(true);
       const newName = content[0].children[0].text;
       setName(content[0].children[0].text);
+      setIsLoading(false);
 
       const uplodInput = {
         id,
@@ -123,7 +125,6 @@ function WsFile({ match }) {
         voice,
         _version: version,
       };
-      console.log(uplodInput);
       const responce = await uploadWsFile(uplodInput);
 
       console.log(responce);
@@ -260,20 +261,22 @@ function WsFile({ match }) {
           )}
         </Sidebar>
         <div className="min-h-screen w-full lg:static lg:max-h-full lg:overflow-visible lg:w-3/4 xl:w-4/5">
-          <div className="text-xl md:text-2xl">
-            <div className="px-5 py-8 min-h-screen article">
-              {isEditor ? (
-                <WsEditor
-                  textValue={textValue}
-                  handleEditiorChange={handleEditiorChange}
-                />
-              ) : (
-                <WsPreview content={content} presentationVue={isPresentation} />
-              )}
-            </div>
-            <div className="text-center text-lg text-blue-500 pb-20 ">
-              made with wavepage.app
-            </div>
+          <div className="text-xl md:text-2xl px-5 pt-8 pb-64 min-h-screen article container">
+            {isEditor ? (
+              <WsEditor
+                textValue={textValue}
+                handleEditiorChange={handleEditiorChange}
+              />
+            ) : (
+              <WsPreview
+                content={content}
+                presentationVue={isPresentation}
+                isLoading={isLoading}
+              />
+            )}
+          </div>
+          <div className="text-center text-lg text-blue-500 pb-20 ">
+            made with wavepage.app
           </div>
         </div>
       </div>
