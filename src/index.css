@@ -13256,18 +13256,9 @@ h1 {
   opacity: 1;
 }
 
-.speakable.pause {
-  color: rgb(179, 255, 163);
-}
-
 /* div.speakable.active {
   animation: progress 3s;
 } */
-
-.speakable:hover {
-  cursor: pointer;
-  color: rgb(0, 192, 0);
-}
 
 .mobile-mockup {
   border-radius: 3.5em;

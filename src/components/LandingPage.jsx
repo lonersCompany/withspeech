@@ -7,7 +7,7 @@ const LandingPage = () => {
       <article
         id="content"
         data-key="{{page.key}}"
-        className="max-w-2xl m-auto text-xl leading-snug px-2"
+        className="max-w-3xl m-auto text-xl leading-snug px-2"
       >
         <p className="text-4xl font-light pt-16 mb-16">
           Wavepage is editor for{" "}
