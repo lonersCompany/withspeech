@@ -46,6 +46,7 @@ const renameObjFiled = (obj, old_key, new_key) => {
 export const createWsFile = async () => {
   const input = {
     name: "Audio article without Name",
+    _version: 0,
   };
 
   try {
@@ -124,6 +125,7 @@ export const uploadWsFile = async (input) => {
     const response = data.updateDocumentItem;
     return response;
   } catch (err) {
+    alert("Your file did save. Try to copy your text and refresh browser ");
     console.log(err);
   }
 };

@@ -2,11 +2,14 @@ import React, { useState, useEffect } from "react";
 import Sidebar from "./Sidebar";
 import { Auth } from "aws-amplify";
 
+import { useHistory } from "react-router-dom";
+
 import {
   downLoadWsFile,
   triggerGenAudioBlock,
   triggerGenSubtitleBlock,
   uploadWsFile,
+  createWsFile,
 } from "../actions/fetchFunctions";
 
 import { getSSMLTextValue } from "../actions/manipulationFunctions";
@@ -15,7 +18,6 @@ import uuidv1 from "uuid/v1";
 
 import WsPreview from "./WsPreview";
 import WsEditor from "./WsEditor";
-import CreateDocument from "./create-document";
 import AuthLayer from "./AuthLayer";
 
 const basicTextValue = [
@@ -52,7 +54,7 @@ const generateAudioBlock = async (pollyBlock) => {
 };
 
 function WsFile({ match }) {
-  const [id] = useState(match.params.id);
+  const [id, setId] = useState(match.params.id);
 
   const [authUser, setAuth] = useState();
   const [authProcess, setAuthProcess] = useState(false);
@@ -65,6 +67,14 @@ function WsFile({ match }) {
   const [isPresentation, setPresentation] = useState(false);
   const [isAudioSync, setAudioSync] = useState(false);
   const [voice, setVoice] = useState("Matthew");
+
+  const history = useHistory();
+
+  const createNewDocument = async () => {
+    const { id } = await createWsFile();
+    setId(id);
+    history.push(`/doc/${id}`);
+  };
 
   const toggleEditorVue = () => {
     if (isEditor && !isAudioSync) {
@@ -118,6 +128,8 @@ function WsFile({ match }) {
       setName(content[0].children[0].text);
       setIsLoading(false);
 
+      console.log("version: " + version);
+
       const uplodInput = {
         id,
         name: newName,
@@ -125,20 +137,22 @@ function WsFile({ match }) {
         voice,
         _version: version,
       };
+      console.log(uplodInput);
       const responce = await uploadWsFile(uplodInput);
-
-      console.log(responce);
 
       if (responce) {
         const { _version } = responce;
-        const something = _version ? _version : 0;
-        setVersion(something);
+        const correctVersion = _version ? _version : 0;
+
+        setVersion(correctVersion);
+        console.log("next version: " + correctVersion);
       }
     }
   };
 
   useEffect(() => {
     const renderWSFile = async () => {
+      console.log("useEffect every new doc");
       try {
         const response = await downLoadWsFile(match.params.id);
 
@@ -146,9 +160,23 @@ function WsFile({ match }) {
 
         if (voice) setVoice(voice);
         if (_version) setVersion(_version);
+        console.log("load version: " + _version);
 
+        // SET EDITOR TO BASIC
         if (content === null) {
           setTextValue(basicTextValue);
+          setVoice("Matthew");
+          setContent([
+            {
+              children: [
+                { start: 0, end: 999999, text: "Write something here :)" },
+              ],
+              id,
+              type: "paragraph",
+              url:
+                "https://text-with-speech.s3.eu-central-1.amazonaws.com/0b39bba0-af32-11ea-a27f-ddd820513dc1",
+            },
+          ]);
           setEditor(true);
         } else {
           setAudioSync(true);
@@ -164,7 +192,6 @@ function WsFile({ match }) {
   }, [match.params.id]);
 
   useEffect(() => {
-    console.log("Use land on page. So how to reg him? ");
     const handleConfirm = () => {
       const responseConfirm = Auth.currentAuthenticatedUser();
       responseConfirm
@@ -238,7 +265,15 @@ function WsFile({ match }) {
                 </select>
               </form>
             </div>
-            <CreateDocument />
+            <div>
+              <button
+                type="button"
+                onClick={createNewDocument}
+                className="px-6 py-5 text-left block w-full hover:bg-green-400"
+              >
+                <div className="font-semibold text-xl">Create new doc + </div>
+              </button>
+            </div>
           </div>
 
           {authUser ? (
