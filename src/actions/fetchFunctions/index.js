@@ -125,7 +125,7 @@ export const uploadWsFile = async (input) => {
     const response = data.updateDocumentItem;
     return response;
   } catch (err) {
-    alert("Your file did save. Try to copy your text and refresh browser ");
+    alert("File didn't save :( Try to copy your text and refresh browser");
     console.log(err);
   }
 };
