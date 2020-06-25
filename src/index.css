@@ -13252,7 +13252,7 @@ h1 {
   opacity: 1;
 }
 
-.speakable.active {
+.speaking .speakable.active {
   opacity: 1;
 }
 

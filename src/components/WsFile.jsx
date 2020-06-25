@@ -34,21 +34,39 @@ const generateAudioBlock = async (pollyBlock) => {
     // Request speakable blocks
     const children = await triggerGenSubtitleBlock(pollyBlock);
 
-    if (children) console.log("children are ready");
-
     // Request Auido key
     const audioKey = await triggerGenAudioBlock(pollyBlock);
-    if (audioKey) console.log("audioKey is ready");
+
+    console.log(children);
+    console.log(audioKey);
+
+    // if children or audioKey is null return error block
+    if (!children || !audioKey) {
+      return {
+        children: [
+          {
+            start: 0,
+            end: 999999,
+            text: "WavePage cannot generate this paragraph",
+          },
+        ],
+        id: "448546b0-b31d-11ea-a467-7343eba22b03",
+        url:
+          "https://text-with-speech.s3.eu-central-1.amazonaws.com/448546b0-b31d-11ea-a467-7343eba22b03",
+        type: "paragraph",
+      };
+    }
 
     const url =
       "https://text-with-speech.s3.eu-central-1.amazonaws.com/" + audioKey;
 
-    const type = "paragraph";
-
     const id = audioKey;
+
+    const type = "paragraph";
 
     return { children, url, id, type };
   } catch (err) {
+    console.log("now is err");
     console.log(err);
   }
 };
@@ -92,7 +110,7 @@ function WsFile({ match }) {
       .catch((err) => console.log(err));
   };
 
-  const togglePresentationVue = () => {
+  const togglepresentationView = () => {
     isPresentation ? setPresentation(false) : setPresentation(true);
   };
 
@@ -155,6 +173,7 @@ function WsFile({ match }) {
       console.log("useEffect every new doc");
       try {
         const response = await downLoadWsFile(match.params.id);
+        console.log(response);
 
         const { content, voice, _version } = response;
 
@@ -219,7 +238,7 @@ function WsFile({ match }) {
         <Sidebar>
           <button
             className="flex block px-6 py-5 block w-full hover:bg-green-400"
-            onClick={togglePresentationVue}
+            onClick={togglepresentationView}
           >
             <div className="text-left flex-grow">
               <div className="font-semibold text-xl">Presentation</div>
@@ -305,7 +324,7 @@ function WsFile({ match }) {
             ) : (
               <WsPreview
                 content={content}
-                presentationVue={isPresentation}
+                presentationView={isPresentation}
                 isLoading={isLoading}
               />
             )}

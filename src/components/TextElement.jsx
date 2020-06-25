@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 
-const scrollToRef = (ref, presentationVue) => {
-  const position = presentationVue ? "end" : "center";
+const scrollToRef = (ref, presentationView) => {
+  const position = presentationView ? "end" : "center";
 
   ref.current.scrollIntoView({
     behavior: "smooth",
@@ -9,15 +9,21 @@ const scrollToRef = (ref, presentationVue) => {
   });
 };
 
-function SentenceItem({ text, start, sentenceActive, speak, presentationVue }) {
+function SentenceItem({
+  text,
+  start,
+  sentenceActive,
+  speak,
+  presentationView,
+}) {
   const myRef = useRef(null);
   //const executeScroll = () => scrollToRef(myRef);
 
   useEffect(() => {
-    if (sentenceActive) scrollToRef(myRef, presentationVue);
+    if (sentenceActive) scrollToRef(myRef, presentationView);
   }, [sentenceActive]);
 
-  //const sentenceView = presentationVue ? "block pb-10" : "inline";
+  //const sentenceView = presentationView ? "block pb-10" : "inline";
 
   return (
     <span
@@ -25,7 +31,7 @@ function SentenceItem({ text, start, sentenceActive, speak, presentationVue }) {
       onClick={() => speak(start, sentenceActive, true)}
       className={`speakable cursor-pointer hover:text-green-300 ${
         sentenceActive ? "active" : "pasive"
-      }${presentationVue ? "pb-10" : ""}   `}
+      } ${presentationView ? "pb-10" : ""}`}
     >
       {text}
     </span>
@@ -37,7 +43,7 @@ const TextElement = ({
   index,
   isActive,
   setActiveElement,
-  presentationVue,
+  presentationView,
 }) => {
   const { id, children, url } = element;
   const [mediaPermition, setMediaPermition] = useState(true);
@@ -108,6 +114,11 @@ const TextElement = ({
     if (isActive && audio.paused) speakTextBlock(0, false);
   }, [isActive]);
 
+  // useEffect(() => {
+  //   if (!isActive && !audio.paused) speakTextBlock(0, true);
+  //   if (isActive && audio.paused) speakTextBlock(0, false);
+  // }, [isActive]);
+
   const sentenceItems = sentences.map((inline) => {
     // Correct! Key should be specified inside the array.
     const sentenceId = `${id}-${inline.start}`;
@@ -119,7 +130,7 @@ const TextElement = ({
         text={inline.text}
         start={inline.start}
         speak={speakTextBlock}
-        presentationVue={presentationVue}
+        presentationView={presentationView}
       />
     );
   });

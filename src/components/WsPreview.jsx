@@ -33,7 +33,7 @@ const Element = ({
   setActiveElement,
   index,
   isActive,
-  presentationVue,
+  presentationView,
 }) => {
   switch (element.type) {
     case "image":
@@ -44,7 +44,7 @@ const Element = ({
           index={index}
           activeElement={activeElement}
           setActiveElement={setActiveElement}
-          presentationVue={presentationVue}
+          presentationView={presentationView}
         />
       );
     case "paragraph":
@@ -54,7 +54,7 @@ const Element = ({
           index={index}
           isActive={isActive}
           setActiveElement={setActiveElement}
-          presentationVue={presentationVue}
+          presentationView={presentationView}
         />
       );
     default:
@@ -62,7 +62,7 @@ const Element = ({
   }
 };
 
-function Content({ content, presentationVue }) {
+function Content({ content, presentationView }) {
   const [activeElement, setActiveElement] = useState(null);
   const [slides, setSlides] = useState([]);
 
@@ -117,7 +117,7 @@ function Content({ content, presentationVue }) {
             element={element}
             activeElement={activeElement}
             setActiveElement={setActiveElement}
-            presentationVue={presentationVue}
+            presentationView={presentationView}
           />
         ))}
       </div>
@@ -125,10 +125,10 @@ function Content({ content, presentationVue }) {
   );
 }
 
-const WsPreview = ({ content, presentationVue, isLoading }) => {
+const WsPreview = ({ content, presentationView, isLoading }) => {
   return (
     <div className={`${isLoading ? "opacity-50 pointer-events-none" : ""} `}>
-      <Content content={content} presentationVue={presentationVue} />
+      <Content content={content} presentationView={presentationView} />
     </div>
   );
 };

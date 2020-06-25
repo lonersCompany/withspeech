@@ -158,7 +158,9 @@ export const triggerGenAudioBlock = async (block) => {
     );
     const response = JSON.parse(buffer.data.generateAudioFile);
 
-    return response.body.audio.key;
+    const { key } = response.body.audio;
+
+    return key;
   } catch (err) {
     console.log(err);
   }
@@ -167,6 +169,7 @@ export const triggerGenAudioBlock = async (block) => {
 export const triggerGenSubtitleBlock = async (block) => {
   try {
     const buffer = await API.graphql(graphqlOperation(generateTimming, block));
+    console.log(buffer);
     // Create JS object from JSON
     const { body } = JSON.parse(buffer.data.generateTimming);
     const returnedStream = body.stream;
@@ -183,18 +186,8 @@ export const triggerGenSubtitleBlock = async (block) => {
       };
     });
 
+    console.log(returnedStream);
     console.log(children);
-
-    // const renameValueToText = returnedStream.map((obj) =>
-    //   renameObjFiled(obj, "value", "text")
-    // );
-
-    // const addSpaceToEnd = renameValueToText.map((obj) => ({
-    //   ...obj,
-    //   text: obj.text.replace(/<(.|\n)*?>/g, "") + " ",
-    // }));
-
-    //const children = addSpaceToEnd;
 
     return children;
   } catch (err) {

@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from "react";
 
-const scrollToRef = (ref, presentationVue) => {
-  const block = presentationVue ? "start" : "center";
-  const behavior = presentationVue ? "auto" : "smooth";
+const scrollToRef = (ref, presentationView) => {
+  const block = presentationView ? "start" : "center";
+  const behavior = presentationView ? "auto" : "smooth";
   ref.current.scrollIntoView({
     behavior,
     block,
@@ -15,24 +15,24 @@ const ImageElement = ({
   setActiveElement,
   activeElement,
   index,
-  presentationVue,
+  presentationView,
 }) => {
   const myRef = useRef(null);
 
+  const ImageTimig = presentationView ? 2000 : 3000;
+
   const speakImageBlock = () => {
-    console.log("set time out!");
     setActiveElement(index);
-    const timer = setTimeout(
-      () => setActiveElement(index + 1),
-      presentationVue ? 5000 : 3000
-    );
+    const nextIndex = index + 1;
+    const timer = setTimeout(() => setActiveElement(nextIndex), ImageTimig);
+
     return () => clearTimeout(timer);
   };
 
   useEffect(() => {
     // On load of page run handleListNotes function
     if (isActive) speakImageBlock();
-    if (isActive) scrollToRef(myRef, presentationVue);
+    if (isActive) scrollToRef(myRef, presentationView);
   }, [isActive]);
 
   return (
@@ -40,13 +40,13 @@ const ImageElement = ({
       ref={myRef}
       className={` w-full h-full flex justify-center bg-gray-900 pb-10 ${
         isActive ? "active" : "pasive"
-      } ${presentationVue ? "sticky top-0" : ""} ${
+      } ${presentationView ? "sticky top-0" : ""} ${
         activeElement ? "z-10" : ""
       }  `}
       contentEditable={false}
       onClick={speakImageBlock}
     >
-      <img alt="" src={element.url} className={` max-h-screen `} />
+      <img alt="" src={element.url} className={`h-auto max-h-screen `} />
     </div>
   );
 };
