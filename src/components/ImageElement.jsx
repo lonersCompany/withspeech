@@ -38,7 +38,7 @@ const ImageElement = ({
   return (
     <div
       ref={myRef}
-      className={` w-full h-full flex justify-center bg-gray-900 pb-10 ${
+      className={` w-full h-full text-center bg-gray-900 pb-10 ${
         isActive ? "active" : "pasive"
       } ${presentationView ? "sticky top-0" : ""} ${
         activeElement ? "z-10" : ""
