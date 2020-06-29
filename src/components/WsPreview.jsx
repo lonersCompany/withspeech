@@ -75,15 +75,19 @@ function Content({ content, presentationView }) {
 
   return (
     <>
-      <div>
-        <button
+      <div className="mb-10">
+        {/* <button
           onClick={toggleReading}
-          className="px-4 rounded-lg mb-10 rounded border border-blue-500 focus:outline-none "
+          className=" rounded-lg py-2 px-3 text-green-500 border-2 border-green-500 "
         >
+          Play{" "}
           <span role="img" aria-label="play">
             🔉
           </span>
-        </button>
+        </button>{" "} */}
+        <span className="text-blue-700">
+          click into text to (play/stop) audio
+        </span>
       </div>
       <div
         className={` ${activeElement === null ? "not-speaking" : "speaking"} `}
