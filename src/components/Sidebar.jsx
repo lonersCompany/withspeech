@@ -11,7 +11,7 @@ const Sidebar = ({ children }) => {
         >
           Wave Page{" "}
           <span role="img" aria-label="" description="wave hand">
-            👋🏼
+            🌀
           </span>
         </Link>
 

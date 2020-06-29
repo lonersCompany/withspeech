@@ -45,7 +45,7 @@ const AuthLayer = ({ setAuth, setAuthProcess }) => {
                 <button className="text-left font-semibold text-xl">
                   Wave Page{" "}
                   <span role="img" aria-label="" description="wave hand">
-                    👋🏼
+                    🌀
                   </span>
                 </button>
               </Link>
