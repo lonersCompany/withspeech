@@ -118,17 +118,3 @@ export const getAudioLinks = (audioFiles) =>
   audioFiles.map((file) => {
     return { src: file.src };
   });
-
-export const cutToSentences = (string) => {
-  const sentencesArray = string.match(/[^\.!\?]+[\.!\?]|([^\.!\?]+$)+/g);
-
-  const spanElements = sentencesArray.map((sentence) => {
-    const newEl = document.createElement("span");
-    newEl.classList.add("s");
-    newEl.setAttribute("data-state", "pasive");
-    newEl.innerText = sentence;
-    return newEl;
-  });
-
-  return spanElements;
-};

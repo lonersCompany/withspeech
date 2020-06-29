@@ -55,6 +55,7 @@ const ImageElement = ({ attributes, children, element }) => {
       <div className="max-h-screen" contentEditable={false}>
         <img
           src={element.url}
+          alt="How to figured out alts?"
           className={`
           max-h-screen ${selected && focused ? "h" : "none"};
           `}

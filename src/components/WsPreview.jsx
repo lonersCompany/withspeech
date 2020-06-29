@@ -80,7 +80,9 @@ function Content({ content, presentationView }) {
           onClick={toggleReading}
           className="px-4 rounded-lg mb-10 rounded border border-blue-500 focus:outline-none "
         >
-          🔉
+          <span role="img" aria-label="play">
+            🔉
+          </span>
         </button>
       </div>
       <div

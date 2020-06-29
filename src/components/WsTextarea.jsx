@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 // TODO: Play with tree structure and write article about it
 
 const WsTextarea = ({ textValue, handleEditiorChange }) => {
-  const handleTextChange = event => {
+  const handleTextChange = (event) => {
     const value = event.target.value;
 
     handleEditiorChange(value);
@@ -19,38 +19,3 @@ const WsTextarea = ({ textValue, handleEditiorChange }) => {
   );
 };
 export default WsTextarea;
-
-// Text Area to sentences
-// const textAreaToObject = value => {
-//   var documentParagrafs = value.match(/[^\n\?]+[\n\?]|([^\n\?]+$)+/g);
-
-//   if (documentParagrafs) {
-//     const paragrafs = documentParagrafs.map(paragraf => {
-//       const replacedN = paragraf.replace(/\n/g, "");
-//       const inlineArray = cutToSentences(replacedN);
-//       if (inlineArray) {
-//         const inlineNode = inlineArray.map(inline => {
-//           return {
-//             text: inline,
-//             key: uuidv1(),
-//             voice: "Salli"
-//           };
-//         });
-
-//         const document = {
-//           object: "block",
-//           type: "paragraf",
-//           nodes: inlineNode
-//         };
-
-//         return document;
-//       }
-//     });
-
-//     const document = {
-//       nodes: paragrafs
-//     };
-
-//     handleEditiorChange(document);
-//   }
-// };

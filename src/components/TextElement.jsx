@@ -107,10 +107,11 @@ const TextElement = ({
     }
   };
 
-  useEffect(() => {
-    if (!isActive && !audio.paused) speakTextBlock(0, true);
-    if (isActive && audio.paused) speakTextBlock(0, false);
-  }, [isActive]);
+  // Because of play button
+  // useEffect(() => {
+  //   if (!isActive && !audio.paused) speakTextBlock(0, true);
+  //   if (isActive && audio.paused) speakTextBlock(0, false);
+  // }, [isActive]);
 
   const sentenceItems = sentences.map((inline) => {
     // Correct! Key should be specified inside the array.

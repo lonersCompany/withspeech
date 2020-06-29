@@ -1,7 +1,5 @@
 import React from "react";
 const LandingPage = () => {
-  const appTitle = "Wavepage is editor for multimedia";
-  const appDefinition = "";
   return (
     <>
       <article
@@ -43,6 +41,7 @@ const LandingPage = () => {
         <div className="mb-16">
           <iframe
             className="m-auto"
+            title="app tutotrial"
             width="560"
             height="340"
             src="https://www.youtube.com/embed/YVEuU6gbvqI"
@@ -96,7 +95,9 @@ const LandingPage = () => {
             <p className="">
               Visual learner working on a tool for multimedia learning. I
               started with the editor for text-to-speech. Test it till make it
-              🚀
+              <span role="img" aria-label="" description="rocket">
+                🚀
+              </span>
             </p>
           </div>
         </div>

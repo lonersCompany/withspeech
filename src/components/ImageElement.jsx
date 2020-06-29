@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useCallback } from "react";
 
 const scrollToRef = (ref, presentationView) => {
   const block = presentationView ? "start" : "center";
@@ -21,19 +21,19 @@ const ImageElement = ({
 
   const ImageTimig = presentationView ? 2000 : 3000;
 
-  const speakImageBlock = () => {
+  const speakImageBlock = useCallback(async () => {
     setActiveElement(index);
+    scrollToRef(myRef, presentationView);
     const nextIndex = index + 1;
     const timer = setTimeout(() => setActiveElement(nextIndex), ImageTimig);
 
     return () => clearTimeout(timer);
-  };
+  }, [ImageTimig, index, presentationView, setActiveElement]);
 
   useEffect(() => {
     // On load of page run handleListNotes function
     if (isActive) speakImageBlock();
-    if (isActive) scrollToRef(myRef, presentationView);
-  }, [isActive]);
+  }, [isActive, speakImageBlock]);
 
   return (
     <div

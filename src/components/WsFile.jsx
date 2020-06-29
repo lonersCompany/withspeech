@@ -86,7 +86,6 @@ function WsFile({ match }) {
   const [authUser, setAuth] = useState();
   const [authProcess, setAuthProcess] = useState(false);
   const [version, setVersion] = useState(0);
-  const [name, setName] = useState(match.params.id);
   const [content, setContent] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [textValue, setTextValue] = useState();
@@ -132,19 +131,19 @@ function WsFile({ match }) {
   const handleAudioSync = async ({ voice }) => {
     // TODO probably will be costed
     const contentPromisses = textValue.map((block) => {
+      let newBlock = Object.assign({}, block);
+
       if (block.type === "image") {
-        const newBlock = Object.assign({}, block);
         newBlock.id = uuidv1();
-        return newBlock;
       }
 
-      // BUM BUM!
       if (block.type === "paragraph") {
         const pollyBlock = getSSMLTextValue(block.children, voice);
 
-        const newBlock = generateAudioBlock(pollyBlock);
-        return newBlock;
+        newBlock = generateAudioBlock(pollyBlock);
       }
+
+      return newBlock;
     });
 
     const content = await Promise.all(contentPromisses);
@@ -152,7 +151,6 @@ function WsFile({ match }) {
       setContent(content);
       setAudioSync(true);
       const newName = content[0].children[0].text;
-      setName(content[0].children[0].text);
       setIsLoading(false);
       const uplodInput = {
         id,

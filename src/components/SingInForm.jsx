@@ -24,12 +24,10 @@ const SingInForm = ({ setAuth, setAuthProcess }) => {
         name="username"
         onChange={(e) => setUsername(e.target.value)}
         className="mb-5 bg-gray-800 border border-gray-300 rounded-lg py-5 px-4 block w-full appearance-none leading-normal"
-        type="email"
         placeholder="E-mail"
       ></input>
 
       <input
-        type="text"
         name="username"
         onChange={(e) => setPassword(e.target.value)}
         className="mb-5 bg-gray-800 border border-gray-300 rounded-lg py-5 px-4 block w-full appearance-none leading-normal"
