@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 
-const scrollToRef = (ref, presentationView) => {
-  const position = presentationView ? "end" : "center";
-
+const scrollToRef = (ref, position) => {
   ref.current.scrollIntoView({
     behavior: "smooth",
     block: position,
@@ -17,11 +15,11 @@ function SentenceItem({
   presentationView,
 }) {
   const myRef = useRef(null);
-  //const executeScroll = () => scrollToRef(myRef);
 
   useEffect(() => {
-    if (sentenceActive) scrollToRef(myRef, presentationView);
-  }, [sentenceActive]);
+    const position = presentationView ? "end" : "center";
+    if (sentenceActive) scrollToRef(myRef, position);
+  }, [sentenceActive, presentationView]);
 
   //const sentenceView = presentationView ? "block pb-10" : "inline";
 
@@ -113,11 +111,6 @@ const TextElement = ({
     if (!isActive && !audio.paused) speakTextBlock(0, true);
     if (isActive && audio.paused) speakTextBlock(0, false);
   }, [isActive]);
-
-  // useEffect(() => {
-  //   if (!isActive && !audio.paused) speakTextBlock(0, true);
-  //   if (isActive && audio.paused) speakTextBlock(0, false);
-  // }, [isActive]);
 
   const sentenceItems = sentences.map((inline) => {
     // Correct! Key should be specified inside the array.

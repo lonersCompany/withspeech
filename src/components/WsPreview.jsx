@@ -1,30 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import TextElement from "./TextElement";
 import ImageElement from "./ImageElement";
-
-// const Slide = ({ element, active }) => {
-//   console.log(element);
-//   return (
-//     <div
-//       className={`w-full h-full top-0 flex justify-center ${
-//         active ? "" : "hidden"
-//       }`}
-//     >
-//       {element.type === "image" ? (
-//         <img
-//           className="block max-w-full h-full mx-auto self-center"
-//           src={element.url}
-//           alt="we need to do alts"
-//         />
-//       ) : (
-//         <div className="flex justify-center self-center">
-//           <h1 className=" ">{element.children[0].text}</h1>
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
 
 // TODO: audioObject is for every paragraf?
 const Element = ({
@@ -64,7 +41,7 @@ const Element = ({
 
 function Content({ content, presentationView }) {
   const [activeElement, setActiveElement] = useState(null);
-  const [slides, setSlides] = useState([]);
+  //const [slides, setSlides] = useState([]);
 
   // PREPARE PRESENTATION
   // useEffect(() => {

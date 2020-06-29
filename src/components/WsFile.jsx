@@ -27,6 +27,30 @@ const basicTextValue = [
   },
 ];
 
+const basicPreviewValue = [
+  {
+    children: [{ start: 0, end: 999999, text: "Write something here :)" }],
+    id: "0b39bba0-af32-11ea-a27f-ddd820513dc1",
+    type: "paragraph",
+    url:
+      "https://text-with-speech.s3.eu-central-1.amazonaws.com/0b39bba0-af32-11ea-a27f-ddd820513dc1",
+  },
+];
+
+const errorPreviewValue = {
+  children: [
+    {
+      start: 0,
+      end: 999999,
+      text: "WavePage cannot generate this paragraph",
+    },
+  ],
+  id: "448546b0-b31d-11ea-a467-7343eba22b03",
+  url:
+    "https://text-with-speech.s3.eu-central-1.amazonaws.com/448546b0-b31d-11ea-a467-7343eba22b03",
+  type: "paragraph",
+};
+
 const generateAudioBlock = async (pollyBlock) => {
   //console.log(ssmlValue);
 
@@ -37,24 +61,9 @@ const generateAudioBlock = async (pollyBlock) => {
     // Request Auido key
     const audioKey = await triggerGenAudioBlock(pollyBlock);
 
-    console.log(children);
-    console.log(audioKey);
-
     // if children or audioKey is null return error block
     if (!children || !audioKey) {
-      return {
-        children: [
-          {
-            start: 0,
-            end: 999999,
-            text: "WavePage cannot generate this paragraph",
-          },
-        ],
-        id: "448546b0-b31d-11ea-a467-7343eba22b03",
-        url:
-          "https://text-with-speech.s3.eu-central-1.amazonaws.com/448546b0-b31d-11ea-a467-7343eba22b03",
-        type: "paragraph",
-      };
+      return errorPreviewValue;
     }
 
     const url =
@@ -145,9 +154,6 @@ function WsFile({ match }) {
       const newName = content[0].children[0].text;
       setName(content[0].children[0].text);
       setIsLoading(false);
-
-      console.log("version: " + version);
-
       const uplodInput = {
         id,
         name: newName,
@@ -163,39 +169,25 @@ function WsFile({ match }) {
         const correctVersion = _version ? _version : 0;
 
         setVersion(correctVersion);
-        console.log("next version: " + correctVersion);
       }
     }
   };
 
   useEffect(() => {
     const renderWSFile = async () => {
-      console.log("useEffect every new doc");
       try {
         const response = await downLoadWsFile(match.params.id);
-        console.log(response);
 
         const { content, voice, _version } = response;
 
         if (voice) setVoice(voice);
         if (_version) setVersion(_version);
-        console.log("load version: " + _version);
 
         // SET EDITOR TO BASIC
         if (content === null) {
           setTextValue(basicTextValue);
           setVoice("Matthew");
-          setContent([
-            {
-              children: [
-                { start: 0, end: 999999, text: "Write something here :)" },
-              ],
-              id,
-              type: "paragraph",
-              url:
-                "https://text-with-speech.s3.eu-central-1.amazonaws.com/0b39bba0-af32-11ea-a27f-ddd820513dc1",
-            },
-          ]);
+          setContent(basicPreviewValue);
           setEditor(true);
         } else {
           setAudioSync(true);
