@@ -68,10 +68,10 @@ function Content({ content, presentationView }) {
   //   setSlides(slides);
   // }, [content]);
 
-  const toggleReading = () => {
-    const toggle = activeElement !== null ? null : 0;
-    setActiveElement(toggle);
-  };
+  // const toggleReading = () => {
+  //   const toggle = activeElement !== null ? null : 0;
+  //   setActiveElement(toggle);
+  // };
 
   return (
     <>
@@ -86,7 +86,7 @@ function Content({ content, presentationView }) {
           </span>
         </button>{" "} */}
         <span className="text-blue-700">
-          click into text to (play/stop) audio
+          Click into text to (play/stop) audio
         </span>
       </div>
       <div
