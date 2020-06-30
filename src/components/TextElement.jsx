@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 
 const scrollToRef = (ref, position) => {
   ref.current.scrollIntoView({
@@ -9,26 +9,28 @@ const scrollToRef = (ref, position) => {
 
 function SentenceItem({
   text,
-  start,
-  sentenceActive,
-  speak,
+  isActive,
+  setActiveInline,
+  index,
   presentationView,
 }) {
-  const myRef = useRef(null);
+  //const myRef = useRef(null);
 
-  useEffect(() => {
-    const position = presentationView ? "end" : "center";
-    if (sentenceActive) scrollToRef(myRef, position);
-  }, [sentenceActive, presentationView]);
+  // useEffect(() => {
+  //   const position = presentationView ? "end" : "center";
+  //   if (sentenceActive) scrollToRef(myRef, position);
+  // }, [sentenceActive, presentationView]);
 
-  //const sentenceView = presentationView ? "block pb-10" : "inline";
+  const toggleAction = (params) => {
+    isActive ? setActiveInline(null) : setActiveInline(index);
+  };
 
   return (
     <span
-      ref={myRef}
-      onClick={() => speak(start, sentenceActive, true)}
+      //ref={myRef}
+      onClick={toggleAction}
       className={`speakable cursor-pointer hover:text-green-300 ${
-        sentenceActive ? "active" : "pasive"
+        isActive ? "active" : "pasive"
       } ${presentationView ? "pb-10" : ""}`}
     >
       {text}
@@ -46,85 +48,104 @@ const TextElement = ({
   const { id, children, url } = element;
   const [mediaPermition, setMediaPermition] = useState(true);
   const [audio] = useState(new Audio(url));
-  const [sentenceIndex, setSentenceIndex] = useState(null);
   const [sentences, setSentences] = useState(children);
+  const [activeInline, setActiveInline] = useState(null);
 
-  const playAudioObject = async (audio) => {
-    try {
-      await audio.play();
-      setMediaPermition(true);
-      return true;
-    } catch (err) {
-      setMediaPermition(false);
-      return false;
-    }
-  };
+  // const playAudioObject = async (audio) => {
+  //   try {
+  //     await audio.play();
+  //     setMediaPermition(true);
+  //     return true;
+  //   } catch (err) {
+  //     setMediaPermition(false);
+  //     return false;
+  //   }
+  // };
 
-  const speakTextBlock = (start, pause, resetElements) => {
-    switch (pause) {
-      case true:
-        audio.removeEventListener("timeupdate", () => {
-          console.log("timeupdate");
+  // const pauseTextBlock = () => {
+  //   console.log("Pause");
+  //   audio.removeEventListener("timeupdate", () => {
+  //     console.log("timeupdate");
+  //   });
+
+  //   audio.pause();
+  // };
+
+  const setEventListeners = (start) => {
+    console.log("setEventListeners");
+    audio.addEventListener(
+      "timeupdate",
+      function(e) {
+        const currentTime = e.target.currentTime * 1000;
+        sentences.forEach((item, index) => {
+          if (
+            !audio.paused &&
+            currentTime >= item.start &&
+            currentTime < item.end
+          ) {
+            console.log(index);
+            setActiveInline(index);
+          }
         });
 
-        audio.pause();
+        //setSentences(newSentences);
+      },
+      false
+    );
 
-        if (sentenceIndex !== null) {
-          let newSentences = [...sentences];
-          newSentences[sentenceIndex].sentenceActive = false;
-          setSentences(newSentences);
-        }
-
-        if (resetElements) setActiveElement(null);
-        break;
-      default:
-        audio.currentTime = start * 0.001;
-        audio.addEventListener(
-          "timeupdate",
-          function(e) {
-            const currentTime = e.target.currentTime * 1000;
-            const newSentences = sentences.map((item, index) => {
-              const itemTiming =
-                !audio.paused &&
-                currentTime >= item.start &&
-                currentTime < item.end;
-              if (itemTiming) setSentenceIndex(index);
-              item.sentenceActive = itemTiming;
-              return item;
-            });
-
-            setSentences(newSentences);
-          },
-          false
-        );
-
-        audio.addEventListener("ended", () => {
-          setActiveElement(index + 1);
-        });
-
-        const isPlayAlowed = playAudioObject(audio);
-        if (isPlayAlowed) setActiveElement(index);
-    }
+    audio.addEventListener("ended", () => {
+      console.log("ended");
+      setActiveElement(index + 1);
+    });
   };
 
   // Because of play button
-  // useEffect(() => {
-  //   if (!isActive && !audio.paused) speakTextBlock(0, true);
-  //   if (isActive && audio.paused) speakTextBlock(0, false);
-  // }, [isActive]);
+  useEffect(() => {
+    console.log("setEventListeners");
+    if (!isActive) {
+      audio.pause();
+      setActiveInline(null);
+    } else {
+      audio.currentTime = 0;
+      audio.play();
+      setEventListeners();
+    }
+  }, [isActive]);
 
-  const sentenceItems = sentences.map((inline) => {
+  // Audio controlers
+  const setActiveInlineAndMore = (inlineIndex) => {
+    setActiveInline(inlineIndex);
+
+    if (inlineIndex != null) {
+      const time = sentences[inlineIndex].start * 0.001;
+      audio.currentTime = time;
+      audio.play();
+    }
+
+    if (inlineIndex != null && !isActive) {
+      setActiveElement(index);
+      setEventListeners();
+    }
+    if (inlineIndex === null && isActive) {
+      setActiveElement(null);
+      audio.pause();
+      // TODO: remove event listeners
+    }
+  };
+
+  const sentenceItems = sentences.map((inline, index) => {
     // Correct! Key should be specified inside the array.
-    const sentenceId = `${id}-${inline.start}`;
+
+    const { text, start } = inline;
     return (
       <SentenceItem
-        key={sentenceId}
-        id={sentenceId}
-        sentenceActive={inline.sentenceActive}
-        text={inline.text}
-        start={inline.start}
-        speak={speakTextBlock}
-        presentationView={presentationView}
+        key={`${id}-${start}`}
+        id={`${id}-${start}`}
+        isActive={activeInline === index}
+        setActiveInline={setActiveInlineAndMore}
+        index={index}
+        text={text}
+        start={start}
       />
     );
   });
@@ -140,7 +161,7 @@ const TextElement = ({
       )}
       <p
         className={`relative pb-10 transparent-bg ${
-          isActive ? "active z-10" : "pasive"
+          isActive ? "active z-10 text-green-500" : "pasive"
         }`}
       >
         {sentenceItems}

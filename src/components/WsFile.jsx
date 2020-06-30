@@ -226,19 +226,18 @@ function WsFile({ match }) {
     <>
       <div className="lg:flex">
         <Sidebar>
-          <button
+          {/* <button
             className="flex block px-6 py-5 block w-full hover:bg-green-400"
             onClick={togglepresentationView}
           >
             <div className="text-left flex-grow">
               <div className="font-semibold text-xl">Presentation</div>
-              {/* <div className="text-blue-700"> ctrl+P</div> */}
             </div>
 
             <div
               className={`tgl-btn ml-5 ${isPresentation ? "active" : ""}`}
             ></div>
-          </button>
+          </button> */}
           <div
             className={`${
               authUser ? "" : "opacity-50 pointer-events-none "
