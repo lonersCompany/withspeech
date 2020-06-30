@@ -1,43 +1,37 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 
-// const scrollToRef = (ref, position) => {
-//   ref.current.scrollIntoView({
-//     behavior: "smooth",
-//     block: position,
-//   });
-// };
+const scrollToRef = (ref, position) => {
+  ref.current.scrollIntoView({
+    behavior: "smooth",
+    block: position,
+  });
+};
 
-function SentenceItem({
-  text,
-  isActive,
-  setActiveInline,
-  index,
-  presentationView,
-}) {
-  //const myRef = useRef(null);
+function SentenceItem({ text, isActive, setActiveInline, index, position }) {
+  const myRef = useRef(null);
 
-  // useEffect(() => {
-  //   const position = presentationView ? "end" : "center";
-  //   if (sentenceActive) scrollToRef(myRef, position);
-  // }, [sentenceActive, presentationView]);
+  useEffect(() => {
+    scrollToRef(myRef, position);
+  }, [isActive]);
 
-  const toggleAction = (params) => {
+  const toggleAction = () => {
+    if (isActive) scrollToRef(myRef, position);
     isActive ? setActiveInline(null) : setActiveInline(index);
   };
 
   return (
     <span
-      //ref={myRef}
+      ref={myRef}
       onClick={toggleAction}
       className={`speakable cursor-pointer hover:text-green-300 ${
         isActive ? "active" : "pasive"
-      } ${presentationView ? "pb-10" : ""}`}
+      } ${isActive && position === "end" ? "pb-10 z-20" : ""}`}
     >
       {text}
     </span>
   );
 }
-
+const nullAudio = new Audio();
 const TextElement = ({
   element,
   index,
@@ -48,22 +42,22 @@ const TextElement = ({
   const { id, children, url } = element;
 
   const [mediaPermition, setMediaPermition] = useState(true);
-  const [audio, setAudio] = useState(new Audio(url));
+  const [audio, setAudio] = useState(nullAudio);
   const [sentences] = useState(children);
   const [activeInline, setActiveInline] = useState(null);
 
-  console.log("new Audio");
+  //console.log("new Audio");
 
-  const playAudioObject = async (audio) => {
-    try {
-      await audio.play();
-      setMediaPermition(true);
-      return true;
-    } catch (err) {
-      setMediaPermition(false);
-      return false;
-    }
-  };
+  // const playAudioObject = async (audio) => {
+  //   try {
+  //     await audio.play();
+  //     setMediaPermition(true);
+  //     return true;
+  //   } catch (err) {
+  //     setMediaPermition(false);
+  //     return false;
+  //   }
+  // };
 
   const setTimeListener = useCallback(() => {
     audio.addEventListener(
@@ -82,7 +76,7 @@ const TextElement = ({
       },
       false
     );
-  }, [audio, setActiveElement, sentences]);
+  }, [audio, setActiveInline, sentences]);
 
   const setEndListener = useCallback(() => {
     audio.addEventListener("ended", () => {
@@ -93,8 +87,10 @@ const TextElement = ({
   // Because of play button
 
   useEffect(() => {
-    console.log("element");
-  }, [element]);
+    console.count("set Audio");
+    const { url } = element;
+    setAudio(new Audio(url));
+  }, [element, setAudio]);
 
   useEffect(() => {
     console.log("setEventListeners");
@@ -132,20 +128,26 @@ const TextElement = ({
       // TODO: remove event listeners
     }
   };
+  const position = presentationView ? "end" : "center";
 
   const sentenceItems = sentences.map((inline, index) => {
     // Correct! Key should be specified inside the array.
 
     const { text, start } = inline;
+
+    const isActive = activeInline === index;
+
+    const senteceKey = `${id}-${start}`;
     return (
       <SentenceItem
-        key={`${id}-${start}`}
-        id={`${id}-${start}`}
-        isActive={activeInline === index}
+        key={senteceKey}
+        id={senteceKey}
+        isActive={isActive}
         setActiveInline={setActiveInlineAndMore}
         index={index}
         text={text}
         start={start}
+        position={position}
       />
     );
   });
@@ -161,7 +163,7 @@ const TextElement = ({
       )}
       <p
         className={`relative pb-10 transparent-bg ${
-          isActive ? "active z-10 text-green-500" : "pasive"
+          isActive ? "active z-10" : "pasive"
         }`}
       >
         {sentenceItems}

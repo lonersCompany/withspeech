@@ -40,9 +40,7 @@ const ImageElement = ({
       ref={myRef}
       className={` w-full h-full text-center bg-gray-900 pb-10 ${
         isActive ? "active" : "pasive"
-      } ${presentationView ? "sticky top-0" : ""} ${
-        activeElement ? "z-10" : ""
-      }  `}
+      } ${presentationView ? "sticky top-0 z-10" : ""}`}
       contentEditable={false}
       onClick={speakImageBlock}
     >

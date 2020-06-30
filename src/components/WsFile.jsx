@@ -226,7 +226,7 @@ function WsFile({ match }) {
     <>
       <div className="lg:flex">
         <Sidebar>
-          {/* <button
+          <button
             className="flex block px-6 py-5 block w-full hover:bg-green-400"
             onClick={togglepresentationView}
           >
@@ -237,7 +237,7 @@ function WsFile({ match }) {
             <div
               className={`tgl-btn ml-5 ${isPresentation ? "active" : ""}`}
             ></div>
-          </button> */}
+          </button>
           <div
             className={`${
               authUser ? "" : "opacity-50 pointer-events-none "

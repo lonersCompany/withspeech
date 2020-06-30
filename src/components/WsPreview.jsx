@@ -42,6 +42,20 @@ const Element = ({
 function Content({ content, presentationView }) {
   const [activeElement, setActiveElement] = useState(null);
 
+  const elements = content.map((element, index) => {
+    const isActive = activeElement === index;
+    return (
+      <Element
+        isActive={isActive}
+        setActiveElement={setActiveElement}
+        index={index}
+        key={element.id}
+        element={element}
+        presentationView={presentationView}
+      />
+    );
+  });
+
   return (
     <>
       <div className="mb-10">
@@ -61,16 +75,7 @@ function Content({ content, presentationView }) {
       <div
         className={` ${activeElement === null ? "not-speaking" : "speaking"} `}
       >
-        {content.map((element, index) => (
-          <Element
-            isActive={activeElement === index}
-            setActiveElement={setActiveElement}
-            index={index}
-            key={element.id}
-            element={element}
-            presentationView={presentationView}
-          />
-        ))}
+        {elements}
       </div>
     </>
   );
