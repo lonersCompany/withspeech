@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 
-const scrollToRef = (ref, position) => {
-  ref.current.scrollIntoView({
-    behavior: "smooth",
-    block: position,
-  });
-};
+// const scrollToRef = (ref, position) => {
+//   ref.current.scrollIntoView({
+//     behavior: "smooth",
+//     block: position,
+//   });
+// };
 
 function SentenceItem({
   text,
@@ -48,31 +48,21 @@ const TextElement = ({
   const { id, children, url } = element;
   const [mediaPermition, setMediaPermition] = useState(true);
   const [audio] = useState(new Audio(url));
-  const [sentences, setSentences] = useState(children);
+  const [sentences] = useState(children);
   const [activeInline, setActiveInline] = useState(null);
 
-  // const playAudioObject = async (audio) => {
-  //   try {
-  //     await audio.play();
-  //     setMediaPermition(true);
-  //     return true;
-  //   } catch (err) {
-  //     setMediaPermition(false);
-  //     return false;
-  //   }
-  // };
+  const playAudioObject = async (audio) => {
+    try {
+      await audio.play();
+      setMediaPermition(true);
+      return true;
+    } catch (err) {
+      setMediaPermition(false);
+      return false;
+    }
+  };
 
-  // const pauseTextBlock = () => {
-  //   console.log("Pause");
-  //   audio.removeEventListener("timeupdate", () => {
-  //     console.log("timeupdate");
-  //   });
-
-  //   audio.pause();
-  // };
-
-  const setEventListeners = (start) => {
-    console.log("setEventListeners");
+  const setTimeListener = useCallback(() => {
     audio.addEventListener(
       "timeupdate",
       function(e) {
@@ -83,21 +73,19 @@ const TextElement = ({
             currentTime >= item.start &&
             currentTime < item.end
           ) {
-            console.log(index);
             setActiveInline(index);
           }
         });
-
-        //setSentences(newSentences);
       },
       false
     );
+  }, [audio, setActiveElement, sentences]);
 
+  const setEndListener = useCallback(() => {
     audio.addEventListener("ended", () => {
-      console.log("ended");
       setActiveElement(index + 1);
     });
-  };
+  }, [audio, setActiveElement, index]);
 
   // Because of play button
   useEffect(() => {
@@ -105,12 +93,15 @@ const TextElement = ({
     if (!isActive) {
       audio.pause();
       setActiveInline(null);
-    } else {
-      audio.currentTime = 0;
-      audio.play();
-      setEventListeners();
     }
-  }, [isActive]);
+
+    if (isActive && audio.paused) {
+      audio.currentTime = 0;
+      setTimeListener();
+      setEndListener();
+      audio.play();
+    }
+  }, [isActive, audio, setTimeListener, setEndListener]);
 
   // Audio controlers
   const setActiveInlineAndMore = (inlineIndex) => {
@@ -124,7 +115,8 @@ const TextElement = ({
 
     if (inlineIndex != null && !isActive) {
       setActiveElement(index);
-      setEventListeners();
+      setTimeListener();
+      setEndListener();
     }
     if (inlineIndex === null && isActive) {
       setActiveElement(null);
