@@ -46,10 +46,13 @@ const TextElement = ({
   presentationView,
 }) => {
   const { id, children, url } = element;
+
   const [mediaPermition, setMediaPermition] = useState(true);
-  const [audio] = useState(new Audio(url));
+  const [audio, setAudio] = useState(new Audio(url));
   const [sentences] = useState(children);
   const [activeInline, setActiveInline] = useState(null);
+
+  console.log("new Audio");
 
   const playAudioObject = async (audio) => {
     try {
@@ -88,6 +91,11 @@ const TextElement = ({
   }, [audio, setActiveElement, index]);
 
   // Because of play button
+
+  useEffect(() => {
+    console.log("element");
+  }, [element]);
+
   useEffect(() => {
     console.log("setEventListeners");
     if (!isActive) {
