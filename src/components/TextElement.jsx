@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 
 const scrollToRef = (ref, position) => {
+  console.log("scrollIntoView " + position);
   ref.current.scrollIntoView({
     behavior: "smooth",
     block: position,
@@ -11,8 +12,8 @@ function SentenceItem({ text, isActive, setActiveInline, index, position }) {
   const myRef = useRef(null);
 
   useEffect(() => {
-    scrollToRef(myRef, position);
-  }, [isActive]);
+    if (isActive) scrollToRef(myRef, position);
+  }, [isActive, position]);
 
   const toggleAction = () => {
     if (isActive) scrollToRef(myRef, position);
@@ -87,13 +88,13 @@ const TextElement = ({
   // Because of play button
 
   useEffect(() => {
-    console.count("set Audio");
+    //console.count("set Audio");
     const { url } = element;
     setAudio(new Audio(url));
   }, [element, setAudio]);
 
   useEffect(() => {
-    console.log("setEventListeners");
+    //console.log("setEventListeners");
     if (!isActive) {
       audio.pause();
       setActiveInline(null);

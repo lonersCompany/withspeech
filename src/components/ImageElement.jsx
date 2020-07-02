@@ -1,13 +1,11 @@
 import React, { useEffect, useRef, useCallback } from "react";
 
-const scrollToRef = (ref, presentationView) => {
-  const block = presentationView ? "start" : "center";
-  const behavior = presentationView ? "auto" : "smooth";
-  ref.current.scrollIntoView({
-    behavior,
-    block,
-  });
-};
+// const scrollToRef = (ref, position) => {
+//   ref.current.scrollIntoView({
+//     behavior: "smooth",
+//     block: position,
+//   });
+// };
 
 const ImageElement = ({
   element,
@@ -17,13 +15,13 @@ const ImageElement = ({
   index,
   presentationView,
 }) => {
-  const myRef = useRef(null);
+  const imgRef = useRef(null);
 
-  const ImageTimig = presentationView ? 2000 : 3000;
+  const ImageTimig = presentationView ? 500 : 3000;
 
   const speakImageBlock = useCallback(async () => {
+    console.log(presentationView);
     setActiveElement(index);
-    scrollToRef(myRef, presentationView);
     const nextIndex = index + 1;
     const timer = setTimeout(() => setActiveElement(nextIndex), ImageTimig);
 
@@ -31,20 +29,31 @@ const ImageElement = ({
   }, [ImageTimig, index, presentationView, setActiveElement]);
 
   useEffect(() => {
-    // On load of page run handleListNotes function
-    if (isActive) speakImageBlock();
-  }, [isActive, speakImageBlock]);
+    if (isActive) {
+      console.log("scrollIntoView " + presentationView);
+      imgRef.current.scrollIntoView({
+        behavior: presentationView ? "auto" : "smooth",
+        block: presentationView ? "start" : "center",
+      });
+
+      const timer = setTimeout(
+        () => setActiveElement(index + 1),
+        presentationView ? 1000 : 3000
+      );
+      return () => clearTimeout(timer);
+    }
+  }, [isActive, presentationView, index, setActiveElement]);
 
   return (
     <div
-      ref={myRef}
+      ref={imgRef}
       className={` w-full h-full text-center bg-gray-900 pb-10 ${
         isActive ? "active" : "pasive"
       } ${presentationView ? "sticky top-0 z-10" : ""}`}
       contentEditable={false}
       onClick={speakImageBlock}
     >
-      <img alt="" src={element.url} className={`h-auto max-h-screen `} />
+      <img alt="" src={element.url} className={`h-auto max-h-screen m-auto`} />
     </div>
   );
 };

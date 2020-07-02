@@ -226,18 +226,6 @@ function WsFile({ match }) {
     <>
       <div className="lg:flex">
         <Sidebar>
-          <button
-            className="flex block px-6 py-5 block w-full hover:bg-green-400"
-            onClick={togglepresentationView}
-          >
-            <div className="text-left flex-grow">
-              <div className="font-semibold text-xl">Presentation</div>
-            </div>
-
-            <div
-              className={`tgl-btn ml-5 ${isPresentation ? "active" : ""}`}
-            ></div>
-          </button>
           <div
             className={`${
               authUser ? "" : "opacity-50 pointer-events-none "
@@ -254,6 +242,22 @@ function WsFile({ match }) {
 
               <div className={`tgl-btn ml-5 ${isEditor ? "active" : ""}`}></div>
             </button>
+
+            <div className={`${isEditor ? "hidden" : ""}`}>
+              <button
+                className="flex block px-6 py-5 block w-full hover:bg-green-400"
+                onClick={togglepresentationView}
+              >
+                <div className="text-left flex-grow">
+                  <div className="font-semibold text-xl">Presentation</div>
+                </div>
+
+                <div
+                  className={`tgl-btn ml-5 ${isPresentation ? "active" : ""}`}
+                ></div>
+              </button>
+            </div>
+
             <div className="relative font-semibold text-xl p-1 ">
               <form>
                 <select
