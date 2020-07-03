@@ -30,6 +30,7 @@ const ImageElement = ({
 
   useEffect(() => {
     if (isActive) {
+      console.log(presentationView ? "start" : "center");
       console.log("scrollIntoView " + presentationView);
       imgRef.current.scrollIntoView({
         behavior: presentationView ? "auto" : "smooth",
@@ -46,14 +47,18 @@ const ImageElement = ({
 
   return (
     <div
-      ref={imgRef}
       className={` w-full h-full text-center bg-gray-900 pb-10 ${
         isActive ? "active" : "pasive"
       } ${presentationView ? "sticky top-0 z-10" : ""}`}
       contentEditable={false}
       onClick={speakImageBlock}
     >
-      <img alt="" src={element.url} className={`h-auto max-h-screen m-auto`} />
+      <img
+        ref={imgRef}
+        alt=""
+        src={element.url}
+        className={`h-auto max-h-screen m-auto`}
+      />
     </div>
   );
 };
