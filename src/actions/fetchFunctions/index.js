@@ -109,6 +109,7 @@ export const triggerDeleteAudioBlock = async (key) => {
 };
 
 export const triggerGenAudioBlock = async (block) => {
+  console.log(block);
   try {
     const buffer = await API.graphql(
       graphqlOperation(generateAudioFile, block)
@@ -124,6 +125,7 @@ export const triggerGenAudioBlock = async (block) => {
 };
 
 export const triggerGenSubtitleBlock = async (block) => {
+  console.log(block);
   try {
     const buffer = await API.graphql(graphqlOperation(generateTimming, block));
     console.log(buffer);

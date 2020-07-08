@@ -144,7 +144,7 @@ const WsEditor = ({ textValue, handleEditiorChange }) => {
   };
 
   return (
-    <>
+    <div className="px-5 pt-8 pb-64">
       <div>
         <div
           className="flex items-center bg-green-400 text-white text-sm font-bold px-4 py-3 mb-10"
@@ -174,7 +174,7 @@ const WsEditor = ({ textValue, handleEditiorChange }) => {
           placeholder="Enter some text..."
         />
       </Slate>
-    </>
+    </div>
   );
 };
 

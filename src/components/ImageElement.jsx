@@ -17,7 +17,7 @@ const ImageElement = ({
 }) => {
   const imgRef = useRef(null);
 
-  const ImageTimig = presentationView ? 500 : 3000;
+  const ImageTimig = presentationView ? 500 : 100;
 
   const speakImageBlock = useCallback(async () => {
     console.log(presentationView);
@@ -47,7 +47,7 @@ const ImageElement = ({
 
   return (
     <div
-      className={` w-full h-full text-center bg-gray-900 pb-10 ${
+      className={` w-full h-full text-center pb-10 ${
         isActive ? "active" : "pasive"
       } ${presentationView ? "sticky top-0 z-10" : ""}`}
       contentEditable={false}

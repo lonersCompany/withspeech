@@ -13255,6 +13255,41 @@ h1 {
   opacity: 1;
 }
 
+.bg-speaking {
+  background: linear-gradient(268deg, #1a202c, #000000);
+  background-size: 400% 400%;
+  -webkit-animation: speaking 2s ease infinite;
+  animation: speaking 2s ease infinite;
+}
+
+@-webkit-keyframes speaking {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes speaking {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 @media (min-width: 640px) {
   .sm\:sr-only {
     position: absolute;

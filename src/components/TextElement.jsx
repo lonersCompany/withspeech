@@ -40,9 +40,9 @@ const TextElement = ({
   setActiveElement,
   presentationView,
 }) => {
-  const { id, children, url } = element;
+  const { id, children } = element;
 
-  const [mediaPermition, setMediaPermition] = useState(true);
+  const [mediaPermition] = useState(true);
   const [audio, setAudio] = useState(nullAudio);
   const [sentences] = useState(children);
   const [activeInline, setActiveInline] = useState(null);
@@ -162,11 +162,7 @@ const TextElement = ({
           Allow autoplay in browser setting, or click into text again
         </p>
       )}
-      <p
-        className={`relative pb-10 transparent-bg ${
-          isActive ? "active z-10" : "pasive"
-        }`}
-      >
+      <p className={`relative pb-10  ${isActive ? "active z-10" : "pasive"}`}>
         {sentenceItems}
       </p>
     </>

@@ -274,6 +274,7 @@ function WsFile({ match }) {
                   <option value="Matthew">Matthew</option>
                   <option value="Justin">Justin</option>
                   <option value="Joey">Joey</option>
+                  <option value="Zhiyu">Zhiyu</option>
                 </select>
               </form>
             </div>
@@ -308,7 +309,7 @@ function WsFile({ match }) {
           )}
         </Sidebar>
         <div className="min-h-screen w-full lg:static lg:max-h-full lg:overflow-visible lg:w-3/4 xl:w-4/5">
-          <div className="text-xl md:text-2xl px-5 pt-8 pb-64 min-h-screen article container">
+          <div className="text-xl md:text-2xl min-h-screen article container">
             {isEditor ? (
               <WsEditor
                 textValue={textValue}

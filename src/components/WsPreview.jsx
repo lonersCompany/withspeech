@@ -57,7 +57,20 @@ function Content({ content, presentationView }) {
   });
 
   return (
-    <>
+    <div
+      className={`px-5 pt-8 pb-64 ${
+        activeElement === null ? "not-speaking" : "speaking bg-speaking"
+      } `}
+    >
+      {/* <div className={` ${activeElement === null ? "hidden" : ""} `}>
+        <div className="fixed pointer-events-none bottom-0  ">
+          <img
+            className=""
+            src="https://media3.giphy.com/media/3oz8xxXI5nS5sCYjXG/giphy.gif"
+            alt=""
+          />
+        </div>
+      </div> */}
       <div className="mb-10">
         {/* <button
           onClick={toggleReading}
@@ -72,12 +85,8 @@ function Content({ content, presentationView }) {
           Click into text to (play/stop) audio
         </span>
       </div>
-      <div
-        className={` ${activeElement === null ? "not-speaking" : "speaking"} `}
-      >
-        {elements}
-      </div>
-    </>
+      <div>{elements}</div>
+    </div>
   );
 }
 

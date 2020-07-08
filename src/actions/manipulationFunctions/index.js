@@ -24,6 +24,7 @@ export const getSSMLTextValue = (sentences, defaultVoice) => {
       "Matthew",
       "Justin",
       "Joey",
+      "Zhiyu",
     ];
 
     voices.forEach((voiceName) => {
