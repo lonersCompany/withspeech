@@ -147,7 +147,7 @@ const WsEditor = ({ textValue, handleEditiorChange }) => {
     <div className="px-5 pt-8 pb-64">
       <div>
         <div
-          className="flex items-center bg-green-400 text-white text-sm font-bold px-4 py-3 mb-10"
+          className="flex items-center bg-green-400 text-sm font-bold px-4 py-3 mb-10"
           role="alert"
         >
           <svg

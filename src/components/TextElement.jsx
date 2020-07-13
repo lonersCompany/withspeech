@@ -25,8 +25,8 @@ function SentenceItem({ text, isActive, setActiveInline, index, position }) {
       ref={myRef}
       onClick={toggleAction}
       className={`speakable cursor-pointer hover:text-green-300 ${
-        isActive ? "active" : "pasive"
-      } ${isActive && position === "end" ? "pb-10 z-20" : ""}`}
+        position === "end" ? "block pb-5" : ""
+      } ${isActive ? "active z-20" : "pasive"} `}
     >
       {text}
     </span>

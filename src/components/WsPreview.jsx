@@ -59,7 +59,7 @@ function Content({ content, presentationView }) {
   return (
     <div
       className={`px-5 pt-8 pb-64 ${
-        activeElement === null ? "not-speaking" : "speaking bg-speaking"
+        activeElement === null ? "not-speaking" : "speaking"
       } `}
     >
       {/* <div className={` ${activeElement === null ? "hidden" : ""} `}>

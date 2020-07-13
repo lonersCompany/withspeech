@@ -309,7 +309,11 @@ function WsFile({ match }) {
           )}
         </Sidebar>
         <div className="min-h-screen w-full lg:static lg:max-h-full lg:overflow-visible lg:w-3/4 xl:w-4/5">
-          <div className="text-xl md:text-2xl min-h-screen article container">
+          <div
+            className={` min-h-screen article container ${
+              isPresentation ? "text-3xl" : "text-xl md:text-2xl"
+            }`}
+          >
             {isEditor ? (
               <WsEditor
                 textValue={textValue}

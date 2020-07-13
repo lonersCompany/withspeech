@@ -37,10 +37,7 @@ const ImageElement = ({
         block: presentationView ? "start" : "center",
       });
 
-      const timer = setTimeout(
-        () => setActiveElement(index + 1),
-        presentationView ? 1000 : 3000
-      );
+      const timer = setTimeout(() => setActiveElement(index + 1), 1000);
       return () => clearTimeout(timer);
     }
   }, [isActive, presentationView, index, setActiveElement]);
@@ -49,7 +46,7 @@ const ImageElement = ({
     <div
       className={` w-full h-full text-center pb-10 ${
         isActive ? "active" : "pasive"
-      } ${presentationView ? "sticky top-0 z-10" : ""}`}
+      } ${presentationView ? "sticky top-0 z-10 h-screen" : ""}`}
       contentEditable={false}
       onClick={speakImageBlock}
     >

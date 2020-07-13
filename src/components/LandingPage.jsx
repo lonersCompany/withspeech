@@ -28,7 +28,7 @@ const LandingPage = () => {
 
         <p className="text-center mb-16">
           <a
-            href="https://wavepage.netlify.app/doc/9fec123e-c15a-43a2-bfba-2720ce240085"
+            href="https://wavepage.netlify.app/doc/b427af21-8cbc-4df1-988a-06c2dfae1e2e"
             className="text-2xl rounded-lg py-2 px-3 text-green-500 border-2 border-green-500"
           >
             Try beta version{" "}
@@ -81,7 +81,7 @@ const LandingPage = () => {
           <div className="flex items-center">
             <img
               className="w-10 h-10 rounded-full mr-4"
-              src="https://pbs.twimg.com/profile_images/1264719053282840576/A90GsbPX_400x400.jpg"
+              src="https://pbs.twimg.com/profile_images/1280920343679508480/_7g7FjRG_400x400.jpg"
               alt="Avatar of Jonathan Reinink"
             />
             <div className="">
