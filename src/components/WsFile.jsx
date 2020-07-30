@@ -291,10 +291,11 @@ function WsFile({ match }) {
 
           {authUser ? (
             <button
+              className="m-2 px-5 py-5 rounded bg-blue-900"
               onClick={() => handleSignOut()}
               className="px-6 py-5 w-full text-left"
             >
-              Sing Out <span className="opacity-50 text-xs">{authUser}</span>
+              Log-out
             </button>
           ) : (
             <div className="m-2 px-5 py-5 rounded bg-blue-900">
@@ -311,7 +312,7 @@ function WsFile({ match }) {
         <div className="min-h-screen w-full lg:static lg:max-h-full lg:overflow-visible lg:w-3/4 xl:w-4/5">
           <div
             className={` min-h-screen article container ${
-              isPresentation ? "text-3xl" : "text-xl md:text-2xl"
+              isPresentation ? "text-3xl" : "text-3xl"
             }`}
           >
             {isEditor ? (
