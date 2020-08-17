@@ -291,9 +291,8 @@ function WsFile({ match }) {
 
           {authUser ? (
             <button
-              className="m-2 px-5 py-5 rounded bg-blue-900"
+              className="m-2 px-5 py-5 rounded bg-blue-900 w-full text-left"
               onClick={() => handleSignOut()}
-              className="px-6 py-5 w-full text-left"
             >
               Log-out
             </button>
