@@ -15,17 +15,7 @@ const Sidebar = ({ children }) => {
           </span>
         </Link>
 
-        <div className="flex-grow">
-          {children}
-          <div>
-            <a
-              href="mailto:simon@loners.company"
-              className="block text-blue-500 px-6 py-5 w-full text-left"
-            >
-              E-mail :)
-            </a>
-          </div>
-        </div>
+        <div className="flex-grow">{children}</div>
         <div className=""></div>
       </div>
     </div>

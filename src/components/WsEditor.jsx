@@ -24,7 +24,7 @@ const InsertImageButton = () => {
   const editor = useEditor();
   return (
     <button
-      className="px-5 py-3"
+      className="block mb-5 px-5 py-3 rounded bg-green-500"
       onMouseDown={(event) => {
         event.preventDefault();
         const url = window.prompt("Enter the URL of the image:");
@@ -32,7 +32,7 @@ const InsertImageButton = () => {
         insertImage(editor, url);
       }}
     >
-      (img)
+      + image
     </button>
   );
 };
@@ -166,7 +166,7 @@ const WsEditor = ({ textValue, handleEditiorChange }) => {
         onChange={(value) => handleTextChange(value)}
         className={"shadow"}
       >
-        <div className="fixed bottom-0 bg-black mb-10">
+        <div className="fixed bottom-0">
           <InsertImageButton />
         </div>
         <Editable
