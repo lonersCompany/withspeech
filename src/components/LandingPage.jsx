@@ -16,7 +16,7 @@ const LandingPage = () => {
 
         <div className="mb-16">
           <img
-            src="https://res.cloudinary.com/dhxmg9p4i/image/upload/v1598193403/blog/atom.jpg"
+            src="https://res.cloudinary.com/dhxmg9p4i/image/upload/v1598195565/blog/atom.jpg"
             alt=""
           />
         </div>
