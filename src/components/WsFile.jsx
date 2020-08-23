@@ -293,15 +293,15 @@ function WsFile({ match }) {
             href="mailto:simon@loners.company"
             className="block m-2 px-5 py-5 rounded bg-blue-700"
           >
-            Send message
+            Chat with us
           </a>
           {authUser ? (
-            <button
+            <div
               className="block m-2 px-5 py-5 rounded bg-blue-900"
               onClick={() => handleSignOut()}
             >
               Log-out
-            </button>
+            </div>
           ) : (
             <div className="m-2 px-5 py-5 rounded bg-blue-900">
               <p className="mb-2">Create and share your own audio articles</p>
