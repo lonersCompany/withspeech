@@ -60,27 +60,9 @@ function Content({ content, presentationView }) {
     <div
       className={`px-5 pt-8 pb-64 ${
         activeElement === null ? "not-speaking" : "speaking"
-      } `}
+      } ${presentationView ? "presentationView" : "articleView"} `}
     >
-      {/* <div className={` ${activeElement === null ? "hidden" : ""} `}>
-        <div className="fixed pointer-events-none bottom-0  ">
-          <img
-            className=""
-            src="https://media3.giphy.com/media/3oz8xxXI5nS5sCYjXG/giphy.gif"
-            alt=""
-          />
-        </div>
-      </div> */}
       <div className="mb-10">
-        {/* <button
-          onClick={toggleReading}
-          className=" rounded-lg py-2 px-3 text-green-500 border-2 border-green-500 "
-        >
-          Play{" "}
-          <span role="img" aria-label="play">
-            🔉
-          </span>
-        </button>{" "} */}
         <span className="text-blue-700">
           Click into text to (play/stop) audio
         </span>

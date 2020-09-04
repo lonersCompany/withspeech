@@ -22,8 +22,9 @@ const LandingPage = () => {
         </div>
 
         <p className="text-2xl font-light mb-16">
-          Wavepage is a tool for tutorials with AI voices. Write the aticle with
-          images and AI will make presentation with vocie-over - simply.
+          Wavepage convert article into presentation with AI voices. Write the
+          aticle add the images and AI will make presentation with vocie-over -
+          simply.
         </p>
 
         <p className="text-center mb-16">

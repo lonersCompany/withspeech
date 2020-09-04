@@ -25,7 +25,8 @@
     "source-map-explorer": "^2.0.1",
     "speechmarkdown-js": "^1.1.0",
     "tailwindcss": "^1.0.5",
-    "uuid": "^3.4.0"
+    "uuid": "^3.4.0",
+    "webpack": "4.42.0"
   },
   "scripts": {
     "analyze": "source-map-explorer build/static/js/main.*",
