@@ -44,19 +44,6 @@ const LandingPage = () => {
             title="app tutotrial"
             width="560"
             height="340"
-            src="https://www.youtube.com/embed/BbXTSNFgW_c"
-            frameBorder="0"
-            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></iframe>
-        </div>
-
-        <div className="mb-16">
-          <iframe
-            className="m-auto"
-            title="app tutotrial"
-            width="560"
-            height="340"
             src="https://www.youtube.com/embed/YVEuU6gbvqI"
             frameBorder="0"
             allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
