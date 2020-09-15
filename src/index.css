@@ -22281,6 +22281,11 @@ h1 {
 
 /* speaking */
 
+.blure {
+  -webkit-filter: blur(2px);
+          filter: blur(2px);
+}
+
 .speaking .speakable {
   opacity: 0.2;
 }

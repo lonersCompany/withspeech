@@ -17,24 +17,15 @@ const LogInPage = ({ children }) => {
 const SingUpPage = ({ children }) => {
   return (
     <>
-      <h1>With account you can save your audio articles</h1>
+      <h1>With account you can create and save wavepage documents for free</h1>
 
       <div className="">{children}</div>
     </>
   );
 };
 
-// const Elements = ({ mode }) => {
-//   switch (mode) {
-//     case "LogIn": <LogInPage />;
-//     default: <SingUpPage />;
-//   }
-
-//   return ()
-// };
-
 const AuthLayer = ({ setAuth, setAuthProcess }) => {
-  const [logInMode, setLogMode] = useState(true);
+  const [logInMode, setLogMode] = useState(false);
   return (
     <div className="fixed flex justify-center items-center top-0 w-full h-full z-30">
       <div className="p-10 w-3/4 bg-black shadow">

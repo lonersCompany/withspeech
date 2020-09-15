@@ -227,9 +227,7 @@ function WsFile({ match }) {
       <div className="lg:flex">
         <Sidebar>
           <div
-            className={`${
-              authUser ? "" : "opacity-50 pointer-events-none "
-            } mb-5`}
+            className={`${authUser ? "" : "pointer-events-none blure"} mb-5`}
           >
             <button
               className="flex block px-6 py-5 block w-full hover:bg-green-400"
@@ -288,13 +286,6 @@ function WsFile({ match }) {
               </button>
             </div>
           </div>
-
-          <a
-            href="mailto:simon@loners.company"
-            className="block m-2 px-5 py-5 rounded bg-blue-700"
-          >
-            Chat with us
-          </a>
           {authUser ? (
             <div
               className="block m-2 px-5 py-5 rounded bg-blue-900"
@@ -304,15 +295,31 @@ function WsFile({ match }) {
             </div>
           ) : (
             <div className="m-2 px-5 py-5 rounded bg-blue-900">
-              <p className="mb-2">Create and share your own audio articles</p>
+              <p className="mb-2 text-xl">
+                Try out beta version{" "}
+                <span role="img" aria-label="" description="black hard">
+                  🖤
+                </span>
+              </p>
               <button
-                className="bg-green-500 rounded"
+                className="bg-green-500 rounded px-3 py-2"
                 onClick={() => setAuthProcess(true)}
               >
-                Sign-in
+                Sign in
               </button>
             </div>
           )}
+
+          <div className="block m-2 px-5 py-5 rounded bg-blue-900">
+            <div>✉️</div>
+            <div>Chat with me:</div>
+
+            <div>
+              <a href="mailto:simon@loners.company text-blue-500">
+                simon@loners.company
+              </a>
+            </div>
+          </div>
         </Sidebar>
         <div className="min-h-screen w-full lg:static lg:max-h-full lg:overflow-visible lg:w-3/4 xl:w-4/5">
           <div
