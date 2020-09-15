@@ -288,24 +288,22 @@ function WsFile({ match }) {
           </div>
           {authUser ? (
             <div
-              className="block m-2 px-5 py-5 rounded bg-blue-900"
+              className="block m-2 px-5 py-5 rounded bg-blue-900 pointer"
               onClick={() => handleSignOut()}
             >
-              Log-out
+              Log out
             </div>
           ) : (
             <div className="m-2 px-5 py-5 rounded bg-blue-900">
-              <p className="mb-2 text-xl">
-                Try out beta version{" "}
-                <span role="img" aria-label="" description="black hard">
-                  🖤
-                </span>
-              </p>
+              <p className="mb-2 ">Try out beta version </p>
               <button
                 className="bg-green-500 rounded px-3 py-2"
                 onClick={() => setAuthProcess(true)}
               >
-                Sign in
+                Sign in{" "}
+                <span role="img" aria-label="" description="black hard">
+                  ♥️
+                </span>
               </button>
             </div>
           )}
@@ -314,12 +312,12 @@ function WsFile({ match }) {
             <div>
               <span role="img" aria-label="" description="envelope">
                 ✉️
-              </span>
+              </span>{" "}
+              Chat with me
             </div>
-            <div>Chat with me:</div>
 
             <div>
-              <a href="mailto:simon@loners.company text-blue-500">
+              <a className="text-blue-500" href="mailto:simon@loners.company ">
                 simon@loners.company
               </a>
             </div>
