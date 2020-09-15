@@ -311,7 +311,11 @@ function WsFile({ match }) {
           )}
 
           <div className="block m-2 px-5 py-5 rounded bg-blue-900">
-            <div>✉️</div>
+            <div>
+              <span role="img" aria-label="" description="envelope">
+                ✉️
+              </span>
+            </div>
             <div>Chat with me:</div>
 
             <div>
