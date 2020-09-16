@@ -21,15 +21,15 @@ function SentenceItem({ text, isActive, setActiveInline, index, position }) {
   };
 
   return (
-    <span
+    <div
       ref={myRef}
       onClick={toggleAction}
       className={`speakable cursor-pointer hover:text-green-300 ${
-        position === "end" ? "block pb-5" : ""
+        position === "end" ? "p-5 transparent-bg opacity-0 text-4xl" : "inline"
       } ${isActive ? "active z-20" : "pasive"} `}
     >
       {text}
-    </span>
+    </div>
   );
 }
 const nullAudio = new Audio();
@@ -88,7 +88,6 @@ const TextElement = ({
   // Because of play button
 
   useEffect(() => {
-    //console.count("set Audio");
     const { url } = element;
     setAudio(new Audio(url));
   }, [element, setAudio]);
@@ -162,9 +161,13 @@ const TextElement = ({
           Allow autoplay in browser setting, or click into text again
         </p>
       )}
-      <p className={`relative pb-10  ${isActive ? "active z-10" : "pasive"}`}>
+      <div
+        className={`relative pb-10  ${isActive ? "active z-10 " : "pasive"} ${
+          presentationView ? "px-0" : "px-5"
+        }`}
+      >
         {sentenceItems}
-      </p>
+      </div>
     </>
   );
 };

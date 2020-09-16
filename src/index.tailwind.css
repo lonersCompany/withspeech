@@ -68,7 +68,7 @@ h1 {
   opacity: 0.2;
 }
 
-.speaking.presentationView span.pasive {
+.speaking.presentationView .speakable.pasive {
   opacity: 0;
 }
 
