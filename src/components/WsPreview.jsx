@@ -62,7 +62,7 @@ function Content({ content, presentationView }) {
         activeElement === null ? "not-speaking" : "speaking"
       } ${presentationView ? "presentationView" : "articleView"} `}
     >
-      <div className="mb-10">
+      <div className="mb-10 px-5">
         <span className="text-blue-700">
           Click into text to (play/stop) audio
         </span>
