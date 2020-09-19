@@ -32,10 +32,10 @@ const LandingPage = () => {
             href="https://wavepage.netlify.app/doc/202a401e-de3d-404d-8d3d-76213fae73c0"
             className="text-4xl rounded-lg py-2 px-4 text-wite bg-green-500 border-2 border-green-500"
           >
-            Try it out{" "}
-            <span role="img" aria-label="" description="wave hand">
+            Go to editor
+            {/* <span role="img" aria-label="" description="wave hand">
               👀
-            </span>
+            </span> */}
           </a>
         </p>
         <div className="mb-16">
