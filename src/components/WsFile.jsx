@@ -226,15 +226,13 @@ function WsFile({ match }) {
     <>
       <div className="lg:flex">
         <Sidebar>
-          <div
-            className={`${authUser ? "" : "pointer-events-none blure"} mb-5`}
-          >
+          <div className={`${authUser ? "" : "pointer-events-none blure"}`}>
             <button
-              className="flex block px-6 py-5 block w-full hover:bg-green-400"
+              className="flex block px-6 py-3 block w-full hover:bg-green-400"
               onClick={toggleEditorVue}
             >
               <div className="text-left flex-grow">
-                <div className="font-semibold text-xl">Edit</div>
+                <div className=" text-xl">Edit</div>
                 {/* <div className="text-blue-700"> ctrl+E</div> */}
               </div>
 
@@ -243,11 +241,11 @@ function WsFile({ match }) {
 
             <div className={`${isEditor ? "hidden" : ""}`}>
               <button
-                className="flex block px-6 py-5 block w-full hover:bg-green-400"
+                className="flex block px-6 py-3 block w-full hover:bg-green-400"
                 onClick={togglepresentationView}
               >
                 <div className="text-left flex-grow">
-                  <div className="font-semibold text-xl">Presentation</div>
+                  <div className=" text-xl">Presentation</div>
                 </div>
 
                 <div
@@ -256,57 +254,60 @@ function WsFile({ match }) {
               </button>
             </div>
 
-            <div className="relative font-semibold text-xl p-1 ">
+            <div className="relative  text-xl p-2">
               <form>
                 <select
                   value={voice}
                   onChange={handleVoiceChange}
-                  className="block appearance-none w-full bg-gray-900 px-6 py-5 pr-8 rounded leading-tight focus:outline-none focus:shadow-outline"
+                  className="block pointer appearance-none w-full bg-blue-800 px-6 py-5 pr-8 rounded leading-tight focus:outline-none focus:shadow-outline "
                 >
-                  <option value="Salli">Salli</option>
-                  <option value="Joanna">Joanna</option>
-                  <option value="Ivy">Ivy</option>
-                  <option value="Kendra">Kendra</option>
-                  <option value="Kimberly">Kimberly</option>
+                  <option value="Salli">Voice: Salli</option>
+                  <option value="Joanna">Voice: Joanna</option>
+                  <option value="Ivy">Voice: Ivy</option>
+                  <option value="Kendra">Voice: Kendra</option>
+                  <option value="Kimberly">Voice: Kimberly</option>
 
-                  <option value="Matthew">Matthew</option>
-                  <option value="Justin">Justin</option>
-                  <option value="Joey">Joey</option>
-                  <option value="Zhiyu">Zhiyu</option>
+                  <option value="Matthew">Voice: Matthew</option>
+                  <option value="Justin">Voice: Justin</option>
+                  <option value="Joey">Voice: Joey</option>
+                  <option value="Zhiyu">Voice: Zhiyu</option>
                 </select>
               </form>
             </div>
-            <div>
+            <div className="p-2">
               <button
                 type="button"
                 onClick={createNewDocument}
-                className="px-6 py-5 text-left block w-full hover:bg-green-400"
+                className="rounded px-6 py-5 text-left block w-full  text-xl hover:bg-green-400 bg-blue-800"
               >
-                <div className="font-semibold text-xl">Create new doc + </div>
+                + Create new doc
               </button>
             </div>
           </div>
-          {authUser ? (
-            <div
-              className="block m-2 px-5 py-5 rounded bg-blue-900 pointer"
-              onClick={() => handleSignOut()}
-            >
-              Log out
-            </div>
-          ) : (
-            <div className="m-2 px-5 py-5 rounded bg-blue-900">
-              <p className="mb-2 ">Try out beta version </p>
-              <button
-                className="bg-green-500 rounded px-3 py-2"
-                onClick={() => setAuthProcess(true)}
+
+          <div className="p-2">
+            {authUser ? (
+              <div
+                className="block px-5 py-5 rounded bg-blue-900 pointer "
+                onClick={() => handleSignOut()}
               >
-                Sign in{" "}
-                <span role="img" aria-label="" description="black hard">
-                  ♥️
-                </span>
-              </button>
-            </div>
-          )}
+                Log out
+              </div>
+            ) : (
+              <div className=" px-5 py-5 rounded bg-blue-900">
+                <p className="mb-2 ">Try out beta version </p>
+                <button
+                  className="bg-green-500 rounded px-3 py-2"
+                  onClick={() => setAuthProcess(true)}
+                >
+                  Sign in{" "}
+                  <span role="img" aria-label="" description="black hard">
+                    ♥️
+                  </span>
+                </button>
+              </div>
+            )}
+          </div>
 
           <div className="block m-2 px-5 py-5 rounded bg-blue-900">
             <div>

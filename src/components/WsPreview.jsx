@@ -63,7 +63,7 @@ function Content({ content, presentationView }) {
       } ${presentationView ? "presentationView" : "articleView"} `}
     >
       <div className="mb-10 px-5">
-        <span className="text-blue-700">
+        <span className="text-blue-700 text-md">
           Click into text to (play/stop) audio
         </span>
       </div>
