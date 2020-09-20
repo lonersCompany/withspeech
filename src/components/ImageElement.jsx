@@ -44,7 +44,7 @@ const ImageElement = ({
 
   return (
     <div
-      className={` w-full h-full text-center pb-10 ${
+      className={` w-full h-full text-center pb-10 bg-gray-900 ${
         isActive ? "active" : "pasive"
       } ${presentationView ? "sticky top-0 z-10 h-screen" : ""}`}
       contentEditable={false}
@@ -54,7 +54,7 @@ const ImageElement = ({
         ref={imgRef}
         alt=""
         src={element.url}
-        className={`h-auto max-h-screen m-auto`}
+        className={`h-auto max-h-screen m-auto pulse`}
       />
     </div>
   );

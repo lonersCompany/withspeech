@@ -32,7 +32,7 @@ const InsertImageButton = () => {
         insertImage(editor, url);
       }}
     >
-      + image
+      + Image
     </button>
   );
 };

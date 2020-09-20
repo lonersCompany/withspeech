@@ -227,21 +227,27 @@ function WsFile({ match }) {
       <div className="lg:flex">
         <Sidebar>
           <div className={`${authUser ? "" : "pointer-events-none blure"}`}>
-            <button
-              className="flex block px-6 py-3 block w-full hover:bg-green-400"
-              onClick={toggleEditorVue}
-            >
-              <div className="text-left flex-grow">
-                <div className=" text-xl">Edit</div>
-                {/* <div className="text-blue-700"> ctrl+E</div> */}
-              </div>
-
-              <div className={`tgl-btn ml-5 ${isEditor ? "active" : ""}`}></div>
-            </button>
-
-            <div className={`${isEditor ? "hidden" : ""}`}>
+            <div className="px-2 py-1">
               <button
-                className="flex block px-6 py-3 block w-full hover:bg-green-400"
+                className="flex block px-6 py-4 bg-blue-900 w-full rounded hover:bg-green-600 focus:outline-none"
+                onClick={toggleEditorVue}
+              >
+                <div className="text-left flex-grow">
+                  <div className=" text-xl">Edit</div>
+                  {/* <div className="text-blue-700"> ctrl+E</div> */}
+                </div>
+
+                <div
+                  className={`tgl-btn ml-5 ${
+                    isEditor ? "active bg-green-700" : "bg-gray-800"
+                  }`}
+                ></div>
+              </button>
+            </div>
+
+            <div className={`${isEditor ? "hidden" : ""} px-2 py-1`}>
+              <button
+                className="flex block px-6 py-4 bg-blue-900 w-full rounded hover:bg-green-600 focus:outline-none"
                 onClick={togglepresentationView}
               >
                 <div className="text-left flex-grow">
@@ -249,17 +255,19 @@ function WsFile({ match }) {
                 </div>
 
                 <div
-                  className={`tgl-btn ml-5 ${isPresentation ? "active" : ""}`}
+                  className={`tgl-btn ml-5 ${
+                    isPresentation ? "active bg-green-700" : "bg-gray-800"
+                  }`}
                 ></div>
               </button>
             </div>
 
-            <div className="relative  text-xl p-2">
+            <div className="text-xl px-2 py-1">
               <form>
                 <select
                   value={voice}
                   onChange={handleVoiceChange}
-                  className="block pointer appearance-none w-full bg-blue-800 px-6 py-5 pr-8 rounded leading-tight focus:outline-none focus:shadow-outline "
+                  className="block cursor-pointer hover:bg-green-600 appearance-none w-full bg-blue-900 px-6 py-5 rounded leading-tight focus:outline-none focus:shadow-outline "
                 >
                   <option value="Salli">Voice: Salli</option>
                   <option value="Joanna">Voice: Joanna</option>
@@ -274,25 +282,25 @@ function WsFile({ match }) {
                 </select>
               </form>
             </div>
-            <div className="p-2">
+            <div className="px-2 py-1">
               <button
                 type="button"
                 onClick={createNewDocument}
-                className="rounded px-6 py-5 text-left block w-full  text-xl hover:bg-green-400 bg-blue-800"
+                className="rounded px-6 py-5 text-left block w-full  text-xl hover:bg-green-600 bg-blue-900"
               >
-                + Create new doc
+                + New Page
               </button>
             </div>
           </div>
 
-          <div className="p-2">
+          <div className="px-2 py-1 mt-20">
             {authUser ? (
-              <div
-                className="block px-5 py-5 rounded bg-blue-900 pointer "
+              <button
+                className="flex block px-6 py-4 bg-blue-900 w-full rounded hover:bg-green-600 focus:outline-none"
                 onClick={() => handleSignOut()}
               >
                 Log out
-              </div>
+              </button>
             ) : (
               <div className=" px-5 py-5 rounded bg-blue-900">
                 <p className="mb-2 ">Try out beta version </p>
@@ -308,19 +316,23 @@ function WsFile({ match }) {
               </div>
             )}
           </div>
+          <div className="px-2 py-1">
+            <div className="block px-5 py-5 rounded bg-blue-900">
+              <div>
+                <span role="img" aria-label="" description="envelope">
+                  ✉️
+                </span>{" "}
+                Chat with me
+              </div>
 
-          <div className="block m-2 px-5 py-5 rounded bg-blue-900">
-            <div>
-              <span role="img" aria-label="" description="envelope">
-                ✉️
-              </span>{" "}
-              Chat with me
-            </div>
-
-            <div>
-              <a className="text-blue-500" href="mailto:simon@loners.company ">
-                simon@loners.company
-              </a>
+              <div>
+                <a
+                  className="text-blue-500"
+                  href="mailto:simon@loners.company "
+                >
+                  simon@loners.company
+                </a>
+              </div>
             </div>
           </div>
         </Sidebar>

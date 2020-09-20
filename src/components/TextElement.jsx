@@ -1,15 +1,22 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 
 const scrollToRef = (ref, position) => {
-  console.log("scrollIntoView " + position);
   ref.current.scrollIntoView({
     behavior: "smooth",
     block: position,
   });
 };
 
-function SentenceItem({ text, isActive, setActiveInline, index, position }) {
+function SentenceItem({
+  text,
+  isActive,
+  setActiveInline,
+  index,
+  presentationView,
+}) {
   const myRef = useRef(null);
+
+  const position = presentationView ? "end" : "center";
 
   useEffect(() => {
     if (isActive) scrollToRef(myRef, position);
@@ -25,7 +32,7 @@ function SentenceItem({ text, isActive, setActiveInline, index, position }) {
       ref={myRef}
       onClick={toggleAction}
       className={`speakable cursor-pointer hover:text-green-300 ${
-        position === "end" ? "p-5 transparent-bg opacity-0 text-4xl" : "inline"
+        presentationView ? "p-5 transparent-bg opacity-0 text-4xl" : "inline"
       } ${isActive ? "active z-20" : "pasive"} `}
     >
       {text}
@@ -128,7 +135,6 @@ const TextElement = ({
       // TODO: remove event listeners
     }
   };
-  const position = presentationView ? "end" : "center";
 
   const sentenceItems = sentences.map((inline, index) => {
     // Correct! Key should be specified inside the array.
@@ -147,7 +153,7 @@ const TextElement = ({
         index={index}
         text={text}
         start={start}
-        position={position}
+        presentationView={presentationView}
       />
     );
   });

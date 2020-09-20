@@ -29,9 +29,9 @@ h1 {
   left: 50%;
 }
 
-.tgl-btn.active {
+/* .tgl-btn.active {
   background: #9fd6ae;
-}
+} */
 
 .tgl-btn {
   outline: 0;
@@ -41,7 +41,6 @@ h1 {
   position: relative;
   cursor: pointer;
   user-select: none;
-  background: #2b6cb0;
   border-radius: 2em;
   padding: 2px;
 }
@@ -54,7 +53,7 @@ h1 {
   height: 100%;
   left: 0;
   border-radius: 50%;
-  background: #2d3748;
+  background: #2c5282;
   transition: all 0.2s ease;
 }
 

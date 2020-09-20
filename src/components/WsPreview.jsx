@@ -62,7 +62,20 @@ function Content({ content, presentationView }) {
         activeElement === null ? "not-speaking" : "speaking"
       } ${presentationView ? "presentationView" : "articleView"} `}
     >
-      <div className="mb-10 px-5">
+      <div
+        className={`fixed px-5 z-50 right-0 ${
+          activeElement === null ? "hidden" : ""
+        } `}
+      >
+        <div className="self-center text-center h-16 w-16 bg-blue-900 shadow rounded-full transition">
+          <div className="pt-2">
+            <span role="img" aria-label="" description="Speaker Medium Volume">
+              🔉
+            </span>
+          </div>
+        </div>
+      </div>
+      <div className="mb-10 px-5 hidden">
         <span className="text-blue-700 text-md">
           Click into text to (play/stop) audio
         </span>
