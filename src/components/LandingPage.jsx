@@ -9,9 +9,9 @@ const LandingPage = () => {
       >
         <p className=" text-3xl md:text-5xl font-light pt-16 mb-16">
           Turn article into video with AI speech{" "}
-          <span role="img" aria-label="" description="wave hand">
+          {/* <span role="img" aria-label="" description="wave hand">
             🌀
-          </span>
+          </span> */}
         </p>
 
         <div className="mb-16">
