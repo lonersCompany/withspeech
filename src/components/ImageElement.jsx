@@ -54,7 +54,7 @@ const ImageElement = ({
         ref={imgRef}
         alt=""
         src={element.url}
-        className={`h-auto max-h-screen m-auto pulse`}
+        className={`h-auto max-h-screen m-auto `}
       />
     </div>
   );

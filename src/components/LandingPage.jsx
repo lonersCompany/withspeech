@@ -5,10 +5,10 @@ const LandingPage = () => {
       <article
         id="content"
         data-key="{{page.key}}"
-        className="max-w-3xl m-auto text-xl leading-snug px-2"
+        className="max-w-4xl m-auto text-xl leading-snug px-2"
       >
-        <p className="text-5xl font-light pt-16 mb-16">
-          Create tutorial form article{" "}
+        <p className=" text-3xl md:text-5xl font-light pt-16 mb-16">
+          Turn article into video with AI speech{" "}
           <span role="img" aria-label="" description="wave hand">
             🧙‍♀️
           </span>
@@ -21,10 +21,9 @@ const LandingPage = () => {
           />
         </div>
 
-        <p className="text-2xl font-light mb-16">
-          Wavepage convert article into presentation with AI voices. Write the
-          aticle add the images and AI will make presentation with vocie-over -
-          simply.
+        <p className="text-2xl md:text-3xl  font-light mb-16">
+          Type or copy your aticle add the images and AI will make video
+          presentation with vocie-over - simply.
         </p>
 
         <p className="text-center mb-16">

@@ -24,7 +24,7 @@ const InsertImageButton = () => {
   const editor = useEditor();
   return (
     <button
-      className="block mb-5 px-5 py-3 rounded bg-green-500"
+      className="block mb-5 px-5 py-3 rounded bg-blue-900 hover:bg-green-500 shadow"
       onMouseDown={(event) => {
         event.preventDefault();
         const url = window.prompt("Enter the URL of the image:");

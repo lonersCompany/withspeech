@@ -229,7 +229,7 @@ function WsFile({ match }) {
           <div className={`${authUser ? "" : "pointer-events-none blure"}`}>
             <div className="px-2 py-1">
               <button
-                className="flex block px-6 py-4 bg-blue-900 w-full rounded hover:bg-green-600 focus:outline-none"
+                className="flex block px-6 py-4 bg-blue-900 w-full rounded hover:bg-green-500 focus:outline-none"
                 onClick={toggleEditorVue}
               >
                 <div className="text-left flex-grow">
@@ -239,7 +239,7 @@ function WsFile({ match }) {
 
                 <div
                   className={`tgl-btn ml-5 ${
-                    isEditor ? "active bg-green-700" : "bg-gray-800"
+                    isEditor ? "active bg-green-600" : "bg-gray-800"
                   }`}
                 ></div>
               </button>
@@ -247,7 +247,7 @@ function WsFile({ match }) {
 
             <div className={`${isEditor ? "hidden" : ""} px-2 py-1`}>
               <button
-                className="flex block px-6 py-4 bg-blue-900 w-full rounded hover:bg-green-600 focus:outline-none"
+                className="flex block px-6 py-4 bg-blue-900 w-full rounded hover:bg-green-500 focus:outline-none"
                 onClick={togglepresentationView}
               >
                 <div className="text-left flex-grow">
@@ -256,7 +256,7 @@ function WsFile({ match }) {
 
                 <div
                   className={`tgl-btn ml-5 ${
-                    isPresentation ? "active bg-green-700" : "bg-gray-800"
+                    isPresentation ? "active bg-green-600" : "bg-gray-800"
                   }`}
                 ></div>
               </button>
@@ -267,7 +267,7 @@ function WsFile({ match }) {
                 <select
                   value={voice}
                   onChange={handleVoiceChange}
-                  className="block cursor-pointer hover:bg-green-600 appearance-none w-full bg-blue-900 px-6 py-5 rounded leading-tight focus:outline-none focus:shadow-outline "
+                  className="block cursor-pointer hover:bg-green-500 appearance-none w-full bg-blue-900 px-6 py-5 rounded leading-tight focus:outline-none focus:shadow-outline "
                 >
                   <option value="Salli">Voice: Salli</option>
                   <option value="Joanna">Voice: Joanna</option>
@@ -286,7 +286,7 @@ function WsFile({ match }) {
               <button
                 type="button"
                 onClick={createNewDocument}
-                className="rounded px-6 py-5 text-left block w-full  text-xl hover:bg-green-600 bg-blue-900"
+                className="rounded px-6 py-5 text-left block w-full  text-xl hover:bg-green-500 bg-blue-900"
               >
                 + New Page
               </button>
@@ -296,14 +296,14 @@ function WsFile({ match }) {
           <div className="px-2 py-1 mt-20">
             {authUser ? (
               <button
-                className="flex block px-6 py-4 bg-blue-900 w-full rounded hover:bg-green-600 focus:outline-none"
+                className="flex block px-6 py-4 bg-blue-900 w-full rounded hover:bg-green-500 focus:outline-none"
                 onClick={() => handleSignOut()}
               >
                 Log out
               </button>
             ) : (
               <div className=" px-5 py-5 rounded bg-blue-900">
-                <p className="mb-2 ">Try out beta version </p>
+                <p className="mb-2 ">Become a Beta Tester</p>
                 <button
                   className="bg-green-500 rounded px-3 py-2"
                   onClick={() => setAuthProcess(true)}
