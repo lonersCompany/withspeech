@@ -39,11 +39,13 @@ const LandingPage = () => {
         </p>
         <div className="mb-16">
           <iframe
+            className="m-auto"
+            title="app tutotrial"
             width="560"
-            height="315"
+            height="340"
             src="https://www.youtube.com/embed/hoiGSABYwBo"
             frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
           ></iframe>
         </div>
