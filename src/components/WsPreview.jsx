@@ -75,7 +75,7 @@ function Content({ content, presentationView }) {
           </div>
         </div>
       </div>
-      <div className="mb-10 px-5 hidden">
+      <div className="mb-10 px-5">
         <span className="text-blue-700 text-md">
           Click into text to (play/stop) audio
         </span>

@@ -28,7 +28,7 @@ const LandingPage = () => {
 
         <p className="text-center mb-16">
           <a
-            href="https://wavepage.netlify.app/doc/202a401e-de3d-404d-8d3d-76213fae73c0"
+            href="https://wavepage.netlify.app/doc/44da8dcd-c664-4662-9757-8e7019576404"
             className="text-4xl rounded-lg py-3 px-6 text-wite bg-green-500 hover:bg-green-400"
           >
             Try WavePage
