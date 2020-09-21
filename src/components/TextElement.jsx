@@ -32,8 +32,8 @@ function SentenceItem({
       ref={myRef}
       onClick={toggleAction}
       className={`speakable cursor-pointer hover:text-green-300 ${
-        presentationView ? "p-5 transparent-bg opacity-0 text-4xl" : "inline"
-      } ${isActive ? "active z-20" : "pasive"} `}
+        presentationView ? "p-5 transparent-bg text-4xl" : "inline"
+      } ${isActive ? "active" : "pasive"} `}
     >
       {text}
     </div>

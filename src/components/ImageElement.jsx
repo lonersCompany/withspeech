@@ -46,7 +46,7 @@ const ImageElement = ({
     <div
       className={` w-full h-full text-center pb-10 bg-gray-900 ${
         isActive ? "active" : "pasive"
-      } ${presentationView ? "sticky top-0 z-10 h-screen" : ""}`}
+      } ${presentationView ? "sticky top-0 h-screen" : ""}`}
       contentEditable={false}
       onClick={speakImageBlock}
     >
