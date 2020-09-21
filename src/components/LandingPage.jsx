@@ -10,28 +10,28 @@ const LandingPage = () => {
         <p className=" text-3xl md:text-5xl font-light pt-16 mb-16">
           Turn article into video with AI speech{" "}
           <span role="img" aria-label="" description="wave hand">
-            🧙‍♀️
+            🌀
           </span>
         </p>
 
         <div className="mb-16">
           <img
-            src="https://res.cloudinary.com/dhxmg9p4i/image/upload/v1598195565/blog/atom.jpg"
-            alt=""
+            src="https://res.cloudinary.com/dhxmg9p4i/image/upload/v1600686635/blog/wavepage-diagram.jpg"
+            alt="wavepage turn artcile into video"
           />
         </div>
 
         <p className="text-2xl md:text-3xl  font-light mb-16">
-          Type or copy your aticle add the images and AI will make video
-          presentation with vocie-over - simply.
+          Type or copy your article, add the images and wavepage will make video
+          presentation with AI speech - simply.
         </p>
 
         <p className="text-center mb-16">
           <a
             href="https://wavepage.netlify.app/doc/202a401e-de3d-404d-8d3d-76213fae73c0"
-            className="text-4xl rounded-lg py-2 px-4 text-wite bg-green-500 border-2 border-green-500"
+            className="text-4xl rounded-lg py-3 px-6 text-wite bg-green-500 hover:bg-green-400"
           >
-            Go to editor
+            Try WavePage
             {/* <span role="img" aria-label="" description="wave hand">
               👀
             </span> */}
@@ -39,14 +39,12 @@ const LandingPage = () => {
         </p>
         <div className="mb-16">
           <iframe
-            className="m-auto"
-            title="app tutotrial"
             width="560"
-            height="340"
-            src="https://www.youtube.com/embed/YVEuU6gbvqI"
-            frameBorder="0"
-            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
+            height="315"
+            src="https://www.youtube.com/embed/hoiGSABYwBo"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
           ></iframe>
         </div>
       </article>
