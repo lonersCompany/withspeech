@@ -22,7 +22,7 @@ const LandingPage = () => {
         </div>
 
         <p className="text-2xl md:text-3xl  font-light mb-16">
-          Type or copy your article, add the images and wavepage will make video
+          Type or copy your article, add the images and wavepage will make the
           presentation with AI speech - simply.
         </p>
 
